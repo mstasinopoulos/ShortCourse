@@ -1,7 +1,11 @@
 ---
-title: "GAMLSS short course"
+title: "GAMLSS short course slides"
+author:
+  - Mikis Stasinopoulos
+  - Bob Rigby
+  - Fernanda De Bastiani 
 ---
 
-This is a Quarto website.
+This is a `Quarto` website.
 
-To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
+This website contains slides from the short course on GAMLSS given in November 2023 at the Universidade Federal de Pernambuco, Recife, Pernambuco - Brasil as part of the Workshop on Applied Statistics and Stochastic Possesses, `WASPP`.

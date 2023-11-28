@@ -1,0 +1,425 @@
+---
+project:
+  type: website
+  output-dir: docs
+title: "Regression"
+title-slide-attributes:
+    data-background-image: Uni_greenwich.png
+    data-background-size: contain
+    data-background-opacity: "0.05"
+author:
+  - Mikis Stasinopoulos
+  - Bob Rigby
+  - Fernanda De Bastiani 
+format:
+  revealjs:
+    revealjs:
+    multiplex: true
+    slide-number: true
+    show-slide-number: print
+    chalkboard: 
+      buttons: true
+    incremental: false 
+    menu:
+      side: left
+      width: wide
+    logo: gamlss-trans.png
+    footer: "www.gamlss.com"
+    css: styles.css
+    theme: mytheme.scss
+    auto-stretch: true
+    view-distance: 5
+---
+
+## Introduction
+
+-   `Regression models`
+-   `Data`
+-   `Distributions`
+-   `Fitting`
+-   `Selection`
+-   `Comparison`
+-   `Interpretation`
+
+Through a **simple** data example
+
+## Regression models
+
+-   `Models and statistical modelling`
+
+-   `Assumptions`
+
+-   `Regression Models`
+
+-   `Distributional Regression`
+
+-   `Example`
+
+::: footer
+"www.gamlss.com"
+:::
+
+# Statistical modelling
+
+------------------------------------------------------------------------
+
+## Statistical models
+
+> "all models are wrong but some are useful".
+>
+> -- George Box
+
+-   Models should be **parsimonious**
+
+-   Models should be **fit for purpose** and able to answer the question at hand
+
+-   Statistical models have a **stochastic** component
+
+-   All models are based on **assumptions**.
+
+::: notes
+A common theme in the following scientific subjects; *statistical analysis*; *statistical inference*; *statistical modelling*; *machine learning*; *statistical learning*; *data mining*; *information harvesting*; *information discovery*; *knowledge extraction*; *data analytics*, is **data**.
+:::
+
+------------------------------------------------------------------------
+
+## Assumptions
+
+-   Assumptions are made to simplify things
+
+-   **Explicit** assumptions
+
+-   **Implicit** assumptions
+
+-   it is easier to check the explicit assumptions rather the implicit ones
+
+------------------------------------------------------------------------
+
+## Model circle
+
+```{mermaid}
+%%| fig-width: 6.5
+%%| 
+flowchart TB
+  A[model] --> B(assumptions) 
+  B --> C[fit] --> D{check} -->|adequate| E(stop) 
+  D --> |not good| B
+```
+
+::: aside
+We keep going until we find an adequate model
+:::
+
+------------------------------------------------------------------------
+
+## Regression {#sec-Regression}
+
+-   $$
+    X  \stackrel{\textit{M}(\theta)}{\longrightarrow} Y
+    $$
+-   $y$: **targer**, the **y** or the **dependent** variable
+-   $X$: **explanatory**, **features**, **x's** or **independent** variables or **terms**
+
+::: aside
+$M(\theta)$ is a model depending on parameters $\theta$
+:::
+
+------------------------------------------------------------------------
+
+## Linear Model
+
+-   standard way
+
+$$
+\begin{equation}
+y_i= b_0 + b_1 x_{1i}  +  b_2  x_{2i}, \ldots,  b_p x_{pi}+ \epsilon_i
+\end{equation}
+$$ {#eq-LinearModel}
+
+::: aside
+the model $M(\theta)$ is linear, and there are $n$ observations for $i=1,2,\ldots,n$.
+:::
+
+## Linear Model
+
+-   different way
+
+$$
+\begin{eqnarray}
+y_i     &  \stackrel{\small{ind}}{\sim } &  {N}(\mu_i, \sigma) \nonumber \\
+\mu_i &=& b_0 + b_1 x_{1i}  +  b_2  x_{2i}, \ldots,  b_p x_{pi}
+\end{eqnarray}
+$$ {#eq-LinearModel1}
+
+::: aside
+the model $M(\theta)$ is linear, $\mu$ and $\sigma$ are the parameter and $\beta$ are the linear coefficients.
+:::
+
+------------------------------------------------------------------------
+
+## Additive Models
+
+$$
+\begin{eqnarray}
+y_i   &  \stackrel{\small{ind}}{\sim } &  {N}(\mu_i, \sigma) \nonumber \\
+\mu_i &=& b_0 + s_1(x_{1i})  +  s_2(x_{2i}), \ldots,  s_p(x_{pi})
+\end{eqnarray}
+$$ {#eq-AdditiveModel}
+
+::: aside
+$s(x)$ are smooth functions determined by the data
+:::
+
+## Machine Learning Models
+
+$$\begin{eqnarray}
+y_i     &  \stackrel{\small{ind}}{\sim }&  {N}(\mu_i, \sigma) \nonumber \\
+\mu_i &=& ML(x_{1i},x_{2i}, \ldots,  x_{pi})
+\end{eqnarray}
+$$ {#eq-MachineLearning}
+
+::: aside
+All models concentrate on the mean and implicitly assumed a symmetric distribution
+:::
+
+## Generalised Linear Models
+
+$$\begin{eqnarray}
+y_i     &  \stackrel{\small{ind}}{\sim }&  {E}(\mu_i, \phi) \nonumber \\
+g(\mu_i) &=& b_0 + b_1 x_{1i}  +  b_2  x_{2i}, \ldots,  b_p x_{pi}
+\end{eqnarray}
+$$ {#eq-GenaralisedLinearModel}
+
+-   ${E}(\mu_i, \phi)$ : `Exponential` family
+
+-   $g(\mu_i)$ : the `link` function
+
+::: aside
+Still modelling only shifts in the mean
+:::
+
+# Distributional regression {#sec-Distributionalregression}
+
+## Distributional regression
+
+$$
+X  \stackrel{\textit{M}(\boldsymbol{\theta})}{\longrightarrow} D\left(Y|\boldsymbol{\theta}(\textbf{X})\right)
+$$
+
+-   All parameters $\boldsymbol{\theta}$ could functions of the explanatory variables $\boldsymbol{\theta}(\textbf{X})$.
+
+-   $D\left(Y|\boldsymbol{\theta}(\textbf{X})\right)$ can be any $k$ parameter distribution
+
+## Generalised Additive models for Location Scale and Shape
+
+$$\begin{eqnarray}
+y_i     &  \stackrel{\small{ind}}{\sim }&  {D}( \theta_{1i}, \ldots, \theta_{ki}) \nonumber \\
+g(\theta_{1i})  &=& b_{10} + s_1({x}_{1i})  +  \ldots,  s_p({x}_{pi}) \nonumber\\
+ \ldots &=& \ldots \nonumber\\
+g({\theta}_{ki})  &=& b_0 + s_1({x}_{1i})  +   \ldots,  s_p({x}_{pi})
+\end{eqnarray} 
+$$ {#eq-GAMLSS}
+
+::: aside
+for $i=1,2,\ldots,n$.
+:::
+
+## GAMLSS + ML
+
+$$\begin{eqnarray}
+y_i     &  \stackrel{\small{ind}}{\sim }&  {D}( \theta_{1i}, \ldots, \theta_{ki}) \nonumber \\
+g({\theta}_{1i}) &=& {ML}_1({x}_{1i},{x}_{2i}, \ldots,  {x}_{pi}) \nonumber \\
+ \ldots &=& \ldots \nonumber\\
+g({\theta}_{ki}) &=& {ML}_1({x}_{1i},{x}_{2i}, \ldots,  {x}_{pi}) 
+ \end{eqnarray} 
+ $$ {#eq-GAMLSS_ML} <!--  --> <!--  \ldots &=& \ldots \nonumber\\ --> <!-- g(\boldsymbol{\theta}_k) &=& {ML}_k(\textbf{x}_{1i},\textbf{x}_{2i}, \ldots,  \textbf{x}_{pi})  -->
+
+::: aside
+for $i=1,2,\ldots,n$.
+:::
+
+## Example {#sec-Example}
+
+@fig-airquality Abdominal circumference against gestation age.
+
+```{r}
+#| label: fig-airquality
+#| fig-cap: "The `abdom` data."
+#| warning: false
+#| fig-width: 10.00
+library(ggplot2)
+library(gamlss)
+ggplot(abdom, aes(x, y)) + 
+  geom_point() + xlab("gestation age")+
+   ylab("abdominal  circuference")+
+ theme_bw(base_size = 20)
+```
+
+## Fitting Models
+
+```{r}
+#| output-location: slide
+#| warning: false 
+#| echo: true
+library(ggplot2)
+library(gamlss.ggplots)
+library(gamlss.add)
+# Linear
+lm1 <- gamlss(y~x, data=abdom, trace=FALSE)
+# additive smooth 
+am1 <- gamlss(y~pb(x), data=abdom,trace=FALSE)# smooth
+# neural network
+set.seed(123)
+nn1 <- gamlss(y~nn(~x), size=5, data=abdom, trace=FALSE)# neural 
+# regression three
+rt1 <- gamlss(y~tr(~x),  data=abdom, trace=FALSE)# three
+GAIC(lm1, am1, nn1, rt1)
+```
+
+## Linear Model
+
+```{r}
+#| label: fig-figure1
+#| fig.cap: "Fitted values, linear curve"
+#| fig-width: 10.00
+#| fig-height: 5
+abdom |> ggplot(aes(x=x,y=y)) + geom_point(col=gray(.6))+
+  geom_line(aes(x=x,y=fitted(lm1)), lwd=2, col="red", lty=1)+
+  ggtitle("linear")+theme_bw(base_size = 20)
+```
+
+## Additive Smooth Model
+
+```{r}
+#| label: fig-figure2
+#| fig.cap: "Fitted values, smooth curve"
+#| fig-width: 10.00
+#| fig-height: 5
+abdom |> ggplot(aes(x=x,y=y)) + geom_point(col=gray(.6))+
+  geom_line(aes(x=x,y=fitted(am1)), lwd=2, col="green", lty=1)+
+  ggtitle("smooth")+theme_bw(base_size = 20)
+```
+
+## Neural network
+
+```{r}
+#| label: fig-figure3
+#| fig.cap: "Fitted values, neural network curve"
+#| fig-width: 10.00
+#| fig-height: 5
+abdom |> ggplot(aes(x=x,y=y)) + geom_point(col=gray(.5))+
+  geom_line(aes(x=x,y=fitted(nn1)), lwd=2, col="blue", lty=1)+
+  ggtitle("neural network")+theme_bw(base_size = 20)
+```
+
+## Regression Tree
+
+```{r}
+#| label: fig-figure4
+#| fig.cap: "Fitted values, regression tree curve"
+#| fig-width: 10.00
+#| fig-height: 5
+abdom |> ggplot(aes(x=x,y=y)) + geom_point(col=gray(.6))+
+   geom_line(aes(x=x,y=fitted(rt1)), lwd=2, col="darkblue", lty=1)+
+  ggtitle("regression tree")+theme_bw(base_size = 20)
+```
+
+## Diagnostics: QQ plot
+
+```{r}
+#| label: fig-diagfiga
+#| fig.cap: 'QQ-plot of the fitted `am1` model'
+#| fig-width: 10.00
+#| fig-height: 5
+resid_qqplot(am1, title="(a) qqplot")+theme_bw(base_size = 20)
+```
+
+## Diagnostics: Bucket plot
+
+```{r}
+#| warning: false
+#| label: fig-diagfigb 
+#| fig.cap: 'QQ-plot of the fitted **am1** model'
+#| fig-width: 8.00
+#| fig-height: 5
+moment_bucket(am1)+theme_bw(base_size = 20)+    
+ggtitle("(b) bucket plot")+theme(legend.position = "none")
+```
+
+## Refit
+
+```{r}
+#| echo: true
+#| fig.cap: 'QQ-plot of the fitted `am1` model'
+am2 <- gamlss(y~pb(x),~pb(x), data=abdom,trace=FALSE)# smooth
+ FD <- chooseDist(am2, parallel="snow", ncpus = 10L)
+am3 <- update(am2, family=LO) 
+```
+
+## QQ plot, Logistic
+
+```{r}
+#| label: fig-diagfigd
+#| fig.cap: "QQ-plot of the fitted `am1` model"
+#| fig-width: 10
+#| fig-height: 5
+resid_qqplot(am3, title="qqplot")+theme_bw(base_size = 20)
+```
+
+## Bucket plot, Logistic
+
+```{r}
+#| label: fig-diagfigf
+#| fig.cap: "QQ-plot of the fitted `am1` model"
+#| warning: false
+#| fig-width: 8.00
+#| fig-height: 5
+moment_bucket(am3)+theme_bw(base_size = 20)+
+   ggtitle("bucket plot")+theme(legend.position = "none")
+```
+
+## Fitted Centiles
+
+```{r}
+#| label: fig-diagfigg
+#| fig.cap: "Centile-plot of the fitted `am1` model"
+#| fig-width: 10.00
+#| fig-height: 5
+#| warning: false
+fitted_centiles(am3, title="fitted centiles", ylim=c(20,450))+
+  theme_bw(base_size = 20)
+```
+
+## Fitted Distributions
+
+```{r}
+#| label: fig-diagfiggh
+#| fig.cap: "pdf-plot of the fitted **am3** model"
+#| message: false
+#| warning: false
+#| output-location: slide
+source("~/Dropbox/github/GAMLSS-original/R/predict.gamlss_23_12_21.R")
+pe_pdf(am3, "x", horizontal = FALSE, title="fitted pdf", from=20, 
+       to=450, scale=100)+
+theme_bw(base_size = 30)
+```
+
+## Summary {.smaller}
+
+-   The additive smooth model is the best parsimonious model
+
+-   A kurtotic distribution is adequate for the data
+
+-   No simple Machine Learning method will do because there is kurtosis and we are interested in centiles
+
+-   `quantile regression` could be used here but in general it is more difficult to check the implicit assumptions made
+
+::: callout-tip
+Implicit assumptions are more difficult to check
+:::
+
+## end
+
+::: {layout-ncol="3," layout-nrow="1"}
+![](book-1.png){width="300"} ![](book-2.png){width="323"} ![](book3.png){width="333"} The Books
+:::
