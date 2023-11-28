@@ -17,8 +17,8 @@
     "objectID": "regression.html#introduction",
     "href": "regression.html#introduction",
     "title": "Regression",
-    "section": "",
-    "text": "Regression models\nData\nDistributions\nFitting\nSelection\nComparison\nInterpretation\n\nThrough a simple data example"
+    "section": "Introduction",
+    "text": "Introduction\n\nRegression models\nData\nDistributions\nFitting\nSelection\nComparison\nInterpretation\n\nThrough a simple data example"
   },
   {
     "objectID": "regression.html#regression-models",
@@ -60,35 +60,35 @@
     "href": "regression.html#linear-model",
     "title": "Regression",
     "section": "Linear Model",
-    "text": "Linear Model\n\nstandard way\n\n\\[\n\\begin{equation}\ny_i= b_0 + b_1 x_{1i}  +  b_2  x_{2i}, \\ldots,  b_p x_{pi}+ \\epsilon_i\n\\end{equation}\n\\tag{1}\\]\n\n\nthe model \\(M(\\theta)\\) is linear, and there are \\(n\\) observations for \\(i=1,2,\\ldots,n\\)."
+    "text": "Linear Model\n\nstandard way\n\n\\[\n\\begin{equation}\ny_i= b_0 + b_1 x_{1i}  +  b_2  x_{2i}, \\ldots,  b_p x_{pi}+ \\epsilon_i\n\\end{equation}\n\\qquad(1)\\]\n\n\nthe model \\(M(\\theta)\\) is linear, and there are \\(n\\) observations for \\(i=1,2,\\ldots,n\\)."
   },
   {
     "objectID": "regression.html#linear-model-1",
     "href": "regression.html#linear-model-1",
     "title": "Regression",
     "section": "Linear Model",
-    "text": "Linear Model\n\ndifferent way\n\n\\[\n\\begin{eqnarray}\ny_i     &  \\stackrel{\\small{ind}}{\\sim } &  {N}(\\mu_i, \\sigma) \\nonumber \\\\\n\\mu_i &=& b_0 + b_1 x_{1i}  +  b_2  x_{2i}, \\ldots,  b_p x_{pi}\n\\end{eqnarray}\n\\tag{2}\\]\n\n\nthe model \\(M(\\theta)\\) is linear, \\(\\mu\\) and \\(\\sigma\\) are the parameter and \\(\\beta\\) are the linear coefficients."
+    "text": "Linear Model\n\ndifferent way\n\n\\[\n\\begin{eqnarray}\ny_i     &  \\stackrel{\\small{ind}}{\\sim } &  {N}(\\mu_i, \\sigma) \\nonumber \\\\\n\\mu_i &=& b_0 + b_1 x_{1i}  +  b_2  x_{2i}, \\ldots,  b_p x_{pi}\n\\end{eqnarray}\n\\qquad(2)\\]\n\n\nthe model \\(M(\\theta)\\) is linear, \\(\\mu\\) and \\(\\sigma\\) are the parameter and \\(\\beta\\) are the linear coefficients."
   },
   {
     "objectID": "regression.html#additive-models",
     "href": "regression.html#additive-models",
     "title": "Regression",
     "section": "Additive Models",
-    "text": "Additive Models\n\\[\n\\begin{eqnarray}\ny_i   &  \\stackrel{\\small{ind}}{\\sim } &  {N}(\\mu_i, \\sigma) \\nonumber \\\\\n\\mu_i &=& b_0 + s_1(x_{1i})  +  s_2(x_{2i}), \\ldots,  s_p(x_{pi})\n\\end{eqnarray}\n\\tag{3}\\]\n\n\n\\(s(x)\\) are smooth functions determined by the data"
+    "text": "Additive Models\n\\[\n\\begin{eqnarray}\ny_i   &  \\stackrel{\\small{ind}}{\\sim } &  {N}(\\mu_i, \\sigma) \\nonumber \\\\\n\\mu_i &=& b_0 + s_1(x_{1i})  +  s_2(x_{2i}), \\ldots,  s_p(x_{pi})\n\\end{eqnarray}\n\\qquad(3)\\]\n\n\n\\(s(x)\\) are smooth functions determined by the data"
   },
   {
     "objectID": "regression.html#machine-learning-models",
     "href": "regression.html#machine-learning-models",
     "title": "Regression",
     "section": "Machine Learning Models",
-    "text": "Machine Learning Models\n\\[\\begin{eqnarray}\ny_i     &  \\stackrel{\\small{ind}}{\\sim }&  {N}(\\mu_i, \\sigma) \\nonumber \\\\\n\\mu_i &=& ML(x_{1i},x_{2i}, \\ldots,  x_{pi})\n\\end{eqnarray}\n\\tag{4}\\]\n\n\nAll models concentrate on the mean and implicitly assumed a symmetric distribution"
+    "text": "Machine Learning Models\n\\[\\begin{eqnarray}\ny_i     &  \\stackrel{\\small{ind}}{\\sim }&  {N}(\\mu_i, \\sigma) \\nonumber \\\\\n\\mu_i &=& ML(x_{1i},x_{2i}, \\ldots,  x_{pi})\n\\end{eqnarray}\n\\qquad(4)\\]\n\n\nAll models concentrate on the mean and implicitly assumed a symmetric distribution"
   },
   {
     "objectID": "regression.html#generalised-linear-models",
     "href": "regression.html#generalised-linear-models",
     "title": "Regression",
     "section": "Generalised Linear Models",
-    "text": "Generalised Linear Models\n\\[\\begin{eqnarray}\ny_i     &  \\stackrel{\\small{ind}}{\\sim }&  {E}(\\mu_i, \\phi) \\nonumber \\\\\ng(\\mu_i) &=& b_0 + b_1 x_{1i}  +  b_2  x_{2i}, \\ldots,  b_p x_{pi}\n\\end{eqnarray}\n\\tag{5}\\]\n\n\\({E}(\\mu_i, \\phi)\\) : Exponential family\n\\(g(\\mu_i)\\) : the link function\n\n\n\nStill modelling only shifts in the mean"
+    "text": "Generalised Linear Models\n\\[\\begin{eqnarray}\ny_i     &  \\stackrel{\\small{ind}}{\\sim }&  {E}(\\mu_i, \\phi) \\nonumber \\\\\ng(\\mu_i) &=& b_0 + b_1 x_{1i}  +  b_2  x_{2i}, \\ldots,  b_p x_{pi}\n\\end{eqnarray}\n\\qquad(5)\\]\n\n\\({E}(\\mu_i, \\phi)\\) : Exponential family\n\\(g(\\mu_i)\\) : the link function\n\n\n\nStill modelling only shifts in the mean"
   },
   {
     "objectID": "regression.html#distributional-regression",
@@ -102,70 +102,70 @@
     "href": "regression.html#generalised-additive-models-for-location-scale-and-shape",
     "title": "Regression",
     "section": "Generalised Additive models for Location Scale and Shape",
-    "text": "Generalised Additive models for Location Scale and Shape\n\\[\\begin{eqnarray}\ny_i     &  \\stackrel{\\small{ind}}{\\sim }&  {D}( \\theta_{1i}, \\ldots, \\theta_{ki}) \\nonumber \\\\\ng(\\theta_{1i})  &=& b_{10} + s_1({x}_{1i})  +  \\ldots,  s_p({x}_{pi}) \\nonumber\\\\\n\\ldots &=& \\ldots \\nonumber\\\\\ng({\\theta}_{ki})  &=& b_0 + s_1({x}_{1i})  +   \\ldots,  s_p({x}_{pi})\n\\end{eqnarray}\n\\tag{6}\\]\n\n\nfor \\(i=1,2,\\ldots,n\\)."
+    "text": "Generalised Additive models for Location Scale and Shape\n\\[\\begin{eqnarray}\ny_i     &  \\stackrel{\\small{ind}}{\\sim }&  {D}( \\theta_{1i}, \\ldots, \\theta_{ki}) \\nonumber \\\\\ng(\\theta_{1i})  &=& b_{10} + s_1({x}_{1i})  +  \\ldots,  s_p({x}_{pi}) \\nonumber\\\\\n\\ldots &=& \\ldots \\nonumber\\\\\ng({\\theta}_{ki})  &=& b_0 + s_1({x}_{1i})  +   \\ldots,  s_p({x}_{pi})\n\\end{eqnarray}\n\\qquad(6)\\]\n\n\nfor \\(i=1,2,\\ldots,n\\)."
   },
   {
     "objectID": "regression.html#gamlss-ml",
     "href": "regression.html#gamlss-ml",
     "title": "Regression",
     "section": "GAMLSS + ML",
-    "text": "GAMLSS + ML\n\\[\\begin{eqnarray}\ny_i     &  \\stackrel{\\small{ind}}{\\sim }&  {D}( \\theta_{1i}, \\ldots, \\theta_{ki}) \\nonumber \\\\\ng({\\theta}_{1i}) &=& {ML}_1({x}_{1i},{x}_{2i}, \\ldots,  {x}_{pi}) \\nonumber \\\\\n\\ldots &=& \\ldots \\nonumber\\\\\ng({\\theta}_{ki}) &=& {ML}_1({x}_{1i},{x}_{2i}, \\ldots,  {x}_{pi})\n\\end{eqnarray}\n  \\tag{7}\\]   \n\n\nfor \\(i=1,2,\\ldots,n\\)."
+    "text": "GAMLSS + ML\n\\[\\begin{eqnarray}\ny_i     &  \\stackrel{\\small{ind}}{\\sim }&  {D}( \\theta_{1i}, \\ldots, \\theta_{ki}) \\nonumber \\\\\ng({\\theta}_{1i}) &=& {ML}_1({x}_{1i},{x}_{2i}, \\ldots,  {x}_{pi}) \\nonumber \\\\\n\\ldots &=& \\ldots \\nonumber\\\\\ng({\\theta}_{ki}) &=& {ML}_1({x}_{1i},{x}_{2i}, \\ldots,  {x}_{pi})\n\\end{eqnarray}\n  \\qquad(7)\\]   \n\n\nfor \\(i=1,2,\\ldots,n\\)."
   },
   {
     "objectID": "regression.html#sec-Example",
     "href": "regression.html#sec-Example",
     "title": "Regression",
     "section": "Example",
-    "text": "Example\nFigure 1 Abdominal circumference against gestation age.\n\n\n\n\n\nFigure 1: The abdom data."
+    "text": "Example\nFigure 1 Abdominal circumference against gestation age.\n\nFigure 1: The abdom data."
   },
   {
     "objectID": "regression.html#fitting-models",
     "href": "regression.html#fitting-models",
     "title": "Regression",
     "section": "Fitting Models",
-    "text": "Fitting Models\n\nlibrary(ggplot2)\nlibrary(gamlss.ggplots)\nlibrary(gamlss.add)\n# Linear\nlm1 &lt;- gamlss(y~x, data=abdom, trace=FALSE)\n# additive smooth \nam1 &lt;- gamlss(y~pb(x), data=abdom,trace=FALSE)# smooth\n# neural network\nset.seed(123)\nnn1 &lt;- gamlss(y~nn(~x), size=5, data=abdom, trace=FALSE)# neural \n# regression three\nrt1 &lt;- gamlss(y~tr(~x),  data=abdom, trace=FALSE)# three\nGAIC(lm1, am1, nn1, rt1)\n\n           df      AIC\nam1  6.508274 4948.869\nnn1 12.000000 4965.171\nlm1  3.000000 5008.453\nrt1 14.000000 5305.390"
+    "text": "Fitting Models\n\nlibrary(ggplot2)\nlibrary(gamlss.ggplots)\nlibrary(gamlss.add)\n# Linear\nlm1 &lt;- gamlss(y~x, data=abdom, trace=FALSE)\n# additive smooth \nam1 &lt;- gamlss(y~pb(x), data=abdom,trace=FALSE)# smooth\n# neural network\nset.seed(123)\nnn1 &lt;- gamlss(y~nn(~x), size=5, data=abdom, trace=FALSE)# neural \n# regression three\nrt1 &lt;- gamlss(y~tr(~x),  data=abdom, trace=FALSE)# three\nGAIC(lm1, am1, nn1, rt1)"
   },
   {
     "objectID": "regression.html#linear-model-2",
     "href": "regression.html#linear-model-2",
     "title": "Regression",
     "section": "Linear Model",
-    "text": "Linear Model\n\n\n\n\n\nFigure 2: Fitted values, linear curve"
+    "text": "Linear Model\n\nFigure 2: Fitted values, linear curve"
   },
   {
     "objectID": "regression.html#additive-smooth-model",
     "href": "regression.html#additive-smooth-model",
     "title": "Regression",
     "section": "Additive Smooth Model",
-    "text": "Additive Smooth Model\n\n\n\n\n\nFigure 3: Fitted values, smooth curve"
+    "text": "Additive Smooth Model\n\nFigure 3: Fitted values, smooth curve"
   },
   {
     "objectID": "regression.html#neural-network",
     "href": "regression.html#neural-network",
     "title": "Regression",
     "section": "Neural network",
-    "text": "Neural network\n\n\n\n\n\nFigure 4: Fitted values, neural network curve"
+    "text": "Neural network\n\nFigure 4: Fitted values, neural network curve"
   },
   {
     "objectID": "regression.html#regression-tree",
     "href": "regression.html#regression-tree",
     "title": "Regression",
     "section": "Regression Tree",
-    "text": "Regression Tree\n\n\n\n\n\nFigure 5: Fitted values, regression tree curve"
+    "text": "Regression Tree\n\nFigure 5: Fitted values, regression tree curve"
   },
   {
     "objectID": "regression.html#diagnostics-qq-plot",
     "href": "regression.html#diagnostics-qq-plot",
     "title": "Regression",
     "section": "Diagnostics: QQ plot",
-    "text": "Diagnostics: QQ plot\n\n\n\n\n\nFigure 6: QQ-plot of the fitted am1 model"
+    "text": "Diagnostics: QQ plot\n\nFigure 6: QQ-plot of the fitted am1 model"
   },
   {
     "objectID": "regression.html#diagnostics-bucket-plot",
     "href": "regression.html#diagnostics-bucket-plot",
     "title": "Regression",
     "section": "Diagnostics: Bucket plot",
-    "text": "Diagnostics: Bucket plot\n\n\n\n\n\nFigure 7: QQ-plot of the fitted am1 model"
+    "text": "Diagnostics: Bucket plot\n\nFigure 7: QQ-plot of the fitted am1 model"
   },
   {
     "objectID": "regression.html#refit",
@@ -179,41 +179,48 @@
     "href": "regression.html#qq-plot-logistic",
     "title": "Regression",
     "section": "QQ plot, Logistic",
-    "text": "QQ plot, Logistic\n\n\n\n\n\nFigure 8: QQ-plot of the fitted am1 model"
+    "text": "QQ plot, Logistic\n\nFigure 8: QQ-plot of the fitted am1 model"
   },
   {
     "objectID": "regression.html#bucket-plot-logistic",
     "href": "regression.html#bucket-plot-logistic",
     "title": "Regression",
     "section": "Bucket plot, Logistic",
-    "text": "Bucket plot, Logistic\n\n\n\n\n\nFigure 9: QQ-plot of the fitted am1 model"
+    "text": "Bucket plot, Logistic\n\nFigure 9: QQ-plot of the fitted am1 model"
   },
   {
     "objectID": "regression.html#fitted-centiles",
     "href": "regression.html#fitted-centiles",
     "title": "Regression",
     "section": "Fitted Centiles",
-    "text": "Fitted Centiles\n\n\n\n\n\nFigure 10: Centile-plot of the fitted am1 model"
+    "text": "Fitted Centiles\n\nFigure 10: Centile-plot of the fitted am1 model"
   },
   {
     "objectID": "regression.html#fitted-distributions",
     "href": "regression.html#fitted-distributions",
     "title": "Regression",
     "section": "Fitted Distributions",
-    "text": "Fitted Distributions\n\n\n\n\n\nFigure 11: pdf-plot of the fitted am3 model"
+    "text": "Fitted Distributions\n\nFigure 11: pdf-plot of the fitted am3 model"
   },
   {
     "objectID": "regression.html#summary",
     "href": "regression.html#summary",
     "title": "Regression",
     "section": "Summary",
-    "text": "Summary\n\nThe additive smooth model is the best parsimonious model\nA kurtotic distribution is adequate for the data\nNo simple Machine Learning method will do because there is kurtosis and we are interested in centiles\nquantile regression could be used here but in general it is more difficult to check the implicit assumptions made\n\n\n\n\n\n\n\nTip\n\n\n\nImplicit assumptions are more difficult to check"
+    "text": "Summary\n\nThe additive smooth model is the best parsimonious model\nA kurtotic distribution is adequate for the data\nNo simple Machine Learning method will do because there is kurtosis and we are interested in centiles\nquantile regression could be used here but in general it is more difficult to check the implicit assumptions made\n\n\n\n\n\n\n\nTip\n\n\nImplicit assumptions are more difficult to check"
   },
   {
     "objectID": "regression.html#end",
     "href": "regression.html#end",
     "title": "Regression",
     "section": "end",
-    "text": "end\n\n\n\n   The Books"
+    "text": "end\n\n\n\n   The Books\n\n\n\n\n\n\nwww.gamlss.com"
+  },
+  {
+    "objectID": "regression.html#fitting-models-output",
+    "href": "regression.html#fitting-models-output",
+    "title": "Regression",
+    "section": "Fitting Models",
+    "text": "Fitting Models\n\n           df      AIC\nam1  6.508274 4948.869\nnn1 12.000000 4965.171\nlm1  3.000000 5008.453\nrt1 14.000000 5305.390"
   }
 ]

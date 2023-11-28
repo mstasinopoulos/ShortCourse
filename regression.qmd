@@ -26,7 +26,7 @@ format:
     logo: gamlss-trans.png
     footer: "www.gamlss.com"
     css: styles.css
-    theme: mytheme.scss
+    theme: sky
     auto-stretch: true
     view-distance: 5
 ---
