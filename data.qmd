@@ -22,7 +22,7 @@ format:
     logo: gamlss-trans.png
     footer: "www.gamlss.com"
     css: styles.css
-    theme: mytheme.scss
+    theme: sky
 ---
 
 ## Introduction

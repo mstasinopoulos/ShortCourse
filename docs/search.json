@@ -222,5 +222,236 @@
     "title": "Regression",
     "section": "Fitting Models",
     "text": "Fitting Models\n\n           df      AIC\nam1  6.508274 4948.869\nnn1 12.000000 4965.171\nlm1  3.000000 5008.453\nrt1 14.000000 5305.390"
+  },
+  {
+    "objectID": "data.html",
+    "href": "data.html",
+    "title": "Data",
+    "section": "",
+    "text": "checking the structure of the data\ndisplaying the data to identify;\n\noutliers,\npossible x-variables transformations,\ncorrelation in the feature and\npossible pair-wise interactions\n\npartitioning the data"
+  },
+  {
+    "objectID": "data.html#introduction",
+    "href": "data.html#introduction",
+    "title": "Data",
+    "section": "Introduction",
+    "text": "Introduction\n\n\nchecking the structure of the data\ndisplaying the data to identify;\n\noutliers,\npossible x-variables transformations,\ncorrelation in the feature and\npossible pair-wise interactions\n\npartitioning the data"
+  },
+  {
+    "objectID": "data.html#data",
+    "href": "data.html#data",
+    "title": "Data",
+    "section": "Data",
+    "text": "Data\n\n\nTable 1: The Table of Data\n\n\n\n\n\n\n\n\n\n\n\n\nobs number\ny\nx1\nx2\nx3\n…\nxr-1\nxr\n\n\n\n\n1\ny1\nx11\nx12\nx13\n…\nx1r-1\nx1r\n\n\n2\ny2\nx21\nx22\nx23\n…\nx2r-1\nx2r\n\n\n3\ny3\nx31\nx32\nx33\n…\nx3r-1\nx3r\n\n\n…\n…\n…\n…\n…\n…\n…\n…\n\n\nn-1\nyn-1\nxn-11\nxn-12\nxn-12\n…\nxn-1r-1\nxn-1r\n\n\nn\nyn\nxn1\nxn2\nxn3\n…\nxnr-1\nxnr"
+  },
+  {
+    "objectID": "data.html#the-rent-1999-munich-data",
+    "href": "data.html#the-rent-1999-munich-data",
+    "title": "Data",
+    "section": "The rent 1999 Munich data",
+    "text": "The rent 1999 Munich data\n\n\n\n\nTable 2: Variables in Munich rent data\n\n\nrent\narea\nyearc\nlocation\nbath\nkitchen\ncheating\n\n\n\n\n109.95\n26\n1918\n2\n0\n0\n0\n\n\n243.28\n28\n1918\n2\n0\n0\n1\n\n\n261.64\n30\n1918\n1\n0\n0\n1\n\n\n106.41\n30\n1918\n2\n0\n0\n0\n\n\n133.38\n30\n1918\n2\n0\n0\n1\n\n\n339.03\n30\n1918\n2\n0\n0\n1"
+  },
+  {
+    "objectID": "data.html#important-features",
+    "href": "data.html#important-features",
+    "title": "Data",
+    "section": "Important features",
+    "text": "Important features\n\nthe range of the response variable,\nhow explanatory variables should be enter the regression\nthe shape of the data\nmissing values NA’s\nnames of columns\nfactors"
+  },
+  {
+    "objectID": "data.html#the-range-of-the-response",
+    "href": "data.html#the-range-of-the-response",
+    "title": "Data",
+    "section": "the range of the response",
+    "text": "the range of the response\n\n\n\n\nflowchart TB\n  A[responce] --&gt; B(continuous) \n  A --&gt; C[discrete]\n  A --&gt; D[factor]\n  B --&gt; F[real line]\n  B --&gt; G[pos. real line]\n  B --&gt; H[0 to 1]\n  C --&gt; J[infinite count]\n  C --&gt; I[finite count]\n  D --&gt; K[unordered]\n  D --&gt; L[ordered]\n  I --&gt; N[binary]\n  K --&gt; N[binary]\n\n\n\n\n\n\n\nImportant for determine the distribution"
+  },
+  {
+    "objectID": "data.html#explanatory-variables",
+    "href": "data.html#explanatory-variables",
+    "title": "Data",
+    "section": "explanatory variables",
+    "text": "explanatory variables\n\ncontinuous\n\nlinear effect\nnon-linear effect\n\nfactors\n\nnon ordered\nordered\n\ninteractions"
+  },
+  {
+    "objectID": "data.html#data-dimension",
+    "href": "data.html#data-dimension",
+    "title": "Data",
+    "section": "data dimension",
+    "text": "data dimension\n\ndata_dim(): information about dimensions\n\n\nda |&gt; data_dim()\n\n************************************************************** \n************************************************************** \nthe dimensions of the data set are: 3082 by 7 \nnumber of observations with missing values; 0 \n% data omited; 0 % \n************************************************************** \n************************************************************** \n\n\n\ndata_which_na(): which variables have missing observations\n\n\nda |&gt; data_which_na()\n\n    rent     area    yearc location     bath  kitchen cheating \n       0        0        0        0        0        0        0"
+  },
+  {
+    "objectID": "data.html#variable-names",
+    "href": "data.html#variable-names",
+    "title": "Data",
+    "section": "variable names",
+    "text": "variable names\n\ndata_names()\n\n\nda |&gt; data_names()\n\n************************************************************** \n************************************************************** \nthe names of variables \n[1] \"rent\"     \"area\"     \"yearc\"    \"location\" \"bath\"     \"kitchen\"  \"cheating\"\n************************************************************** \n************************************************************** \n\n\n\n`data_sorter_names()’: shortening the names\n\n\nda |&gt; data_sorter_names( max=10) -&gt; da\n\n************************************************************** \n************************************************************** \nthe names of variables \n[1] \"rent\"     \"area\"     \"yearc\"    \"location\" \"bath\"     \"kitchen\"  \"cheating\"\n************************************************************** \n**************************************************************"
+  },
+  {
+    "objectID": "data.html#missing-values",
+    "href": "data.html#missing-values",
+    "title": "Data",
+    "section": "missing values",
+    "text": "missing values\n\nThe gamlss() function can not cope with missing values.\nto deal with NA’s see https://stefvanbuuren.name/fimd/"
+  },
+  {
+    "objectID": "data.html#data-shape",
+    "href": "data.html#data-shape",
+    "title": "Data",
+    "section": "data shape",
+    "text": "data shape\n\n(a) \\(n&lt;p\\) more obstervations than variable (b) \\(n&gt;p\\) more variables than obsrvations"
+  },
+  {
+    "objectID": "data.html#factors",
+    "href": "data.html#factors",
+    "title": "Data",
+    "section": "Factors",
+    "text": "Factors\n\nany character vector\nany vector variable with a small range of distinct values,\n\n\n\n  (Intercept) x qrt2 qrt3 qrt4\n1           1 1    0    0    0\n2           1 2    1    0    0\n3           1 3    0    1    0\n4           1 4    0    0    1\n5           1 5    0    0    0\n6           1 6    1    0    0\n7           1 7    0    1    0\n8           1 8    0    0    1"
+  },
+  {
+    "objectID": "data.html#the-structure-of-the-data",
+    "href": "data.html#the-structure-of-the-data",
+    "title": "Data",
+    "section": "the structure of the data",
+    "text": "the structure of the data\n\nda |&gt; data_str()\n\n************************************************************** \n************************************************************** \nthe structure of the data \n'data.frame':   3082 obs. of  7 variables:\n $ rent    : num  110 243 262 106 133 ...\n $ area    : int  26 28 30 30 30 30 31 31 32 33 ...\n $ yearc   : num  1918 1918 1918 1918 1918 ...\n $ location: Factor w/ 3 levels \"1\",\"2\",\"3\": 2 2 1 2 2 2 1 1 1 2 ...\n $ bath    : Factor w/ 2 levels \"0\",\"1\": 1 1 1 1 1 1 1 1 1 1 ...\n $ kitchen : Factor w/ 2 levels \"0\",\"1\": 1 1 1 1 1 1 1 2 1 1 ...\n $ cheating: Factor w/ 2 levels \"0\",\"1\": 1 2 2 1 2 2 1 2 1 1 ...\n************************************************************** \n************************************************************** \ntable of the class of variabes \nclass_Vars\n factor integer numeric \n      4       1       2 \n************************************************************** \n************************************************************** \nand those integer vectors into mumeric: \narea \n************************************************************** \n************************************************************** \ndistinct values in variables \n    rent     area    yearc location     bath  kitchen cheating \n    2723      132       68        3        2        2        2 \n************************************************************** \n**************************************************************"
+  },
+  {
+    "objectID": "data.html#plotting-individual-vectors",
+    "href": "data.html#plotting-individual-vectors",
+    "title": "Data",
+    "section": "Plotting individual vectors",
+    "text": "Plotting individual vectors\n\ndata_plot()\n\n\nFigure 1: Plotting the invidual variables of the data"
+  },
+  {
+    "objectID": "data.html#plotting-individual-vectors-1",
+    "href": "data.html#plotting-individual-vectors-1",
+    "title": "Data",
+    "section": "Plotting individual vectors (1)",
+    "text": "Plotting individual vectors (1)\n\ndata_bucket()\n\n\nFigure 2: Plotting the bucket plot for the continuous variables in the data"
+  },
+  {
+    "objectID": "data.html#plotting-individual-vectors-2",
+    "href": "data.html#plotting-individual-vectors-2",
+    "title": "Data",
+    "section": "Plotting individual vectors (2)",
+    "text": "Plotting individual vectors (2)\ndata_zscores()\n\nFigure 3: Plotting the histogtams of the continuous variables in the data"
+  },
+  {
+    "objectID": "data.html#z-scores-standardization",
+    "href": "data.html#z-scores-standardization",
+    "title": "Data",
+    "section": "z-scores (standardization)",
+    "text": "z-scores (standardization)\n\nstandardization subtract from the mean and divide by standard deviation (no good for skew and kurtotic data)\ny_zscores(): fits a SHASHo distribution and take the residuals\n\n\n z &lt;- y_zscores(da$rent, plot=FALSE) # is equivalent to the steps\nm1 &lt;- gamlssML(da$rent, family=SHASHo) # fitting a 4 parameter distribution \ncbind(z,resid(m1))[1:5,]#  and taking the residuals\n\n          z          \n1 -2.496097 -2.496097\n2 -1.340464 -1.340464\n3 -1.182014 -1.182014\n4 -2.526326 -2.526326\n5 -2.295069 -2.295069"
+  },
+  {
+    "objectID": "data.html#the-response-variable",
+    "href": "data.html#the-response-variable",
+    "title": "Data",
+    "section": "The response variable",
+    "text": "The response variable\n\n\nthe class of the response is numeric is this correct? \na continuous distribution on (0,inf) could be used \n\n\n\nFigure 4: The response variable, (a) histogram of the response variable (b) a dot plot of the response variable (c) histogram of the z-scores of the response variable after standardised using the SHASH distribution (d) a dot plot of the z-scores of response variable."
+  },
+  {
+    "objectID": "data.html#pair-wise-data-plots",
+    "href": "data.html#pair-wise-data-plots",
+    "title": "Data",
+    "section": "Pair-wise data plots",
+    "text": "Pair-wise data plots\n\nFigure 5: The response variable aganst all explanatory variables."
+  },
+  {
+    "objectID": "data.html#sec-Outliers",
+    "href": "data.html#sec-Outliers",
+    "title": "Data",
+    "section": "Outliers",
+    "text": "Outliers\n\nwithin columns (variables)\nbetween rows (observations)"
+  },
+  {
+    "objectID": "data.html#outliers-within-columns",
+    "href": "data.html#outliers-within-columns",
+    "title": "Data",
+    "section": "Outliers within columns",
+    "text": "Outliers within columns\nAlgorithm to identify outliers in continuous variables\n\nInitialize: select all continuous variables \\(x_1, x_2,\\ldots, x_R\\)\nFor r in 1 to R\nIf \\(x_r\\) in \\(\\mathbb{R}^{+}\\) find \\(p\\) to transform \\(x_r\\) using the power transformormation, \\(y_r = x_r^p\\) for \\((0 \\le p &lt; 1.5)\\) else set \\(y_r=x_r\\). EndIf \nstandardised \\(y_r\\) to \\(z_r\\) using a sinh-archsinh transformation and get the z-scores\nidentify z-scores with absolute value greater that a predetermine value \\(|z_r| &gt; \\text{val}\\) i.e. 4\nEndFor\nprint the identified observations"
+  },
+  {
+    "objectID": "data.html#outliers-within-columns-2",
+    "href": "data.html#outliers-within-columns-2",
+    "title": "Data",
+    "section": "Outliers within columns (2)",
+    "text": "Outliers within columns (2)\n\ndata_outliers()\n\n\n gamlss.ggplots:::data_outliers(da)\n\n$rent\nnamed numeric(0)\n\n$area\nnamed integer(0)\n\n$yearc\nnamed numeric(0)"
+  },
+  {
+    "objectID": "data.html#outliers-between-rows",
+    "href": "data.html#outliers-between-rows",
+    "title": "Data",
+    "section": "Outliers between rows",
+    "text": "Outliers between rows\n\ndata_leverage()\n\n\ngamlss.ggplots:::data_leverage(da, response=rent)\n\n\nFigure 6: The observations against the linear leverage."
+  },
+  {
+    "objectID": "data.html#sec-Transformationofvariables",
+    "href": "data.html#sec-Transformationofvariables",
+    "title": "Data",
+    "section": "Transformation of variables",
+    "text": "Transformation of variables\n\ntransformation for skew x-variables to be transformed into a more evenly spaced. A power transformation of the type \\(x^p\\) for \\(0&lt;p&lt;1\\), where p=0 usualy is defines as \\(\\log(x)\\).\nstandardisation is needed to make sure that at least all continuous explanatory variables would be in a similar scale\n\nz-scores\n0 to 1"
+  },
+  {
+    "objectID": "data.html#transformation",
+    "href": "data.html#transformation",
+    "title": "Data",
+    "section": "Transformation",
+    "text": "Transformation\n\ndata_trans()\n\n\nFigure 7: The response against linear the continuous variables: on the left have no transformation, in the middle the square root ; on the right log"
+  },
+  {
+    "objectID": "data.html#standardisation",
+    "href": "data.html#standardisation",
+    "title": "Data",
+    "section": "standardisation",
+    "text": "standardisation\n\ndata_stad()\n\n\n\n      rent       area yearc location bath kitchen cheating\n1 109.9487 0.04285714     0        2    0       0        0\n2 243.2820 0.05714286     0        2    0       0        1\n3 261.6410 0.07142857     0        1    0       0        1\n4 106.4103 0.07142857     0        2    0       0        0\n5 133.3846 0.07142857     0        2    0       0        1\n6 339.0256 0.07142857     0        2    0       0        1"
+  },
+  {
+    "objectID": "data.html#pair-wise-linear-correlations",
+    "href": "data.html#pair-wise-linear-correlations",
+    "title": "Data",
+    "section": "pair-wise linear correlations",
+    "text": "pair-wise linear correlations\n\ngamlss.ggplots:::data_cor(da, method=\"square\")\n\n4 factors have been omited from the data \n\n\n\nFigure 8: The linear correlation coefficients of the continuous variables in the data"
+  },
+  {
+    "objectID": "data.html#pair-wise-interactions",
+    "href": "data.html#pair-wise-interactions",
+    "title": "Data",
+    "section": "pair-wise interactions",
+    "text": "pair-wise interactions\n\nda |&gt; gamlss.ggplots:::data_inter(response= rent)\n\n\nFigure 9: The pair wise interaction plots."
+  },
+  {
+    "objectID": "data.html#partitioning-tha-data",
+    "href": "data.html#partitioning-tha-data",
+    "title": "Data",
+    "section": "partitioning tha data",
+    "text": "partitioning tha data\n\n2-sections: training and test;\n3-sections: training, validation and test ;\nK-sections: for K-fold cross validation;\nbootstrapping.\nwhy: to get extra information by reusing or splitting the data."
+  },
+  {
+    "objectID": "data.html#partitioning-tha-data-con.",
+    "href": "data.html#partitioning-tha-data-con.",
+    "title": "Data",
+    "section": "partitioning tha data (con.)",
+    "text": "partitioning tha data (con.)\n\n\n\n\n\nflowchart TB\n  A[Data] --&gt; B{Reuse} \n  A --&gt; C{Split}\n  C --&gt; D[Training]\n  D --&gt; E[Validate]\n  E --&gt; O[Test]\n  B --&gt; F(Rearranged)\n  B --&gt; G(Reweighed)\n  G--&gt; H(Bayesian \\n Bootstrap)\n  G--&gt; J(Boosting)\n  F --&gt; K(Non-param. \\n Bootstrap)\n  F --&gt; L(Cross \\n Validation)\n  L --&gt; M(k-Fold) \n  L --&gt; N(LOO) \n\n\nFigure 10: Different ways of splitting data to get more information”"
+  },
+  {
+    "objectID": "data.html#partitioning-tha-data-con.-1",
+    "href": "data.html#partitioning-tha-data-con.-1",
+    "title": "Data",
+    "section": "partitioning tha data (con.)",
+    "text": "partitioning tha data (con.)\n\nthe function data_part()\n\n\ndap &lt;- gamlss.ggplots:::data_part(da)\n\ndata partition into two sets \n\nhead(dap)\n\n      rent area yearc location bath kitchen cheating partition\n1 109.9487   26  1918        2    0       0        0     train\n2 243.2820   28  1918        2    0       0        1      test\n3 261.6410   30  1918        1    0       0        1     train\n4 106.4103   30  1918        2    0       0        0      test\n5 133.3846   30  1918        2    0       0        1      test\n6 339.0256   30  1918        2    0       0        1     train\n\ndaTrain &lt;- subset(dap, partition==\"train\")\ndaTest &lt;- subset(dap, partition==\"test\")\ndim(daTrain)\n\n[1] 1846    8\n\ndim(daTest)\n\n[1] 1236    8"
+  },
+  {
+    "objectID": "data.html#summary",
+    "href": "data.html#summary",
+    "title": "Data",
+    "section": "Summary",
+    "text": "Summary\n\n\n\n\nflowchart LR\n  A[data] --&gt; B(size, names, missing) \n  B --&gt; C[factors]\n  C --&gt; D{display}\n  D --&gt; E[variable plots]\n  D --&gt; F[response]\n  D --&gt; G[xy-plots]\n  F --&gt; J{outliers}\n  E --&gt; J\n  G --&gt; J\n  J &lt;--&gt; K[transformation of x]\n  J &lt;--&gt; L[standardization of x]\n  K --&gt; M[correlation]\n  L --&gt; M  \n  M &lt;--&gt; N[interactions]\n  N x--x O[partition]"
+  },
+  {
+    "objectID": "data.html#end",
+    "href": "data.html#end",
+    "title": "Data",
+    "section": "end",
+    "text": "end\n\n\n\n   The Books\n\n\n\nf\n\n\n\nwww.gamlss.com"
   }
 ]
