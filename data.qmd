@@ -1,0 +1,470 @@
+---
+title: "Data"
+title-slide-attributes:
+    data-background-image: Uni_greenwich.png
+    data-background-size: contain
+    data-background-opacity: "0.05"
+author:
+  - Mikis Stasinopoulos
+  - Bob Rigby
+  - Fernanda De Bastiani 
+format:
+  revealjs:
+    multiplex: true
+    slide-number: true
+    show-slide-number: print
+    chalkboard: 
+      buttons: true
+    incremental: false 
+    menu:
+      side: left
+      width: wide
+    logo: gamlss-trans.png
+    footer: "www.gamlss.com"
+    css: styles.css
+    theme: mytheme.scss
+---
+
+
+## Introduction 
+
+::: {.nonincremental}
+-   `checking the structure of the data`
+
+-   `displaying the data to identify`; 
+
+     - outliers, 
+     - possible x-variables transformations, 
+     - correlation in the feature and 
+     - possible pair-wise interactions
+
+-   `partitioning the data`
+:::
+
+
+# checking  the data
+## Data {.smaller}
+
+| obs number | y      | x~1~    | x~2~    | x~3~    | ... | x~r-1~    | x~r~    |
+|------------|--------|---------|---------|---------|-----|-----------|---------|
+| 1          | y~1~   | x~11~   | x~12~   | x~13~   | ... | x~1r-1~   | x~1r~   |
+| 2          | y~2~   | x~21~   | x~22~   | x~23~   | ... | x~2r-1~   | x~2r~   |
+| 3          | y~3~   | x~31~   | x~32~   | x~33~   | ... | x~3r-1~   | x~3r~   |
+| ...        | ...    | ...     | ...     | ...     | ... | ...       | ...     |
+| n-1        | y~n-1~ | x~n-11~ | x~n-12~ | x~n-12~ | ... | x~n-1r-1~ | x~n-1r~ |
+| n          | y~n~   | x~n1~   | x~n2~   | x~n3~   | ... | x~nr-1~   | x~nr~   |
+
+: The Table of Data {#tbl-TheTableofData .striped .hover}
+
+## The rent 1999 Munich data {.smaller}
+
+```{r}
+#| label: tbl-stats
+#| tbl-cap: "Variables in  Munich rent data"
+#| warning: false
+library(gamlss.ggplots)
+library(broom)
+library(knitr)
+library(gamlss.ggplots)
+# remove two variables
+da <- rent99[, -c(2,9)]
+da  |> head() |> kable(digits = c(2, 0, 0, 0, 0,0,0), format="pipe")
+```
+
+
+
+## Important features
+
+-   the **range** of the **response** variable, 
+
+-   how **explanatory** variables should be enter the regression
+
+-   the **shape** of the data 
+
+- **missing** values `NA`'s
+
+- **names** of columns
+   
+- **factors**
+
+
+## the range of the response
+
+```{mermaid}
+%%| caption: "PAPARIA 1"
+%%| fig-width: 10
+%%| fig-height: 6
+%%| fig-size: 10
+flowchart TB
+  A[responce] --> B(continuous) 
+  A --> C[discrete]
+  A --> D[factor]
+  B --> F[real line]
+  B --> G[pos. real line]
+  B --> H[0 to 1]
+  C --> J[infinite count]
+  C --> I[finite count]
+  D --> K[unordered]
+  D --> L[ordered]
+  I --> N[binary]
+  K --> N[binary]
+```
+::: aside
+Important for determine the distribution
+:::
+
+## explanatory variables 
+
+- `continuous` 
+   - linear effect 
+   - non-linear effect
+- `factors` 
+   - non ordered
+   - ordered 
+- `interactions`
+
+## data dimension 
+
+- `data_dim()`: information about dimensions 
+
+```{r}
+#| echo: true
+#| label: data_dim
+#| tbl-cap: "Variables in  Munich rent data"
+#| warning: false
+da |> data_dim()
+```
+
+- `data_which_na()`: which variables have missing observations 
+
+```{r}
+#| echo: true
+#| label: data_which_na
+#| tbl-cap: "Variables in  Munich rent data"
+#| warning: false
+da |> data_which_na()
+```
+
+## variable names {.smaller}
+
+- `data_names()`
+```{r}
+#| echo: true
+#| label: data_names
+#| tbl-cap: "Variables in  Munich rent data"
+#| warning: false
+da |> data_names()
+```
+- `data_sorter_names()': shortening the names 
+
+```{r}
+#| echo: true
+#| label: data_sorter_names
+#| tbl-cap: "Variables in  Munich rent data"
+#| warning: false
+da |> data_sorter_names( max=10) -> da
+```
+
+
+## missing values
+
+- The `gamlss()` function can not cope with missing values.
+
+- to deal with NA's see <https://stefvanbuuren.name/fimd/>
+
+## data shape
+
+ ![`(a)` $n<p$ more obstervations than variable `(b)` $n>p$ more variables than obsrvations](Shape_of_data.png)
+
+
+
+## Factors
+
+-   any character vector 
+-   any vector variable with a small range of distinct values, 
+
+```{r}
+#| warning: false
+library(gamlss)
+library(knitr)
+md <- model.matrix(y~x+qrt, data=aids)
+md[1:8,]
+```
+
+## the structure of the data 
+
+```{r}
+#| echo: true
+#| label: data_str
+#| tbl-cap: "Variables in  Munich rent data"
+#| warning: false
+da |> data_str()
+```
+
+
+# displaying the data
+
+## Plotting individual vectors 
+- `data_plot()`
+```{r}
+#| eval: true
+#| label: fig-data_plot
+#| fig-cap: "Plotting the invidual variables of the data"
+#| warning: false
+#| fig-width: 10
+#| fig-height: 5
+data_plot(da)
+```
+
+## Plotting individual vectors (1)
+
+- `data_bucket()`
+```{r}
+#| eval: true
+#| label: fig-data_bucket
+#| fig-cap: "Plotting the bucket plot for the continuous variables in the data"
+#| warning: false
+data_bucket(da)
+```
+
+## Plotting individual vectors (2) 
+
+`data_zscores()`
+```{r}
+#| eval: true
+#| label: fig-data_zcores
+#| fig-cap: "Plotting the histogtams of the continuous variables in the data"
+#| warning: false
+data_zscores(da)
+```
+
+## z-scores (standardization)
+
+- **standardization** subtract from the mean and divide by standard deviation (no good for skew and kurtotic data)
+
+- `y_zscores()`: fits a `SHASHo` distribution and take the residuals
+
+```{r}
+#| eval: true
+#| echo: true
+#| tbl-cap: "Variables in  Munich rent data"
+#| warning: false
+ z <- y_zscores(da$rent, plot=FALSE) # is equivalent to the steps
+m1 <- gamlssML(da$rent, family=SHASHo) # fitting a 4 parameter distribution 
+cbind(z,resid(m1))[1:5,]#  and taking the residuals
+```
+
+
+## The response variable
+
+```{r}
+#| eval: true
+#| label: fig-data_response
+#| fig-width: 10
+#| fig-height: 5
+#| fig-cap: "The response variable, (a) histogram of the response variable (b) a dot plot  of the response variable (c) histogram of the z-scores of the response variable after standardised using the SHASH distribution (d) a dot plot  of the  z-scores of response variable."
+#| warning: false
+gamlss.ggplots:::data_response(da, response=rent)
+```
+
+
+## Pair-wise data plots
+
+```{r}
+#| eval: true
+#| label: fig-data_xyplot
+#| fig-cap: "The response variable aganst all explanatory variables."
+#| warning: false
+data_xyplot(da, response=rent) 
+```
+
+
+## Outliers {#sec-Outliers}
+
+- within columns (variables)
+
+- between rows (observations)
+
+## Outliers within columns {.smaller .scrollable}
+
+  `Algorithm to identify outliers in continuous variables`
+
+- **Initialize**: select all continuous variables $x_1, x_2,\ldots, x_R$
+
+- **For** r in 1 to R
+
+-   **If** $x_r$ in $\mathbb{R}^{+}$ find $p$ to transform $x_r$ using the *power transformormation*, $y_r = x_r^p$ for $(0 \le p < 1.5)$ **else** set $y_r=x_r$. **EndIf** \nextline
+
+-   **standardised** $y_r$ to $z_r$ using a sinh-archsinh transformation and get the z-scores
+
+-   **identify** z-scores with absolute value greater that a predetermine value $|z_r| > \text{val}$ i.e. 4
+
+- **EndFor**
+
+- **print** the identified observations
+
+
+
+## Outliers within columns (2) 
+
+
+- `data_outliers()`
+
+```{r}
+#| warning:  false
+#| echo: true
+ gamlss.ggplots:::data_outliers(da)
+```
+
+## Outliers between rows
+
+- `data_leverage()`
+```{r}
+#| warning:  false
+#| echo: true
+#| fig-width: 10
+#| fig-height: 5
+#| label: fig-data_leverage
+#| fig-cap: "The observations against the linear leverage."
+gamlss.ggplots:::data_leverage(da, response=rent)
+```
+
+
+## Transformation of variables {#sec-Transformationofvariables}
+
+
+-   **transformation** for skew x-variables to be transformed into a more evenly spaced. A _power transformation_ of the type $x^p$ for $0<p<1$, where p=0 usualy is defines as $\log(x)$.
+
+-   **standardisation** is needed to make sure that at least all continuous explanatory variables would be in a similar scale 
+
+     - z-scores 
+     - 0 to 1
+
+## Transformation
+- `data_trans()`
+```{r}
+#| warning:  false
+#| label: fig-data_trans_plot
+#| fig-cap: "The response  against linear the continuous variables:  on the left have no transformation, in the middle  the square root ; on the right  log "
+gamlss.ggplots:::data_trans_plot(da, rent) 
+```
+
+## standardisation
+- `data_stad()`
+```{r}
+#| warning: false
+
+source("~/Dropbox/github/gamlss-ggplots/R/data_stand.R")
+head(data_scale(da, response=rent,  scale = "0to1"))
+```
+
+<!-- ::: aside -->
+<!-- option 'type` allows the creation of main effect and interactions design matrices  -->
+<!-- ::: -->
+
+
+## pair-wise linear correlations
+
+```{r}
+#| echo: true
+#| warning:  false
+#| label: fig-data_cor
+#| fig-cap: "The linear correlation coefficients of the continuous variables in the data"
+gamlss.ggplots:::data_cor(da, method="square")
+```
+
+## pair-wise interactions
+```{r}
+#| echo: true
+#| warning:  false
+#| label: fig-data_inter
+#| fig-cap: "The pair wise interaction plots."
+da |> gamlss.ggplots:::data_inter(response= rent)
+```
+
+
+
+# partitioning the data
+
+
+## partitioning tha data
+
+- 2-sections:  **training** and **test**;
+
+- 3-sections:  **training**, **validation** and **test** ;
+
+- K-sections: for **K-fold** cross validation; 
+
+- bootstrapping.
+
+- `why`: to get extra information by **reusing**  or **splitting** the data.
+
+## partitioning tha data (con.)
+
+```{mermaid}
+%%| label: fig-data_split
+%%| fig-cap: Different ways of splitting data to get more information"
+flowchart TB
+  A[Data] --> B{Reuse} 
+  A --> C{Split}
+  C --> D[Training]
+  D --> E[Validate]
+  E --> O[Test]
+  B --> F(Rearranged)
+  B --> G(Reweighed)
+  G--> H(Bayesian \n Bootstrap)
+  G--> J(Boosting)
+  F --> K(Non-param. \n Bootstrap)
+  F --> L(Cross \n Validation)
+  L --> M(k-Fold) 
+  L --> N(LOO) 
+```
+
+
+## partitioning tha data (con.) {.smaller}
+- the function `data_part()`
+```{r}
+#| echo: true
+dap <- gamlss.ggplots:::data_part(da)
+head(dap)
+daTrain <- subset(dap, partition=="train")
+daTest <- subset(dap, partition=="test")
+dim(daTrain)
+dim(daTest)
+```
+
+
+## Summary {.scrollable}
+```{mermaid}
+%%| caption: "PAPARIA 1"
+%%| fig-width: 10
+%%| fig-height: 6
+%%| fig-size: 10
+flowchart LR
+  A[data] --> B(size, names, missing) 
+  B --> C[factors]
+  C --> D{display}
+  D --> E[variable plots]
+  D --> F[response]
+  D --> G[xy-plots]
+  F --> J{outliers}
+  E --> J
+  G --> J
+  J <--> K[transformation of x]
+  J <--> L[standardization of x]
+  K --> M[correlation]
+  L --> M  
+  M <--> N[interactions]
+  N x--x O[partition] 
+```
+## end 
+
+
+::: {layout-ncol=3, layout-nrow=1}
+![](book-1.png){width=300}
+![](book-2.png){width=323}
+![](book3.png){width=333}
+The Books
+:::
+f
+
