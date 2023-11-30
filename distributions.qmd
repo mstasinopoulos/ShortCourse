@@ -1,0 +1,537 @@
+---
+title: "Distributions"
+title-slide-attributes:
+    data-background-image: Uni_greenwich.png
+    data-background-size: contain
+    data-background-opacity: "0.05"
+author:
+  - Mikis Stasinopoulos
+  - Bob Rigby
+  - Fernanda De Bastiani 
+format:
+  revealjs:
+    multiplex: true
+    slide-number: true
+    show-slide-number: print
+    chalkboard: 
+      buttons: true
+    incremental: false 
+    menu:
+      side: left
+      width: wide
+    logo: gamlss-trans.png
+    footer: "www.gamlss.com"
+    css: styles.css
+    theme: sky
+---
+
+## Introduction
+
+Suitable distribution for the response variable.\`
+
+::: nonincremental
+-   `different types of distributions`
+
+-   `properies of distributions`
+
+-   `a procedure to find a good initial distribution for the response`
+:::
+
+# distributions
+
+## Types {.smaller}
+
+-   **continuous**
+
+    -   $(-\infty, \infty)$, `real line`;
+    -   $(0, \infty)$, `positive real line`;
+    -   $(0,1)$ from 0 to 1
+
+-   **discrete**
+
+    -   $(0,1,\dots, \infty)$
+    -   $(0,1,\dots, N)$
+
+-   **mixed** part continuous part discrete
+
+    -   $[0, \infty)$ zero adjusted
+    -   $[0, 1]$ zero (and 1) inflated
+
+## continuous
+
+```{r}
+#| echo: false 
+#| warning: false
+#| message: false
+#| label: fig-dist_types
+#| fig-cap: "Different type of distributions"
+#| fig-subcap: 
+#|     - continuous
+#|     - discrete
+#|     - mixed
+library(gamlss.ggplots)
+library(gamlss.add)
+library(rlang)
+library(ggplot2)
+family_pdf("GA", mu=c(1), sigma=c(.5), from=0.01, to=5)+
+   ggtitle("(a) continuous: Gamma")+
+   theme_bw(base_size = 20) 
+# family_pdf("NBI", mu=c(1), sigma=c(.5), from=1, to=10)+
+#     ggtitle("(b) discrete: Neg. Binomial")+
+#     theme_bw(base_size = 20)
+# plot_Zadj_BCT<-function(pi=.2, mu=1, sigma=.3, nu=1, tau=10, 
+#                         n=2000, from=0, to=5)
+# {
+  # f <- as_function(~ (1-pi)*dBCT(.x, mu=mu, sigma=sigma, nu=nu, tau=tau))   
+  # base <-ggplot2::ggplot() 
+  # base1 <- base +  geom_function(fun = f, n=n)+xlim(from,to)+
+  #   geom_segment(aes(x = 0, y = 0, xend = 0, yend =pi)) +
+  #   geom_point(aes(x = 0, y = pi), col="red") 
+#  base1
+#}
+# bb<-plot_Zadj_BCT(pi=.1, mu=1, sigma=1, nu=-1, tau=10)
+# bb+ggtitle("(c) mixed: zero adjusted BCT")+
+#   theme_bw(base_size = 20)
+```
+
+## discrete
+
+```{r}
+#| echo: false 
+#| warning: false
+#| message: false
+#| label: fig-dist_types2
+#| fig-cap: "Different type of distributions"
+#| fig-subcap: 
+#|     - discrete
+#|     - mixed
+library(gamlss.ggplots)
+library(gamlss.add)
+library(rlang)
+library(ggplot2)
+# family_pdf("GA", mu=c(1), sigma=c(.5), from=0.01, to=5)+
+#    ggtitle("(a) continuous: Gamma")+
+#    theme_bw(base_size = 20) 
+family_pdf("NBI", mu=c(1), sigma=c(.5), from=1, to=10)+
+    ggtitle("(b) discrete: Neg. Binomial")+
+    theme_bw(base_size = 20)
+# plot_Zadj_BCT<-function(pi=.2, mu=1, sigma=.3, nu=1, tau=10, 
+#                         n=2000, from=0, to=5)
+# {
+  # f <- as_function(~ (1-pi)*dBCT(.x, mu=mu, sigma=sigma, nu=nu, tau=tau))   
+  # base <-ggplot2::ggplot() 
+  # base1 <- base +  geom_function(fun = f, n=n)+xlim(from,to)+
+  #   geom_segment(aes(x = 0, y = 0, xend = 0, yend =pi)) +
+  #   geom_point(aes(x = 0, y = pi), col="red") 
+#  base1
+#}
+# bb<-plot_Zadj_BCT(pi=.1, mu=1, sigma=1, nu=-1, tau=10)
+# bb+ggtitle("(c) mixed: zero adjusted BCT")+
+#   theme_bw(base_size = 20)
+```
+
+## mixed
+
+```{r}
+#| echo: false 
+#| warning: false
+#| message: false
+#| label: fig-dist_types3
+#| fig-cap: "Different type of distributions"
+#| fig-subcap: 
+#|     - mixed
+library(gamlss.ggplots)
+library(gamlss.add)
+library(rlang)
+library(ggplot2)
+# family_pdf("GA", mu=c(1), sigma=c(.5), from=0.01, to=5)+
+#    ggtitle("(a) continuous: Gamma")+
+#    theme_bw(base_size = 20) 
+# family_pdf("NBI", mu=c(1), sigma=c(.5), from=1, to=10)+
+#     ggtitle("(b) discrete: Neg. Binomial")+
+#     theme_bw(base_size = 20)
+plot_Zadj_BCT<-function(pi=.2, mu=1, sigma=.3, nu=1, tau=10,
+                        n=2000, from=0, to=5)
+{
+f <- as_function(~ (1-pi)*dBCT(.x, mu=mu, sigma=sigma, nu=nu, tau=tau))
+base <-ggplot2::ggplot()
+base1 <- base +  geom_function(fun = f, n=n)+xlim(from,to)+
+  geom_segment(aes(x = 0, y = 0, xend = 0, yend =pi)) +
+  geom_point(aes(x = 0, y = pi), col="red")
+ base1
+}
+bb<-plot_Zadj_BCT(pi=.1, mu=1, sigma=1, nu=-1, tau=10)
+bb+ggtitle("(c) mixed: zero adjusted BCT")+
+  theme_bw(base_size = 20)
+```
+
+## properties
+
+$f(y;{\theta})$
+
+-   $\int_{R_Y} f(y) \; dy=1$
+
+-   $\sum_{y\in R_Y} f(y)=\sum_{y \in R_Y} P(Y=y)=1$
+
+-   $\int_{R_{1}} f(y)\, dy + \sum_{y \in R_{2}} f(y) = 1$.
+
+## parameters
+
+-   $f(y;{\theta})$
+
+-   ${\theta}= (\theta_1, \theta_2, \ldots, \theta_k)$.
+
+-   location
+
+-   scale
+
+-   shape
+
+    -   skewness
+    -   kurtosis
+
+## left skew
+
+```{r}
+#| echo: false 
+#| warning: false
+#| message: false
+#| label: fig-dist_skewness
+#| fig-cap: "Examples of skewness in distributions (a) left skew, (b) symmetric (c) right skew."
+#| fig-subcap: 
+#|     - left skew
+#|     - symmetric
+#|     - right skew
+family_pdf("BCTo", mu=c(5), sigma=c(.18), nu=c(10), tau=c(10), from=2.5, to=7.5)+
+ ggtitle("(a) left skew")+ ylim(c(0,1))+
+ theme(axis.text.x = element_blank(), axis.text.y = element_blank(),
+ text = element_text(size = 20))
+
+# family_pdf("BCTo", mu=c(5), sigma=c(.1), nu=c(1), tau=c(10), from=2.5, to=7.5)+
+#  ggtitle("(a) symmetric")+ylim(c(0,1))+
+#  theme(axis.text.x = element_blank(), axis.text.y = element_blank(),
+#  text = element_text(size = 20))
+# family_pdf("BCTo", mu=c(5), sigma=c(.1), nu=c(-3), tau=c(10), from=2.5, to=7.5)+
+#  ggtitle("(a) right skew")+ylim(c(0,1))+
+#  theme(axis.text.x = element_blank(), axis.text.y = element_blank(),
+#  text = element_text(size = 20))
+```
+
+## symmetric
+
+```{r}
+#| echo: false 
+#| warning: false
+#| message: false
+#| label: fig-dist_skewness2
+#| fig-cap: "Examples of skewness in distributions (a) left skew, (b) symmetric (c) right skew."
+#| fig-subcap: 
+#|     - symmetric
+#|     - right skew
+# family_pdf("BCTo", mu=c(5), sigma=c(.18), nu=c(10), tau=c(10), from=2.5, to=7.5)+
+#  ggtitle("(a) left skew")+ ylim(c(0,1))+
+#  theme(axis.text.x = element_blank(), axis.text.y = element_blank(),
+#  text = element_text(size = 20))
+
+family_pdf("BCTo", mu=c(5), sigma=c(.1), nu=c(1), tau=c(10), from=2.5, to=7.5)+
+ ggtitle("(a) symmetric")+ylim(c(0,1))+
+ theme(axis.text.x = element_blank(), axis.text.y = element_blank(),
+ text = element_text(size = 20))
+# family_pdf("BCTo", mu=c(5), sigma=c(.1), nu=c(-3), tau=c(10), from=2.5, to=7.5)+
+#  ggtitle("(a) right skew")+ylim(c(0,1))+
+#  theme(axis.text.x = element_blank(), axis.text.y = element_blank(),
+#  text = element_text(size = 20))
+```
+
+## right skew
+
+```{r}
+#| echo: false 
+#| warning: false
+#| message: false
+#| label: fig-dist_skewness3
+#| fig-subcap: 
+#|     - right skew
+# family_pdf("BCTo", mu=c(5), sigma=c(.18), nu=c(10), tau=c(10), from=2.5, to=7.5)+
+#  ggtitle("(a) left skew")+ ylim(c(0,1))+
+#  theme(axis.text.x = element_blank(), axis.text.y = element_blank(),
+#  text = element_text(size = 20))
+
+# family_pdf("BCTo", mu=c(5), sigma=c(.1), nu=c(1), tau=c(10), from=2.5, to=7.5)+
+#  ggtitle("(a) symmetric")+ylim(c(0,1))+
+#  theme(axis.text.x = element_blank(), axis.text.y = element_blank(),
+ # text = element_text(size = 20))
+family_pdf("BCTo", mu=c(5), sigma=c(.1), nu=c(-3), tau=c(10), from=2.5, to=7.5)+
+ ggtitle("(a) right skew")+ylim(c(0,1))+
+ theme(axis.text.x = element_blank(), axis.text.y = element_blank(),
+ text = element_text(size = 20))
+```
+
+## platy
+
+```{r}
+#| echo: false 
+#| warning: false
+#| message: false
+#| label: fig-dist_kurtosis
+#| fig-cap: "Examples of kurtosis in distributions  (a) `platy` (thinner tail than the normal), (b) `messo` (tails like the normal) (c) `lepto` (fatter tails than the normal)."
+#| fig-subcap: 
+#|     - platy
+#|     - meso
+#|     - lepto 
+family_pdf("BCPE", mu=c(5), sigma=c(.15), nu=c(1), tau=c(3), from=2.5, to=7.5)+
+   ggtitle("(a) platy")+ ylim(c(0,0.8))+
+   theme(axis.text.x = element_blank(), axis.text.y = element_blank(),
+         text = element_text(size = 20))
+```
+
+## meso
+
+```{r}
+#| echo: false 
+#| warning: false
+#| message: false
+#| label: fig-dist_kurtosis2
+#| fig-subcap: 
+#|     - meso
+#|     - lepto 
+# family_pdf("BCPE", mu=c(5), sigma=c(.15), nu=c(1), tau=c(3), from=2.5, to=7.5)+
+#    ggtitle("(a) platy")+ ylim(c(0,0.8))+
+#    theme(axis.text.x = element_blank(), axis.text.y = element_blank(),
+#          text = element_text(size = 20))
+family_pdf("BCPE", mu=c(5), sigma=c(.1), nu=c(1), tau=c(2), from=2.5, to=7.5)+
+   ggtitle("(b) meso")+ ylim(c(0,0.8))+
+   theme(axis.text.x = element_blank(), axis.text.y = element_blank(),
+         text = element_text(size = 20))
+# family_pdf("BCTo", mu=c(5), sigma=c(.1), nu=c(1), tau=c(1.2), from=2.5, to=7.5)+
+#    ggtitle("(c) lepto")+ ylim(c(0,0.8))+
+#    theme(axis.text.x = element_blank(), axis.text.y = element_blank(),
+#          text = element_text(size = 20))
+```
+
+## lepto
+
+```{r}
+#| echo: false 
+#| warning: false
+#| message: false
+#| label: fig-dist_kurtosis3
+#| fig-subcap: 
+#|     - lepto 
+family_pdf("BCTo", mu=c(5), sigma=c(.1), nu=c(1), tau=c(1.2), from=2.5, to=7.5)+
+   ggtitle("(c) lepto")+ ylim(c(0,0.8))+
+   theme(axis.text.x = element_blank(), axis.text.y = element_blank(),
+         text = element_text(size = 20))
+```
+
+## momments based characteristics
+
+-   mean \begin{align*}
+    E(Y)= \begin{cases}
+    \int_{-\infty}^{\infty} y f(y)\, dy&\text{for continuous}\\
+    \sum_{y \epsilon R_Y} y\, P(Y=y) &\text{for discrete}
+    \end{cases}
+    \end{align*}
+
+-   variance
+
+-   coefficient of skewness
+
+-   (adjusted) coefficient for kurtosis
+
+::: aside
+Not always exist
+:::
+
+## mean
+
+```{r}
+#| echo: false 
+#| warning: false
+#| message: false
+#| label: fig-dist_mean
+#| fig-cap: "The mean is the point in which the distribution is balance."
+family_pdf("GA",mu=1, sigma=.8, from=0.001, to=5, title="")+
+ geom_point(aes(x=1,y=-.045),colour="red", size=10, pch=17) 
+```
+
+## centile based characteristics
+
+-   the median
+
+-   semi interquartile range
+
+-   centile skewness
+
+-   centile kurtosis
+
+::: aside
+Always exist
+:::
+
+## quantiles
+
+```{r}
+#| echo: false 
+#| warning: false
+#| message: false
+#| label: fig-dist_centiles
+#| fig-cap: "Showing how $Q1$, $m$ (median), $Q3$ and the interquartile range IR of a continuous distribution are derived from $f(y)$."
+q1 = qGA(0.25,mu=5,sigma=.6)
+y1 = dGA(q1,mu=5,sigma=.6)
+q2 = qGA(0.5,mu=5,sigma=.6)
+y2 = dGA(q2 ,mu=5,sigma=.6)
+q3 = qGA(0.75,mu=5,sigma=.6)
+y3 = dGA(q3,mu=5,sigma=.6)
+cord.x1 <- c(0,seq(0.001,q1,by=0.001),q1)
+cord.y1 <- c(0,dGA(seq(0.001,q1,by=0.001),mu=5,sigma=.6),0)
+cord.x2 <- c(0,seq(q3,20,by=0.001),q3)
+cord.y2 <- c(0,dGA(seq(q3,20,by=0.001),mu=5,sigma=.6),0)
+df1 <- data.frame(x=c(q1,q2,q3), y=rep(-0.008,3), family=c("Q1", "m", "Q3"))
+df2 <- data.frame(x=c(1.6, 3.5, 5.6,8), y=rep(0.03,4), 
+                  family=c("0.25", "0.25", "0.25", "0.25"))
+df3 <- data.frame(x=cord.x1, y=cord.y1)
+df4 <- data.frame(x=cord.x2, y=cord.y2)
+
+family_pdf("GA",mu=5, sigma=.6, from=0.001, to=20, title="") +
+  geom_segment(aes(x = q1, y = 0, xend = q1, yend = y1), col="black")+
+  geom_segment(aes(x = q2, y = 0, xend = q2, yend = y2), col= "black")+
+  geom_segment(aes(x = q3, y = 0, xend = q3, yend = y3), col= "black")+
+  geom_text(data = df1, aes(x=x, y=y, label=family))+
+  geom_text(data = df1, aes(x=x, y=y, label=family))+
+  geom_text(data = df2, aes(x=x, y=y, label=family))+
+  geom_segment(aes(x = q1, y = 0.07, xend = q3, yend = 0.07),
+                  arrow = arrow(length = unit(0.5, "cm")))+
+  geom_segment(aes(x = q3, y = 0.07, xend = q1, yend = 0.07),
+                  arrow = arrow(length = unit(0.5, "cm")))+
+  geom_text(aes(x=5, y=.08, label="IR"))+
+  geom_polygon(data=df3, aes(x=x, y=y), alpha=.3)+
+  geom_polygon(data=df4, aes(x=x, y=y), alpha=.3)
+```
+
+## The GAMLSS families
+
+-   over 100 **explicit** distributions
+
+-   **implicit** distributions
+
+    -   truncation
+    -   log distributions
+    -   logit distribution
+    -   inflated distributions
+    -   zero adjusted
+    -   generalised Tobit
+
+## book 2
+
+![book2](book-2.png){width="400"}
+
+# select distribution
+
+## Find a distribution {.scrollable}
+
+```{mermaid}
+%%| label: fig-responseType
+%%| fig-cap: "Type of distribution for the response."
+%%| fig-width: 10
+%%| fig-height: 6
+%%| fig-size: 10
+flowchart TB
+  A[responce] --> B(continuous) 
+  A --> C[discrete]
+  A --> D[factor]
+  B --> F[real line]
+  B --> G[pos. real line]
+  B --> H[0 to 1]
+  C --> J[infinite count]
+  C --> I[finite count]
+  D --> K[unordered]
+  D --> L[ordered]
+  I --> N[binary]
+  K --> N[binary]
+```
+
+## Summary {.scrollable}
+
+-   Select an appropriate class of distributions following the diagram above.
+-   Use the function `chooseDist()` to fit a "linear" models for both $\mu$ and $\sigma$
+-   Use GAIC to finds the best fit
+-   Use model diagnostics to ckeck the distribution
+
+## `chooseDist()`
+
+```{r}
+#| echo: true
+#| eval: false
+da <- rent99[, -c(2,9)]
+# fit a linear model with all variables above to both mu and sigma
+ m1 <- gamlss(rent~.,~., data=da, family=GA,trace=FALSE)
+ M1 <- chooseDist(m1, type="realplus", parallel="snow", ncpus=10)
+ getOrder(M1, column=1)
+```
+
+```{r}
+#| echo: true
+#| eval: false
+GAIG with k= 2 
+    BCTo    BCCGo       BCPEo         GG      GB2     BCCG         
+38434.95 38435.45    38436.65  38448.71 38470.43  38474.03 
+
+```
+
+## worm plot
+
+```{r}
+#| warning: false
+#| message: false
+da <- rent99[, -c(2,9)]
+m1 <- gamlss(rent~.,~., data=da, family=GA,trace=FALSE)
+m2 <- gamlss(rent~.,~., data=da, family=BCTo,trace=FALSE)
+```
+
+```{r}
+#| warning: false
+#| message: false
+#| label: fig-model_diag6
+#| fig-cap: "Residual diagnostic plots of models `m1` (gamma) and `m2` (BCTo)."
+#| fig-subcap: 
+#|     - worm plots 
+#|     - bucket plots 
+model_wp(m1, m2)
+```
+
+## bucket plot
+
+```{r}
+#| warning: false
+#| message: false
+#| label: fig-model_diag7
+#| fig-cap: "Residual diagnostic plots of models `m1` (gamma) and `m2` (BCTo)."
+#| fig-subcap: 
+#|     - bucket plots 
+moment_bucket(m1, m2)
+```
+
+## Summary
+
+```{mermaid}
+%%| label: fig-distributions
+%%| fig-cap: "Summary for finding an initial distribution."
+%%| fig-width: 10
+%%| fig-height: 6
+%%| fig-size: 10
+flowchart TB
+  A(responce) --> B[type] 
+  B --> C[initial fit]
+  C --> D[chooseDist]
+  D --> F{check}
+  F --> G[residual diagnostics]
+  F --> E[overfitting]
+  
+```
+
+## end
+
+::: {layout-ncol="3," layout-nrow="1"}
+![](book-1.png){width="300"} ![](book-2.png){width="323"} ![](book3.png){width="333"} The Books
+:::

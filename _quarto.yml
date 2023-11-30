@@ -9,7 +9,8 @@ website:
         text: Home
       - regression.qmd
       - data.qmd
-
+      - distributions.qmd
+      
 format:
   html:
     theme: mytheme.scss

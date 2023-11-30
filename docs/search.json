@@ -452,6 +452,195 @@
     "href": "data.html#end",
     "title": "Data",
     "section": "end",
-    "text": "end\n\n\n\n   The Books\n\n\n\nf\n\n\n\nwww.gamlss.com"
+    "text": "end\n\n\n\n   The Books\n\n\n\n[back](data.qmd)\n\n\n\nwww.gamlss.com"
+  },
+  {
+    "objectID": "distributions.html",
+    "href": "distributions.html",
+    "title": "Distributions",
+    "section": "",
+    "text": "Suitable distribution for the response variable.`\n\n\ndifferent types of distributions\nproperies of distributions\na procedure to find a good initial distribution for the response"
+  },
+  {
+    "objectID": "distributions.html#introduction",
+    "href": "distributions.html#introduction",
+    "title": "Distributions",
+    "section": "Introduction",
+    "text": "Introduction\nSuitable distribution for the response variable.`\n\n\ndifferent types of distributions\nproperies of distributions\na procedure to find a good initial distribution for the response"
+  },
+  {
+    "objectID": "distributions.html#types",
+    "href": "distributions.html#types",
+    "title": "Distributions",
+    "section": "Types",
+    "text": "Types\n\ncontinuous\n\n\\((-\\infty, \\infty)\\), real line;\n\\((0, \\infty)\\), positive real line;\n\\((0,1)\\) from 0 to 1\n\ndiscrete\n\n\\((0,1,\\dots, \\infty)\\)\n\\((0,1,\\dots, N)\\)\n\nmixed part continuous part discrete\n\n\\([0, \\infty)\\) zero adjusted\n\\([0, 1]\\) zero (and 1) inflated"
+  },
+  {
+    "objectID": "distributions.html#continuous",
+    "href": "distributions.html#continuous",
+    "title": "Distributions",
+    "section": "continuous",
+    "text": "continuous\n\n(a) continuous"
+  },
+  {
+    "objectID": "distributions.html#discrete",
+    "href": "distributions.html#discrete",
+    "title": "Distributions",
+    "section": "discrete",
+    "text": "discrete\n\n(a) discrete"
+  },
+  {
+    "objectID": "distributions.html#mixed",
+    "href": "distributions.html#mixed",
+    "title": "Distributions",
+    "section": "mixed",
+    "text": "mixed\n\n(a) mixed"
+  },
+  {
+    "objectID": "distributions.html#properties",
+    "href": "distributions.html#properties",
+    "title": "Distributions",
+    "section": "properties",
+    "text": "properties\n\\(f(y;{\\theta})\\)\n\n\\(\\int_{R_Y} f(y) \\; dy=1\\)\n\\(\\sum_{y\\in R_Y} f(y)=\\sum_{y \\in R_Y} P(Y=y)=1\\)\n\\(\\int_{R_{1}} f(y)\\, dy + \\sum_{y \\in R_{2}} f(y) = 1\\)."
+  },
+  {
+    "objectID": "distributions.html#parameters",
+    "href": "distributions.html#parameters",
+    "title": "Distributions",
+    "section": "parameters",
+    "text": "parameters\n\n\\(f(y;{\\theta})\\)\n\\({\\theta}= (\\theta_1, \\theta_2, \\ldots, \\theta_k)\\).\nlocation\nscale\nshape\n\nskewness\nkurtosis"
+  },
+  {
+    "objectID": "distributions.html#left-skew",
+    "href": "distributions.html#left-skew",
+    "title": "Distributions",
+    "section": "left skew",
+    "text": "left skew\n\n(a) left skew"
+  },
+  {
+    "objectID": "distributions.html#symmetric",
+    "href": "distributions.html#symmetric",
+    "title": "Distributions",
+    "section": "symmetric",
+    "text": "symmetric\n\n(a) symmetric"
+  },
+  {
+    "objectID": "distributions.html#right-skew",
+    "href": "distributions.html#right-skew",
+    "title": "Distributions",
+    "section": "right skew",
+    "text": "right skew\n\nFigure 6: right skew"
+  },
+  {
+    "objectID": "distributions.html#platy",
+    "href": "distributions.html#platy",
+    "title": "Distributions",
+    "section": "platy",
+    "text": "platy\n\n(a) platy"
+  },
+  {
+    "objectID": "distributions.html#meso",
+    "href": "distributions.html#meso",
+    "title": "Distributions",
+    "section": "meso",
+    "text": "meso\n\nFigure 8: meso"
+  },
+  {
+    "objectID": "distributions.html#lepto",
+    "href": "distributions.html#lepto",
+    "title": "Distributions",
+    "section": "lepto",
+    "text": "lepto\n\nFigure 9: lepto"
+  },
+  {
+    "objectID": "distributions.html#momments-based-characteristics",
+    "href": "distributions.html#momments-based-characteristics",
+    "title": "Distributions",
+    "section": "momments based characteristics",
+    "text": "momments based characteristics\n\nmean \\[\\begin{align*}\nE(Y)= \\begin{cases}\n\\int_{-\\infty}^{\\infty} y f(y)\\, dy&\\text{for continuous}\\\\\n\\sum_{y \\epsilon R_Y} y\\, P(Y=y) &\\text{for discrete}\n\\end{cases}\n\\end{align*}\\]\nvariance\ncoefficient of skewness\n(adjusted) coefficient for kurtosis\n\n\n\nNot always exist"
+  },
+  {
+    "objectID": "distributions.html#mean",
+    "href": "distributions.html#mean",
+    "title": "Distributions",
+    "section": "mean",
+    "text": "mean\n\nFigure 10: The mean is the point in which the distribution is balance."
+  },
+  {
+    "objectID": "distributions.html#centile-based-characteristics",
+    "href": "distributions.html#centile-based-characteristics",
+    "title": "Distributions",
+    "section": "centile based characteristics",
+    "text": "centile based characteristics\n\nthe median\nsemi interquartile range\ncentile skewness\ncentile kurtosis\n\n\n\nAlways exist"
+  },
+  {
+    "objectID": "distributions.html#quantiles",
+    "href": "distributions.html#quantiles",
+    "title": "Distributions",
+    "section": "quantiles",
+    "text": "quantiles\n\nFigure 11: Showing how \\(Q1\\), \\(m\\) (median), \\(Q3\\) and the interquartile range IR of a continuous distribution are derived from \\(f(y)\\)."
+  },
+  {
+    "objectID": "distributions.html#the-gamlss-families",
+    "href": "distributions.html#the-gamlss-families",
+    "title": "Distributions",
+    "section": "The GAMLSS families",
+    "text": "The GAMLSS families\n\nover 100 explicit distributions\nimplicit distributions\n\ntruncation\nlog distributions\nlogit distribution\ninflated distributions\nzero adjusted\ngeneralised Tobit"
+  },
+  {
+    "objectID": "distributions.html#book-2",
+    "href": "distributions.html#book-2",
+    "title": "Distributions",
+    "section": "book 2",
+    "text": "book 2\n\nbook2"
+  },
+  {
+    "objectID": "distributions.html#find-a-distribution",
+    "href": "distributions.html#find-a-distribution",
+    "title": "Distributions",
+    "section": "Find a distribution",
+    "text": "Find a distribution\n\n\n\n\n\nflowchart TB\n  A[responce] --&gt; B(continuous) \n  A --&gt; C[discrete]\n  A --&gt; D[factor]\n  B --&gt; F[real line]\n  B --&gt; G[pos. real line]\n  B --&gt; H[0 to 1]\n  C --&gt; J[infinite count]\n  C --&gt; I[finite count]\n  D --&gt; K[unordered]\n  D --&gt; L[ordered]\n  I --&gt; N[binary]\n  K --&gt; N[binary]\n\n\nFigure 12: Type of distribution for the response."
+  },
+  {
+    "objectID": "distributions.html#summary",
+    "href": "distributions.html#summary",
+    "title": "Distributions",
+    "section": "Summary",
+    "text": "Summary\n\nSelect an appropriate class of distributions following the diagram above.\nUse the function chooseDist() to fit a “linear” models for both \\(\\mu\\) and \\(\\sigma\\)\nUse GAIC to finds the best fit\nUse model diagnostics to ckeck the distribution"
+  },
+  {
+    "objectID": "distributions.html#choosedist",
+    "href": "distributions.html#choosedist",
+    "title": "Distributions",
+    "section": "chooseDist()",
+    "text": "chooseDist()\n\nda &lt;- rent99[, -c(2,9)]\n# fit a linear model with all variables above to both mu and sigma\n m1 &lt;- gamlss(rent~.,~., data=da, family=GA,trace=FALSE)\n M1 &lt;- chooseDist(m1, type=\"realplus\", parallel=\"snow\", ncpus=10)\n getOrder(M1, column=1)\n\n\nGAIG with k= 2 \n    BCTo    BCCGo       BCPEo         GG      GB2     BCCG         \n38434.95 38435.45    38436.65  38448.71 38470.43  38474.03"
+  },
+  {
+    "objectID": "distributions.html#worm-plot",
+    "href": "distributions.html#worm-plot",
+    "title": "Distributions",
+    "section": "worm plot",
+    "text": "worm plot\n\n(a) worm plots"
+  },
+  {
+    "objectID": "distributions.html#bucket-plot",
+    "href": "distributions.html#bucket-plot",
+    "title": "Distributions",
+    "section": "bucket plot",
+    "text": "bucket plot\n\n(a) bucket plots"
+  },
+  {
+    "objectID": "distributions.html#summary-1",
+    "href": "distributions.html#summary-1",
+    "title": "Distributions",
+    "section": "Summary",
+    "text": "Summary\n\n\n\n\n\nflowchart TB\n  A(responce) --&gt; B[type] \n  B --&gt; C[initial fit]\n  C --&gt; D[chooseDist]\n  D --&gt; F{check}\n  F --&gt; G[residual diagnostics]\n  F --&gt; E[overfitting]\n  \n\n\nFigure 15: Summary for finding an initial distribution."
+  },
+  {
+    "objectID": "distributions.html#end",
+    "href": "distributions.html#end",
+    "title": "Distributions",
+    "section": "end",
+    "text": "end\n\n\n\n   The Books\n\n\n\n\n\n\nwww.gamlss.com"
   }
 ]
