@@ -420,7 +420,10 @@ Implicit assumptions are more difficult to check
 
 ## end
 
+ [bact to the index](https://mstasinopoulos.github.io/ShortCourse/)
  
 ::: {layout-ncol="3," layout-nrow="1"}
-![](book-1.png){width="300"} ![](book-2.png){width="323"} ![](book3.png){width="333"} The Books
+![](book-1.png){width="300"} 
+![](book-2.png){width="323"} 
+![](book3.png){width="333"} The Books
 :::
