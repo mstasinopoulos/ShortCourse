@@ -459,7 +459,7 @@ flowchart LR
  
  
 ::: {layout-ncol="3," layout-nrow="1"}
-![](book-1.png){width="300"} ![](book-2.png){width="323"} ![](book3.png){width="333"} The Books
+![](book-1.png){width="300"} ![](BOOK-2.png){width="323"} ![](book3.png){width="333"} The Books
 :::
 
 \[back\](data.qmd)
