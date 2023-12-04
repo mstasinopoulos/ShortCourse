@@ -4,7 +4,7 @@
     "href": "index.html",
     "title": "GAMLSS short course slides",
     "section": "",
-    "text": "This website contains slides from the short course on GAMLSS given in November 2023 at the Universidade Federal de Pernambuco, Recife, Pernambuco - Brasil as part of the Workshop on Applied Statistics and Stochastic Possesses, WASPP 2023. https://www.pgest-ufpe.org/wassp.\n\nregression\ndata\nditsributions\nfitting"
+    "text": "This website contains slides from the short course on GAMLSS given in November 2023 at the Universidade Federal de Pernambuco, Recife, Pernambuco - Brasil as part of the Workshop on Applied Statistics and Stochastic Possesses, WASPP 2023. https://www.pgest-ufpe.org/wassp.\n\nregression\ndata\ndistributions\nfitting\ncomparison\nselection"
   },
   {
     "objectID": "regression.html",
@@ -845,5 +845,467 @@
     "title": "Fitting",
     "section": "Principal Component Regression",
     "text": "Principal Component Regression\n\nGAMLSS-RS iteration 1: Global Deviance = 38458.91 \nGAMLSS-RS iteration 2: Global Deviance = 38404.13 \nGAMLSS-RS iteration 3: Global Deviance = 38405.09 \nGAMLSS-RS iteration 4: Global Deviance = 38404.56 \nGAMLSS-RS iteration 5: Global Deviance = 38404.43 \nGAMLSS-RS iteration 6: Global Deviance = 38404.38 \nGAMLSS-RS iteration 7: Global Deviance = 38404.37 \nGAMLSS-RS iteration 8: Global Deviance = 38404.36 \nGAMLSS-RS iteration 9: Global Deviance = 38404.36 \nGAMLSS-RS iteration 10: Global Deviance = 38404.36 \n\nGAIC(mLM, mAM, mRT, mNN,  mLASSO, mPCR)\n\n             df      AIC\nmAM    29.78058 38198.79\nmNN    78.00000 38209.78\nmLM    19.00000 38292.51\nmLASSO 22.00000 38309.11\nmPCR   15.00000 38434.36\nmRT    22.00000 38711.66"
+  },
+  {
+    "objectID": "select.html",
+    "href": "select.html",
+    "title": "Fitting",
+    "section": "",
+    "text": "the basic GAMLSS algorithm\ndifferent statistical approaches for fitting a GAMLSS model\ndifferent machine learning techniques for fitting a GAMLSS model."
+  },
+  {
+    "objectID": "select.html#introduction",
+    "href": "select.html#introduction",
+    "title": "Fitting",
+    "section": "",
+    "text": "the basic GAMLSS algorithm\ndifferent statistical approaches for fitting a GAMLSS model\ndifferent machine learning techniques for fitting a GAMLSS model."
+  },
+  {
+    "objectID": "select.html#selection",
+    "href": "select.html#selection",
+    "title": "Selection",
+    "section": "Selection",
+    "text": "Selection\n\n\n\n\n\nflowchart TB\n  A[Models] --&gt; B(automatic \\n selection) \n  A --&gt; C(declared\\n selection)\n  B --&gt; G[automatic \\n interaction]\n  B --&gt; H[set up \\n interaction]\n  G --&gt; D(NN, RT)\n  H --&gt; E(LASSO, \\n Ridge, \\n Elastic Net, \\n PCR )\n  S --&gt; M[step-wise]\n  S --&gt; N[boost]\n  C --&gt; S(LM, AM )\n\n\nFigure 1: Different methods of selecting features."
+  },
+  {
+    "objectID": "select.html#stepwise-selection",
+    "href": "select.html#stepwise-selection",
+    "title": "Selection",
+    "section": "Stepwise Selection",
+    "text": "Stepwise Selection\n\ncurrent model\nlower model\n\nwhich could be the Null model\n\nupper model\n\nwhich could be the saturated model"
+  },
+  {
+    "objectID": "select.html#stepwise-selection-continue",
+    "href": "select.html#stepwise-selection-continue",
+    "title": "Selection",
+    "section": "Stepwise Selection (continue)",
+    "text": "Stepwise Selection (continue)\n\n\nTable 1: A general algorithmic stepwise GAIC procedure for GAMLSS.\n\n\n\n\n\n\n\n\n\n\n\n\n\nsteps\nLower\nDirection\nCurrent\nDirection\nUpper\nCreates\nGiven\n\n\n\n\n\n1 (\\(\\mu\\))\n\\(L_{\\mu}\\)\n\\(\\leftarrow\\)\n\\(C_{\\mu}\\)\n\\(\\rightarrow\\)\n\\(U_{\\mu}\\)\n\\(F_{\\mu}^{(1)}\\)\n\\(C_{\\sigma}, C_{\\nu}, C_{\\tau}\\)\n\n\n\n2 (\\(\\sigma\\))\n\\(L_{\\sigma}\\)\n\\(\\leftarrow\\)\n\\(C_{\\sigma}\\)\n\\(\\rightarrow\\)\n\\(U_{\\sigma}\\)\n\\(F_{\\sigma}^{(2)}\\)\n\\(F_{\\mu}^{(1)}, C_{\\nu}, C_{\\tau}\\)\n\n\n\n3 (\\(\\nu\\))\n\\(L_{\\nu}\\)\n\\(\\leftarrow\\)\n\\(C_{\\nu}\\)\n\\(\\rightarrow\\)\n\\(U_{\\nu}\\)\n\\(F_{\\nu}^{(3)}\\)\n\\(F_{\\mu}^{(1)},F_{\\sigma}^{(2)}, C_{\\tau}\\)\n\n\n\n4 (\\(\\tau\\))\n\\(L_{\\tau}\\)\n\\(\\leftarrow\\)\n\\(C_{\\tau}\\)\n\\(\\rightarrow\\)\n\\(U_{\\tau}\\)\n\\(F_{\\tau}^{(4)}\\)\n\\(F_{\\mu}^{(1)}, F_{\\sigma}^{(2)}, F_{\\nu}^{(3)}\\)\n\n\n\n5 (\\(\\nu\\))\n\\(L_{\\nu}\\)\n\\(\\leftarrow\\)\n\\(F_{\\nu}^{(3)}\\)\n\\(\\rightarrow\\)\n\\(U_{\\nu}\\)\n\\(F_{\\nu}^{(5)}\\)\n\\(F_{\\mu}^{(1)}, F_{\\sigma}^{(2)}, F_{\\tau}^{(4)}\\)\n\n\n\n6 (\\(\\sigma\\))\n\\(L_{\\sigma}\\)\n\\(\\leftarrow\\)\n\\(F_{\\sigma}^{(2)}\\)\n\\(\\rightarrow\\)\n\\(U_{\\sigma}\\)\n\\(F_{\\sigma}^{(6)}\\)\n\\(F_{\\mu}^{(1)}, F_{\\nu}^{(5)}, F_{\\tau}^{(4)}\\)\n\n\n\n7 (\\(\\mu\\))\n\\(L_{\\mu}\\)\n\\(\\leftarrow\\)\n\\(F_{\\mu}^{(1)}\\)\n\\(\\rightarrow\\)\n\\(U_{\\mu}\\)\n\\(F_{\\mu}^{(7)}\\)\n\\(F_{\\sigma}^{(6)}, F_{\\nu}^{(5)}, F_{\\tau}^{(4)}\\)"
+  },
+  {
+    "objectID": "select.html#stepwise-selection-continue-1",
+    "href": "select.html#stepwise-selection-continue-1",
+    "title": "Selection",
+    "section": "Stepwise Selection (continue)",
+    "text": "Stepwise Selection (continue)\n\n m1 &lt;- gamlss(rent~area+yearc+location+bath+kitchen+cheating,~area+yearc+location+ bath + kitchen+cheating,\n~area+yearc+location + bath + kitchen+cheating,\n~area+yearc+location + bath + kitchen+cheating,\n              family=BCTo,  data=da, trace=TRUE, n.cyc=20,\n              c.crit=0.01)\nmfA &lt;- stepGAICAll.A(m1, scope=list(lower=~1,\n  upper = ~poly(area,3)+poly(yearc,3)+\n    (area+yearc+location+bath+kitchen + cheating)^2),\n  trace=FALSE, parallel=\"snow\", ncpus=10, k=log(3032),\n         direction=rep(\"both\",7) )"
+  },
+  {
+    "objectID": "select.html#model-lm",
+    "href": "select.html#model-lm",
+    "title": "Selection",
+    "section": "model, LM",
+    "text": "model, LM\n\\[\n          \\begin{split}\n        \\texttt{mfA:} \\qquad &\\texttt{rent} \\sim \\text{BCTo}(\\mu, \\sigma, \\nu, \\tau ) \\\\\n        &\\mu  \\sim \\texttt{poly(area,3)}+ \\texttt{poly(yearc,3)} \\\\\n        & \\qquad  +\\texttt{location}+ \\texttt{bath}+\\texttt{cheating}+ \\texttt{bath}\\\\\n        \\log\\,&\\sigma  \\sim \\texttt{yearc}+\\texttt{kitchen}+\\texttt{yearc*kitchen}+\\\\\n         & \\qquad  +\\texttt{poly(yeatc,3)} \\\\\n        & \\nu \\sim  \\texttt{yearc} + \\texttt{kitchen} \\\\\n        \\log\\,&\\tau  \\sim \\texttt{yearc} + \\texttt{cheating}. \\\\\n        \\end{split}\n\\]"
+  },
+  {
+    "objectID": "select.html#model-add.-sm.",
+    "href": "select.html#model-add.-sm.",
+    "title": "Selection",
+    "section": "model, add. sm.",
+    "text": "model, add. sm.\n\\[\n        \\begin{split}\n        \\texttt{mfA1:} \\qquad &\\texttt{rent} \\sim \\text{BCTo}(\\mu, \\sigma, \\nu, \\tau ) \\\\\n        &\\mu  \\sim \\texttt{pb(area)}+ \\texttt{pb(yearc)} \\\\\n        & \\qquad  +\\texttt{location}+ \\texttt{bath}+\\texttt{cheating}+ \\texttt{bath}\\\\\n        \\log\\,&\\sigma  \\sim \\texttt{yearc}+\\texttt{kitchen}+\\texttt{yearc*kitchen}+\\\\\n         & \\qquad  +\\texttt{pb(yeatc)} \\\\\n        & \\nu \\sim  \\texttt{yearc} + \\texttt{kitchen} \\\\\n        \\log\\,&\\tau  \\sim \\texttt{yearc} + \\texttt{cheating}. \\\\\n        \\end{split}\n\\]"
+  },
+  {
+    "objectID": "select.html#sec-Boosting",
+    "href": "select.html#sec-Boosting",
+    "title": "Selection",
+    "section": "Boosting",
+    "text": "Boosting\n\nlibrary(gamboostLSS)\nmfboost  &lt;- gamboostLSS(list(\n   mu = rent ~ bbs(area)+bbs(yearc)+\n  (area+yearc+location+kitchen+bath+cheating),\nsigma = rent ~ bbs(area)+bbs(yearc)+\n  (area+yearc+location+kitchen+bath+cheating),\n   nu = rent ~ bbs(area)+bbs(yearc)+\n  (area+yearc+location+kitchen+bath+cheating),\n  tau = rent ~ bbs(area)+bbs(yearc)+\n  (area+yearc+location+kitchen+bath+cheating)),\n        data = da, families = as.families(\"BCTo\"),\n        control=boost_control(mstop=1000, center=TRUE),\n                                  method = \"noncyclic\")"
+  },
+  {
+    "objectID": "select.html#boosting-continuous",
+    "href": "select.html#boosting-continuous",
+    "title": "Selection",
+    "section": "Boosting (continuous)",
+    "text": "Boosting (continuous)\n\ncvr &lt;- cvrisk(mfboost)\n\nStarting cross-validation...\n\nmstop(cvr)\n\n[1] 998\n\nmstop(mfboost) &lt;- mstop(cvr)"
+  },
+  {
+    "objectID": "select.html#model",
+    "href": "select.html#model",
+    "title": "Selection",
+    "section": "model",
+    "text": "model\n\\[\n\\begin{split}\n\\texttt{mfboost:} \\qquad &\\texttt{rent} \\sim \\text{BCTo}(\\mu, \\sigma, \\nu, \\tau ) \\\\\n  &\\mu  \\sim s(\\texttt{area})+ s(\\texttt{yearc})  +\\texttt{location}  \\\\\n  & \\qquad  +\\texttt{bath}+\\texttt{kitchen}+\\texttt{cheating}\\\\\n\\log\\,&\\sigma  \\sim s(\\texttt{area})+s(\\texttt{yearc})+\\texttt{location}\\\\\n  & \\qquad  +\\texttt{bath}+ \\texttt{cheating} \\\\        \n  & \\nu \\sim  s(\\texttt{area})+ s(\\texttt{yearc}) +\\texttt{location}  \\\\\n   & \\qquad  +\\texttt{kitchen}+ \\texttt{cheating} \\\\\n\\log\\,&\\tau  \\sim  s(\\texttt{yearc}). \\\\\n          \\end{split}\n          \\]"
+  },
+  {
+    "objectID": "select.html#lasso",
+    "href": "select.html#lasso",
+    "title": "Fitting",
+    "section": "LASSO",
+    "text": "LASSO\n\nlibrary(gamlss.lasso)\nsource(\"~/Dropbox/github/gamlss-ggplots/R/data_stand.R\")\nda10 &lt;- data_scale(da, response=rent)\nda1 &lt;- data_form2df(da10,  response=rent, type=\"main.effect\", \n                   nonlinear=\"TRUE\", arg=3)\nmLASSO &lt;- gamlss(rent~gnet(x.vars=names(da1)[-c(1)],\n                    method = \"IC\", ICpen=\"BIC\"),\n                     ~gnet(x.vars=names(da1)[-c(1)],\n                     method = \"IC\", ICpen=\"BIC\"),\n                 data=da1, family=BCTo, bf.cyc=1, \n                c.crit=0.1, trace=FALSE)\nAIC(mLM, mAM, mRT, mNN,  mLASSO)\n\n             df      AIC\nmAM    29.78058 38198.79\nmNN    78.00000 38209.78\nmLM    19.00000 38292.51\nmLASSO 22.00000 38309.11\nmRT    22.00000 38711.66"
+  },
+  {
+    "objectID": "select.html#model-1",
+    "href": "select.html#model-1",
+    "title": "Selection",
+    "section": "model",
+    "text": "model\n\\[\n\\begin{split}\n\\texttt{mfLASSO:} \\qquad &\\texttt{rent} \\sim \\text{BCTo}(\\mu, \\sigma, \\nu, \\tau ) \\\\\n  &\\mu  \\sim poly(\\texttt{area},2)+ \\texttt{yearc}+\\texttt{cheating}  \\\\\n  & \\qquad  +\\texttt{area:location}+\\texttt{area:kitchen}+\\texttt{year}^2:\\texttt{bath}\\\\\n   & \\qquad  +\\texttt{year}^2:\\texttt{cheating}+\\texttt{location:kitchen}\\\\\n\\log\\,&\\sigma  \\sim \\texttt{area}^3+\\texttt{yearc}^3+\\texttt{location}\\\\\n  & \\qquad  +\\texttt{cheating}+ \\texttt{area:location}+ \\texttt{area:cheating} \\\\     \n  & \\qquad  +\\texttt{area}^2:\\texttt{year}^2+ \\texttt{year:cheating}+ \\texttt{location:bath} \\\\\n  & \\nu \\sim  1 \\\\\n\\log\\,&\\tau  \\sim 1. \\\\\n          \\end{split}\n          \\]"
+  },
+  {
+    "objectID": "select.html#pcr",
+    "href": "select.html#pcr",
+    "title": "Selection",
+    "section": "PCR",
+    "text": "PCR\n\nsource(\"~/Dropbox/GAMLSS-development/PCR/GAMLSS-pcr.R\")\nsource(\"~/Dropbox/GAMLSS-development/PCR/fitPCR.R\")\nX = formula2X(formula=rent~poly(area,2)+poly(yearc,2)+(area+yearc+location+bath+kitchen+cheating)^2,data=da)\nmfPCR &lt;- gamlss(rent~pcr(x=X),\n                     ~pcr(x=X),\n                     ~pcr(x=X),\n                     ~pcr(x=X),\n      data=da, family=BCTo, bf.cyc=1, c.crit=0.1, n.cyc=100,\n                  trace=TRUE)"
+  },
+  {
+    "objectID": "select.html#model-2",
+    "href": "select.html#model-2",
+    "title": "Selection",
+    "section": "model",
+    "text": "model\n\\[\n\\begin{split}\n\\texttt{mfPCR:} \\qquad &\\texttt{rent} \\sim \\text{BCTo}(\\mu, \\sigma, \\nu, \\tau ) \\\\\n  & \\boldsymbol{\\mu}  = \\textbf{T}_{\\mu, 17} \\boldsymbol{\\gamma}_{\\mu}  \\\\\n\\log\\,&\\boldsymbol{\\sigma}  \\sim  \\textbf{T}_{\\sigma, 6} \\boldsymbol{\\gamma}_{\\sigma}  \\\\\n  & \\nu \\sim \\textbf{T}_{\\nu, 6} \\boldsymbol{\\gamma}_{\\nu}  \\\\\n\\log\\,&\\tau  \\sim \\textbf{T}_{\\tau, 1} \\boldsymbol{\\gamma}_{\\tau}  \\\\\n          \\end{split}\n          \\]"
+  },
+  {
+    "objectID": "select.html#neural-network",
+    "href": "select.html#neural-network",
+    "title": "Selection",
+    "section": "Neural Network",
+    "text": "Neural Network\n\nsource(\"~/Dropbox/github/gamlss-ggplots/R/data_stand.R\")\nda01 &lt;- data_scale(da, response=rent, scale = \"0to1\" )\nlibrary(gamlss.add)\nset.seed(213)\nmfNN &lt;- gamlss(rent~nn(~area+yearc+location+bath+kitchen+\n                         cheating, size=5),\n      ~nn(~area+yearc+location+bath+kitchen+cheating), \n      ~nn(~area+yearc+location+bath+kitchen+cheating), \n      ~nn(~area+yearc+location+bath+kitchen+cheating), \n              family=BCTo, data=da01)"
+  },
+  {
+    "objectID": "select.html#model-3",
+    "href": "select.html#model-3",
+    "title": "Selection",
+    "section": "Model",
+    "text": "Model\n\\[\n\\begin{split}\n\\texttt{mfNN:} \\qquad &\\texttt{rent} \\sim \\text{BCTo}(\\mu, \\sigma, \\nu, \\tau ) \\\\\n  & \\boldsymbol{\\mu}  = NN_{\\mu}(\\textbf{X}) \\\\\n\\log\\,&\\boldsymbol{\\sigma}  \\sim  NN_{\\sigma}(\\textbf{X}) \\\\\n  & \\nu \\sim NN_{\\nu}(\\textbf{X})  \\\\\n\\log\\,&\\tau  \\sim NN_{\\tau}(\\textbf{X}) \\\\\n\\end{split}\n\\]"
+  },
+  {
+    "objectID": "select.html#end",
+    "href": "select.html#end",
+    "title": "Fitting",
+    "section": "end",
+    "text": "end"
+  },
+  {
+    "objectID": "select.html#properties",
+    "href": "select.html#properties",
+    "title": "Fitting",
+    "section": "properties",
+    "text": "properties\n\nare the standard errors available?\ndo the x’s need standardization.\nabout the algorithm\n - stability\n - speed \n - convergence    \nnonlinear terms\ninteractions\ndataset type\nis the selection of x’s automatic?\ninterpretation"
+  },
+  {
+    "objectID": "select.html#linear-models",
+    "href": "select.html#linear-models",
+    "title": "Fitting",
+    "section": "Linear Models",
+    "text": "Linear Models\n\nmLM &lt;- gamlss(rent~area+poly(yearc,2)+location+bath+kitchen+\n              cheating,\n              ~area+yearc+location+bath+kitchen+cheating, \n              family=BCTo, trace=FALSE, data=da)\nsummary(mLM)\n\n******************************************************************\nFamily:  c(\"BCTo\", \"Box-Cox-t-orig.\") \n\nCall:  gamlss(formula = rent ~ area + poly(yearc, 2) + location +  \n    bath + kitchen + cheating, sigma.formula = ~area +  \n    yearc + location + bath + kitchen + cheating, family = BCTo,  \n    data = da, trace = FALSE) \n\nFitting method: RS() \n\n------------------------------------------------------------------\nMu link function:  log\nMu Coefficients:\n                 Estimate Std. Error t value Pr(&gt;|t|)    \n(Intercept)     5.0138582  0.0277852 180.451  &lt; 2e-16 ***\narea            0.0106311  0.0002331  45.613  &lt; 2e-16 ***\npoly(yearc, 2)1 5.0382576  0.3360044  14.995  &lt; 2e-16 ***\npoly(yearc, 2)2 3.3475762  0.2737237  12.230  &lt; 2e-16 ***\nlocation2       0.0875504  0.0102485   8.543  &lt; 2e-16 ***\nlocation3       0.1967006  0.0385032   5.109 3.44e-07 ***\nbath1           0.0415393  0.0219353   1.894   0.0584 .  \nkitchen1        0.1120385  0.0243199   4.607 4.25e-06 ***\ncheating1       0.3297044  0.0243422  13.545  &lt; 2e-16 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\n------------------------------------------------------------------\nSigma link function:  log\nSigma Coefficients:\n              Estimate Std. Error t value Pr(&gt;|t|)    \n(Intercept) 10.4022601  0.7528378  13.817  &lt; 2e-16 ***\narea         0.0012116  0.0006135   1.975   0.0484 *  \nyearc       -0.0059332  0.0003864 -15.356  &lt; 2e-16 ***\nlocation2    0.0595118  0.0254048   2.343   0.0192 *  \nlocation3    0.2191754  0.0930995   2.354   0.0186 *  \nbath1        0.0058254  0.0087229   0.668   0.5043    \nkitchen1     0.0400246  0.0882200   0.454   0.6501    \ncheating1   -0.2453139  0.0487224  -5.035 5.06e-07 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\n------------------------------------------------------------------\nNu link function:  identity \nNu Coefficients:\n            Estimate Std. Error t value Pr(&gt;|t|)    \n(Intercept)  0.65631    0.05598   11.72   &lt;2e-16 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\n------------------------------------------------------------------\nTau link function:  log \nTau Coefficients:\n            Estimate Std. Error t value Pr(&gt;|t|)    \n(Intercept)   3.2918     0.4411   7.463 1.09e-13 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\n------------------------------------------------------------------\nNo. of observations in the fit:  3082 \nDegrees of Freedom for the fit:  19\n      Residual Deg. of Freedom:  3063 \n                      at cycle:  10 \n \nGlobal Deviance:     38254.51 \n            AIC:     38292.51 \n            SBC:     38407.14 \n******************************************************************"
+  },
+  {
+    "objectID": "select.html#additive-models",
+    "href": "select.html#additive-models",
+    "title": "Fitting",
+    "section": "Additive Models",
+    "text": "Additive Models\n\nmAM &lt;- gamlss(rent~pb(area)+pb(yearc)+location+bath+kitchen+\n                cheating,\n      ~pb(area)+pb(yearc)+location+bath+kitchen+cheating, \n              family=BCTo, data=da, trace=F)\nAIC(mLM, mAM)\n\n          df      AIC\nmAM 29.78058 38198.79\nmLM 19.00000 38292.51"
+  },
+  {
+    "objectID": "select.html#additive-models-continue",
+    "href": "select.html#additive-models-continue",
+    "title": "Fitting",
+    "section": "Additive Models (continue)",
+    "text": "Additive Models (continue)\n\n\n\n\n\nFigure 1: pdf-plot of the fitted am1 mu model"
+  },
+  {
+    "objectID": "select.html#additive-models-continue-1",
+    "href": "select.html#additive-models-continue-1",
+    "title": "Fitting",
+    "section": "Additive Models (continue)",
+    "text": "Additive Models (continue)\n\n\n\n\n\nFigure 2: pdf-plot of the fitted am1 sigma model"
+  },
+  {
+    "objectID": "select.html#sec-RegressionTrees",
+    "href": "select.html#sec-RegressionTrees",
+    "title": "Fitting",
+    "section": "Regression Trees",
+    "text": "Regression Trees\n\nlibrary(gamlss.add)\nmRT &lt;- gamlss(rent~tr(~area+yearc+location+bath+kitchen+cheating),~tr(~area+yearc+location+bath+kitchen+cheating), \n              family=BCTo, data=da, trace=FALSE)\nAIC(mLM, mAM, mRT)\n\n          df      AIC\nmAM 29.78058 38198.79\nmLM 19.00000 38292.51\nmRT 22.00000 38711.66"
+  },
+  {
+    "objectID": "select.html#regression-trees-continue",
+    "href": "select.html#regression-trees-continue",
+    "title": "Fitting",
+    "section": "Regression Trees (continue)",
+    "text": "Regression Trees (continue)\n\n\n\n\n\nFigure 3: The fitted tree for mu model"
+  },
+  {
+    "objectID": "select.html#regression-trees-continue-1",
+    "href": "select.html#regression-trees-continue-1",
+    "title": "Fitting",
+    "section": "Regression Trees (continue)",
+    "text": "Regression Trees (continue)\n\n\n\n\n\nFigure 4: The fitted tree for mu model"
+  },
+  {
+    "objectID": "select.html#neural-networks",
+    "href": "select.html#neural-networks",
+    "title": "Fitting",
+    "section": "Neural Networks",
+    "text": "Neural Networks\n\n source(\"~/Dropbox/github/gamlss-ggplots/R/data_stand.R\")\nda01 &lt;- data_scale(da, response=rent, scale = \"0to1\" )\nlibrary(gamlss.add)\nset.seed(213)\nmNN &lt;- gamlss(rent~nn(~area+yearc+location+bath+kitchen+\n                         cheating, size=5),\n                  ~nn(~area+yearc+location+bath+kitchen+cheating), \n              family=BCTo, data=da01)\n\nGAMLSS-RS iteration 1: Global Deviance = 38089.89 \nGAMLSS-RS iteration 2: Global Deviance = 38054.95 \nGAMLSS-RS iteration 3: Global Deviance = 38054.1 \nGAMLSS-RS iteration 4: Global Deviance = 38053.9 \nGAMLSS-RS iteration 5: Global Deviance = 38053.84 \nGAMLSS-RS iteration 6: Global Deviance = 38053.79 \nGAMLSS-RS iteration 7: Global Deviance = 38053.78 \nGAMLSS-RS iteration 8: Global Deviance = 38053.78 \nGAMLSS-RS iteration 9: Global Deviance = 38053.78 \n\nAIC(mLM, mAM, mRT, mNN)\n\n          df      AIC\nmAM 29.78058 38198.79\nmNN 78.00000 38209.78\nmLM 19.00000 38292.51\nmRT 22.00000 38711.66"
+  },
+  {
+    "objectID": "select.html#neural-networks-continue",
+    "href": "select.html#neural-networks-continue",
+    "title": "Fitting",
+    "section": "Neural Networks (continue)",
+    "text": "Neural Networks (continue)\n\n\n\n\n\nFigure 5: The fitted neural network model fot mu."
+  },
+  {
+    "objectID": "select.html#neural-networks-1",
+    "href": "select.html#neural-networks-1",
+    "title": "Fitting",
+    "section": "Neural Networks",
+    "text": "Neural Networks\n\n\n\n\n\nFigure 6: The fitted neural network model fot sigma."
+  },
+  {
+    "objectID": "select.html#lasso-continue",
+    "href": "select.html#lasso-continue",
+    "title": "Fitting",
+    "section": "LASSO (continue)",
+    "text": "LASSO (continue)\n\nsource(\"~/Dropbox/GAMLSS-development/glmnet/sumplementary_functions_for_gnet.R\")\ngnet_terms(mLASSO)\n\n      area1       area2       area3      yearc1      yearc2      yearc3 \n13.72498782 -1.85175963  0.09162263  4.97838839  3.71690657 -0.18975745 \n  location2   location3   cheating1 \n 0.01331635  0.05631020  0.27463624 \n\ngnet_terms(mLASSO, \"sigma\")\n\n     area1      area2      area3     yearc1     yearc3  location2  location3 \n 2.2850872 -0.5173168  1.6240863 -7.7665983  3.2776033  0.0673355  0.3178812 \n  kitchen1  cheating1 \n 0.1209266 -0.1497227"
+  },
+  {
+    "objectID": "select.html#principal-component-regression",
+    "href": "select.html#principal-component-regression",
+    "title": "Fitting",
+    "section": "Principal Component Regression",
+    "text": "Principal Component Regression\n\nlibrary(gamlss.foreach)\nregisterDoParallel(cores = 10)\nsource(\"~/Dropbox/github/gamlss-ggplots/R/data_stand.R\")\nsource(\"~/Dropbox/GAMLSS-development/PCR/GAMLSS-pc.R\")\nX = formula2X(rent~area+yearc+location+bath+kitchen+\n              cheating, data=da)\nmPCR &lt;- gamlss(rent~pc(x=X),~pc(x=X),\n    data=da1, family=BCTo, bf.cyc=1, trace=TRUE)\n\nGAMLSS-RS iteration 1: Global Deviance = 38458.91 \nGAMLSS-RS iteration 2: Global Deviance = 38404.13 \nGAMLSS-RS iteration 3: Global Deviance = 38405.09 \nGAMLSS-RS iteration 4: Global Deviance = 38404.56 \nGAMLSS-RS iteration 5: Global Deviance = 38404.43 \nGAMLSS-RS iteration 6: Global Deviance = 38404.38 \nGAMLSS-RS iteration 7: Global Deviance = 38404.37 \nGAMLSS-RS iteration 8: Global Deviance = 38404.36 \nGAMLSS-RS iteration 9: Global Deviance = 38404.36 \nGAMLSS-RS iteration 10: Global Deviance = 38404.36 \n\nGAIC(mLM, mAM, mRT, mNN,  mLASSO, mPCR)\n\n             df      AIC\nmAM    29.78058 38198.79\nmNN    78.00000 38209.78\nmLM    19.00000 38292.51\nmLASSO 22.00000 38309.11\nmPCR   15.00000 38434.36\nmRT    22.00000 38711.66"
+  },
+  {
+    "objectID": "select.html#summary",
+    "href": "select.html#summary",
+    "title": "Fitting",
+    "section": "summary",
+    "text": "summary\n\n\nTable 1: Summary of properties of the machine learning algorithms\n\n\n\n\n\n\n\n\n\n\n\n\n\nML Models\ncoef. s.e.\nstand. of x’s\nalgo. stab., speed, conv.\nnon-linear terms\ninter- actions\ndata type\nauto sele-ction\ninterpre- tation\n\n\n\n\nlinear\nyes\nno\nyes, fast, v.good\npoly\ndeclare\n\\(n&gt;r\\)\nno\nv. easy\n\n\nadditive\nno\nno\nyes, slow, good\nsmooth\ndeclare\n\\(n&gt;r\\)\nno\neasy\n\n\nRT\nno\nno\nno, slow, bad\ntrees\nauto\n\\(n&gt;r\\)??\nyes\neasy"
+  },
+  {
+    "objectID": "select.html#summary-continue",
+    "href": "select.html#summary-continue",
+    "title": "Fitting",
+    "section": "summary (continue)",
+    "text": "summary (continue)\n\n\nTable 2: Summary of properties of the machine learning algorithms\n\n\n\n\n\n\n\n\n\n\n\n\n\nML Models\ncoef. s.e.\nstand. of x’s\nalgo. stab., speed, conv.\nnon-linear terms\ninter- actions\ndata type\nauto sele-ction\ninterpre- tation\n\n\n\n\nNN\nno\n0 to 1\nno, \\(\\,\\,\\) ok, \\(\\,\\,\\) ok\nauto\nauto\nboth?\nyes\nv. hard\n\n\nPCR\nyes\nyes\nyes, fast, good\npoly\ndeclare\nboth\nauto\nhard\n\n\nLASSO\nno\nyes\nyes, fast, good\npoly\ndeclare\nboth\nauto\neasy"
+  },
+  {
+    "objectID": "select.html#summary-continue-1",
+    "href": "select.html#summary-continue-1",
+    "title": "Fitting",
+    "section": "summary (continue)",
+    "text": "summary (continue)\n\n\nTable 3: Summary of properties of the machine learning algorithms\n\n\n\n\n\n\n\n\n\n\n\n\n\nML Models\ncoef. s.e.\nstand. of x’s\nalgo. stab., speed, conv.\nnon-linear terms\ninter- actions\ndata type\nauto sele-ction\ninterpre- tation\n\n\n\n\nBoost\nno\nno\nyes, fast, good\nsmooth trees\ndeclare\n\\(n&lt;&lt;r\\)\nyes\neasy\n\n\nMCMC\nyes\nno\ngood, ok, \\(\\,\\,\\) ok\nsmooth\ndeclare\n\\(n&gt;r\\)\nno\neasy"
+  },
+  {
+    "objectID": "select.html#diagram",
+    "href": "select.html#diagram",
+    "title": "Fitting",
+    "section": "diagram",
+    "text": "diagram\n\n\n\n\n\nflowchart TB\n  A[Data] --&gt; B(n greater than r) \n  A --&gt; C( n less than r)\n  B --&gt; D[LM,GLM, \\n GAM, NN ]\n  C --&gt; E[RidgeR, LASSO, Elastic Net, \\n PCR, RF, \\n Boosting, NN]\n\n\nFigure 7: Different ways to estimate the coefficients of a GAMLSS model."
+  },
+  {
+    "objectID": "select.html#end-1",
+    "href": "select.html#end-1",
+    "title": "Fitting",
+    "section": "end",
+    "text": "end\n\n\n\n   The Books"
+  },
+  {
+    "objectID": "comparison.html#introduction",
+    "href": "comparison.html#introduction",
+    "title": "Comparison",
+    "section": "Introduction",
+    "text": "Introduction\n\ngraphical diagnostic tools;\nmodel summary statistics"
+  },
+  {
+    "objectID": "comparison.html#graphical-diagnostic-tools",
+    "href": "comparison.html#graphical-diagnostic-tools",
+    "title": "Comparison",
+    "section": "Graphical Diagnostic tools",
+    "text": "Graphical Diagnostic tools\n\nwithin model diagnostics\nbetween model diagnostics\n\n\n\nThe majority of model diagnostics are based on the model residuals"
+  },
+  {
+    "objectID": "comparison.html#sec-Residuals",
+    "href": "comparison.html#sec-Residuals",
+    "title": "Comparison",
+    "section": "Residuals",
+    "text": "Residuals\n\nthe standard (training) residual, \\((y-\\mu)\\), is no good for distribution regression models\nPIT residuals; \\(u_i=F\\left(y_i|\\hat{\\boldsymbol{\\theta}}_i(\\textbf{x}_i)\\right)\\) where \\(F()\\) is the assumed (cdf)\nif the model is correct, \\(u_i\\sim U_{[0,1]}\\) (uniform)\nz-scores \\(z_i=F^{-1}_N(u_i),\\)\nif the model is correct, \\(z_i\\sim N(0,1)\\)\nthe z-scores also called (randomised) normalised residuals"
+  },
+  {
+    "objectID": "comparison.html#sec-withinDiagnostics",
+    "href": "comparison.html#sec-withinDiagnostics",
+    "title": "Comparison",
+    "section": "within model diagnostics",
+    "text": "within model diagnostics\n\nresiduals against variables i.e index, x-variables, fitted \\(\\mu\\) etc; go to figure 13.1\nthe density function of the residuals; go to figure 13.2\nthe ecdf of the residuals;\nthe function dtop(), de-trended Own’s plot; go to figure 13.3\nthe QQ-plot;\nthe worm plot; go to figure 13.4\nthe bucket plot; go to figure 13.5\nthe ACF and PACF plots; go to figure 13.6"
+  },
+  {
+    "objectID": "comparison.html#sec-betweenDiagnostics",
+    "href": "comparison.html#sec-betweenDiagnostics",
+    "title": "Comparison",
+    "section": "between models diagnostics",
+    "text": "between models diagnostics\n\nmodel density plots; go to figure 13.7\nmodel QQ-plots; go to figure 13.8\nmodel worm plots; go to figure 13.9\nmodel bucket plots; go to figure 13.10\nmodel principal component plots; go to figure 13.11\nfor different values of the explanatory variables\n\ncontinuous go to figure 13.12\nfactors go to figure 13.13"
+  },
+  {
+    "objectID": "comparison.html#sec-Model_Comparison",
+    "href": "comparison.html#sec-Model_Comparison",
+    "title": "Comparison",
+    "section": "Model Comparison Statistics",
+    "text": "Model Comparison Statistics\n\nno partition of data is required\n\n\\[GAIC= \\hat{GD}+ k \\times df, \\] evaluated in the training dataset\n\npartition of data is required\n\nMean Absolute Prediction Error (MAPE)\nLikelihod score (LS) \\(\\sim\\) Prediction Global Deviance\nContinuous Rank Probabily Score (CRPS)"
+  },
+  {
+    "objectID": "comparison.html#sec-GAIC",
+    "href": "comparison.html#sec-GAIC",
+    "title": "Comparison",
+    "section": "GAIC",
+    "text": "GAIC\n\n\nminimum GAIC(k= 2 ) model: mfA1 \nminimum GAIC(k= 3.84 ) model: mfA1 \nminimum GAIC(k= 8.03 ) model: mfA \n\n\n\n\n\n\ndf\nk=2\nk=3.84\nk=8.03\n\n\n\n\nmfA\n23\n38169.3\n38211.6\n38308.0\n\n\nmfA1\n27\n38156.1\n38206.0\n38319.8\n\n\nmfLASSO\n23\n38285.4\n38327.7\n38424.1\n\n\nmfNN\n134\n38209.4\n38456.0\n39017.5\n\n\nmfPCR\n68\n38229.6\n38354.7\n38639.6"
+  },
+  {
+    "objectID": "comparison.html#sec-GAIC1",
+    "href": "comparison.html#sec-GAIC1",
+    "title": "Comparison",
+    "section": "GAIC (continuous)",
+    "text": "GAIC (continuous)\n\nFigure 1: A lollipop plot of AIC of the fitted models."
+  },
+  {
+    "objectID": "comparison.html#prediction-measures",
+    "href": "comparison.html#prediction-measures",
+    "title": "Comparison",
+    "section": "prediction measures",
+    "text": "prediction measures\n\n\\[MAPE= \\texttt{med} \\left(\\left|100 \\left(\\frac{\\hat{\\mu}_i(\\textbf{x}_i^*)-y^*}{y^*}\\right)  \\right|_{i=1,\\ldots.n}\\right)\\]\n\\[LS= \\sum_{i=1}^{n^*} \\log \\left[y^*_i | \\hat{\\theta}_i \\left(\\textbf{x}_i^*\\right) \\right] \\]\n\\[CRPS = -\\sum_{i=1}^{n} \\int \\left(F(y| \\hat{\\theta}_i \\left(\\textbf{x}_i^*\\right) -\\textbf{I}\\left(y \\ge y^*_i\\right)\\right)^2 dy,\\]"
+  },
+  {
+    "objectID": "comparison.html#prediction-measures-table",
+    "href": "comparison.html#prediction-measures-table",
+    "title": "Comparison",
+    "section": "prediction measures table",
+    "text": "prediction measures table\n\n\n\nmodels\nMAPE\nTGD\nCRPS\n\n\n\n\nmfA\n17.938\n-6.194\n71.018\n\n\nmFA1\n17.974\n-6.192\n70.964\n\n\nmfNN\n17.593\n-8.175\nNA\n\n\nmLASSO\nNA\nNA\nNA\n\n\nmFPCR\nNA\nNA\nNA\n\n\n\n\n\nThe results vary with different partitions of the data. Here we use the same partition for all models."
+  },
+  {
+    "objectID": "comparison.html#summary",
+    "href": "comparison.html#summary",
+    "title": "Comparison",
+    "section": "summary",
+    "text": "summary\n\nthe GAIC is well established (the the df of freedon need to be known)\nthe linear and additive model are good when there are not many explanatory variables (but somehow interaction has to be considered)\nmore work has to be done to standardised all ML techniques so their partitioning of data are comparable to the conventional additive models"
+  },
+  {
+    "objectID": "comparison.html#end",
+    "href": "comparison.html#end",
+    "title": "Comparison",
+    "section": "end",
+    "text": "end\nbact to the index\n\n\n\n   The Books"
+  },
+  {
+    "objectID": "comparison.html#sec-appendix-b",
+    "href": "comparison.html#sec-appendix-b",
+    "title": "Comparison",
+    "section": "Appendix",
+    "text": "Appendix\nresiduals against variables\ngo back to Section 4\n\n\n\n\n\n\n\n(a) index\n\n\n\n\n\n\n\n(b) mu\n\n\n\n\n\n\n\n\n\n(c) median\n\n\n\n\n\n\n\n(d) area\n\n\n\n\nFigure 2: Residuals against variables of interest"
+  },
+  {
+    "objectID": "selection.html#introduction",
+    "href": "selection.html#introduction",
+    "title": "Selection",
+    "section": "Introduction",
+    "text": "Introduction\n\nstep-wise selection;\nboosting; and\nmodelling interactions in general"
+  },
+  {
+    "objectID": "selection.html#selection",
+    "href": "selection.html#selection",
+    "title": "Selection",
+    "section": "Selection",
+    "text": "Selection\n\n\n\n\n\nflowchart TB\n  A[Models] --&gt; B(automatic \\n selection) \n  A --&gt; C(declared\\n selection)\n  B --&gt; G[automatic \\n interaction]\n  B --&gt; H[set up \\n interaction]\n  G --&gt; D(NN, RT)\n  H --&gt; E(LASSO, \\n Ridge, \\n Elastic Net, \\n PCR )\n  S --&gt; M[step-wise]\n  S --&gt; N[boost]\n  C --&gt; S(LM, AM )\n\n\nFigure 1: Different methods of selecting features."
+  },
+  {
+    "objectID": "selection.html#stepwise-selection",
+    "href": "selection.html#stepwise-selection",
+    "title": "Selection",
+    "section": "Stepwise Selection",
+    "text": "Stepwise Selection\n\ncurrent model\nlower model\n\nwhich could be the Null model\n\nupper model\n\nwhich could be the saturated model"
+  },
+  {
+    "objectID": "selection.html#stepwise-selection-continue",
+    "href": "selection.html#stepwise-selection-continue",
+    "title": "Selection",
+    "section": "Stepwise Selection (continue)",
+    "text": "Stepwise Selection (continue)\n\n\nTable 1: A general algorithmic stepwise GAIC procedure for GAMLSS.\n\n\n\n\n\n\n\n\n\n\n\n\n\nsteps\nLower\nDirection\nCurrent\nDirection\nUpper\nCreates\nGiven\n\n\n\n\n\n1 (\\(\\mu\\))\n\\(L_{\\mu}\\)\n\\(\\leftarrow\\)\n\\(C_{\\mu}\\)\n\\(\\rightarrow\\)\n\\(U_{\\mu}\\)\n\\(F_{\\mu}^{(1)}\\)\n\\(C_{\\sigma}, C_{\\nu}, C_{\\tau}\\)\n\n\n\n2 (\\(\\sigma\\))\n\\(L_{\\sigma}\\)\n\\(\\leftarrow\\)\n\\(C_{\\sigma}\\)\n\\(\\rightarrow\\)\n\\(U_{\\sigma}\\)\n\\(F_{\\sigma}^{(2)}\\)\n\\(F_{\\mu}^{(1)}, C_{\\nu}, C_{\\tau}\\)\n\n\n\n3 (\\(\\nu\\))\n\\(L_{\\nu}\\)\n\\(\\leftarrow\\)\n\\(C_{\\nu}\\)\n\\(\\rightarrow\\)\n\\(U_{\\nu}\\)\n\\(F_{\\nu}^{(3)}\\)\n\\(F_{\\mu}^{(1)},F_{\\sigma}^{(2)}, C_{\\tau}\\)\n\n\n\n4 (\\(\\tau\\))\n\\(L_{\\tau}\\)\n\\(\\leftarrow\\)\n\\(C_{\\tau}\\)\n\\(\\rightarrow\\)\n\\(U_{\\tau}\\)\n\\(F_{\\tau}^{(4)}\\)\n\\(F_{\\mu}^{(1)}, F_{\\sigma}^{(2)}, F_{\\nu}^{(3)}\\)\n\n\n\n5 (\\(\\nu\\))\n\\(L_{\\nu}\\)\n\\(\\leftarrow\\)\n\\(F_{\\nu}^{(3)}\\)\n\\(\\rightarrow\\)\n\\(U_{\\nu}\\)\n\\(F_{\\nu}^{(5)}\\)\n\\(F_{\\mu}^{(1)}, F_{\\sigma}^{(2)}, F_{\\tau}^{(4)}\\)\n\n\n\n6 (\\(\\sigma\\))\n\\(L_{\\sigma}\\)\n\\(\\leftarrow\\)\n\\(F_{\\sigma}^{(2)}\\)\n\\(\\rightarrow\\)\n\\(U_{\\sigma}\\)\n\\(F_{\\sigma}^{(6)}\\)\n\\(F_{\\mu}^{(1)}, F_{\\nu}^{(5)}, F_{\\tau}^{(4)}\\)\n\n\n\n7 (\\(\\mu\\))\n\\(L_{\\mu}\\)\n\\(\\leftarrow\\)\n\\(F_{\\mu}^{(1)}\\)\n\\(\\rightarrow\\)\n\\(U_{\\mu}\\)\n\\(F_{\\mu}^{(7)}\\)\n\\(F_{\\sigma}^{(6)}, F_{\\nu}^{(5)}, F_{\\tau}^{(4)}\\)"
+  },
+  {
+    "objectID": "selection.html#stepwise-selection-continue-1",
+    "href": "selection.html#stepwise-selection-continue-1",
+    "title": "Selection",
+    "section": "Stepwise Selection (continue)",
+    "text": "Stepwise Selection (continue)\n\n m1 &lt;- gamlss(rent~area+yearc+location+bath+kitchen+cheating,~area+yearc+location+ bath + kitchen+cheating,\n~area+yearc+location + bath + kitchen+cheating,\n~area+yearc+location + bath + kitchen+cheating,\n              family=BCTo,  data=da, trace=TRUE, n.cyc=20,\n              c.crit=0.01)\nmfA &lt;- stepGAICAll.A(m1, scope=list(lower=~1,\n  upper = ~poly(area,3)+poly(yearc,3)+\n    (area+yearc+location+bath+kitchen + cheating)^2),\n  trace=FALSE, parallel=\"snow\", ncpus=10, k=log(3032),\n         direction=rep(\"both\",7) )"
+  },
+  {
+    "objectID": "selection.html#model-lm",
+    "href": "selection.html#model-lm",
+    "title": "Selection",
+    "section": "model, LM",
+    "text": "model, LM\n\\[\n          \\begin{split}\n        \\texttt{mfA:} \\qquad &\\texttt{rent} \\sim \\text{BCTo}(\\mu, \\sigma, \\nu, \\tau ) \\\\\n        &\\mu  \\sim \\texttt{poly(area,3)}+ \\texttt{poly(yearc,3)} \\\\\n        & \\qquad  +\\texttt{location}+ \\texttt{bath}+\\texttt{cheating}+ \\texttt{bath}\\\\\n        \\log\\,&\\sigma  \\sim \\texttt{yearc}+\\texttt{kitchen}+\\texttt{yearc*kitchen}+\\\\\n         & \\qquad  +\\texttt{poly(yeatc,3)} \\\\\n        & \\nu \\sim  \\texttt{yearc} + \\texttt{kitchen} \\\\\n        \\log\\,&\\tau  \\sim \\texttt{yearc} + \\texttt{cheating}. \\\\\n        \\end{split}\n\\]"
+  },
+  {
+    "objectID": "selection.html#model-add.-sm.",
+    "href": "selection.html#model-add.-sm.",
+    "title": "Selection",
+    "section": "model, add. sm.",
+    "text": "model, add. sm.\n\\[\n        \\begin{split}\n        \\texttt{mfA1:} \\qquad &\\texttt{rent} \\sim \\text{BCTo}(\\mu, \\sigma, \\nu, \\tau ) \\\\\n        &\\mu  \\sim \\texttt{pb(area)}+ \\texttt{pb(yearc)} \\\\\n        & \\qquad  +\\texttt{location}+ \\texttt{bath}+\\texttt{cheating}+ \\texttt{bath}\\\\\n        \\log\\,&\\sigma  \\sim \\texttt{yearc}+\\texttt{kitchen}+\\texttt{yearc*kitchen}+\\\\\n         & \\qquad  +\\texttt{pb(yeatc)} \\\\\n        & \\nu \\sim  \\texttt{yearc} + \\texttt{kitchen} \\\\\n        \\log\\,&\\tau  \\sim \\texttt{yearc} + \\texttt{cheating}. \\\\\n        \\end{split}\n\\]"
+  },
+  {
+    "objectID": "selection.html#sec-Boosting",
+    "href": "selection.html#sec-Boosting",
+    "title": "Selection",
+    "section": "Boosting",
+    "text": "Boosting\n\nlibrary(gamboostLSS)\nmfboost  &lt;- gamboostLSS(list(\n   mu = rent ~ bbs(area)+bbs(yearc)+\n  (area+yearc+location+kitchen+bath+cheating),\nsigma = rent ~ bbs(area)+bbs(yearc)+\n  (area+yearc+location+kitchen+bath+cheating),\n   nu = rent ~ bbs(area)+bbs(yearc)+\n  (area+yearc+location+kitchen+bath+cheating),\n  tau = rent ~ bbs(area)+bbs(yearc)+\n  (area+yearc+location+kitchen+bath+cheating)),\n        data = da, families = as.families(\"BCTo\"),\n        control=boost_control(mstop=1000, center=TRUE),\n                                  method = \"noncyclic\")"
+  },
+  {
+    "objectID": "selection.html#boosting-continuous",
+    "href": "selection.html#boosting-continuous",
+    "title": "Selection",
+    "section": "Boosting (continuous)",
+    "text": "Boosting (continuous)\n\ncvr &lt;- cvrisk(mfboost)\n\nStarting cross-validation...\n\nmstop(cvr)\n\n[1] 979\n\nmstop(mfboost) &lt;- mstop(cvr)"
+  },
+  {
+    "objectID": "selection.html#model",
+    "href": "selection.html#model",
+    "title": "Selection",
+    "section": "model",
+    "text": "model\n\\[\n\\begin{split}\n\\texttt{mfboost:} \\qquad &\\texttt{rent} \\sim \\text{BCTo}(\\mu, \\sigma, \\nu, \\tau ) \\\\\n  &\\mu  \\sim s(\\texttt{area})+ s(\\texttt{yearc})  +\\texttt{location}  \\\\\n  & \\qquad  +\\texttt{bath}+\\texttt{kitchen}+\\texttt{cheating}\\\\\n\\log\\,&\\sigma  \\sim s(\\texttt{area})+s(\\texttt{yearc})+\\texttt{location}\\\\\n  & \\qquad  +\\texttt{bath}+ \\texttt{cheating} \\\\        \n  & \\nu \\sim  s(\\texttt{area})+ s(\\texttt{yearc}) +\\texttt{location}  \\\\\n   & \\qquad  +\\texttt{kitchen}+ \\texttt{cheating} \\\\\n\\log\\,&\\tau  \\sim  s(\\texttt{yearc}). \\\\\n          \\end{split}\n          \\]"
+  },
+  {
+    "objectID": "selection.html#lasso",
+    "href": "selection.html#lasso",
+    "title": "Selection",
+    "section": "LASSO",
+    "text": "LASSO\n\nlibrary(gamlss.ggplots)\nlibrary(gamlss.add)\nlibrary(rlang)\nlibrary(ggplot2)\nsource(\"~/Dropbox/GAMLSS-development/glmnet/sumplementary_functions_for_gnet.R\")\ngnet_path(mfLASSO)\ngnet_path(mfLASSO, \"sigma\")\ngnet_path(mfLASSO, \"nu\")\ngnet_path(mfLASSO, \"tau\")"
+  },
+  {
+    "objectID": "selection.html#model-1",
+    "href": "selection.html#model-1",
+    "title": "Selection",
+    "section": "model",
+    "text": "model\n\\[\n\\begin{split}\n\\texttt{mfLASSO:} \\qquad &\\texttt{rent} \\sim \\text{BCTo}(\\mu, \\sigma, \\nu, \\tau ) \\\\\n  &\\mu  \\sim poly(\\texttt{area},2)+ \\texttt{yearc}+\\texttt{cheating}  \\\\\n  & \\qquad  +\\texttt{area:location}+\\texttt{area:kitchen}+\\texttt{year}^2:\\texttt{bath}\\\\\n   & \\qquad  +\\texttt{year}^2:\\texttt{cheating}+\\texttt{location:kitchen}\\\\\n\\log\\,&\\sigma  \\sim \\texttt{area}^3+\\texttt{yearc}^3+\\texttt{location}\\\\\n  & \\qquad  +\\texttt{cheating}+ \\texttt{area:location}+ \\texttt{area:cheating} \\\\     \n  & \\qquad  +\\texttt{area}^2:\\texttt{year}^2+ \\texttt{year:cheating}+ \\texttt{location:bath} \\\\\n  & \\nu \\sim  1 \\\\\n\\log\\,&\\tau  \\sim 1. \\\\\n          \\end{split}\n          \\]"
+  },
+  {
+    "objectID": "selection.html#pcr",
+    "href": "selection.html#pcr",
+    "title": "Selection",
+    "section": "PCR",
+    "text": "PCR\n\nsource(\"~/Dropbox/GAMLSS-development/PCR/GAMLSS-pcr.R\")\nsource(\"~/Dropbox/GAMLSS-development/PCR/fitPCR.R\")\nX = formula2X(formula=rent~poly(area,2)+poly(yearc,2)+(area+yearc+location+bath+kitchen+cheating)^2,data=da)\nmfPCR &lt;- gamlss(rent~pcr(x=X),\n                     ~pcr(x=X),\n                     ~pcr(x=X),\n                     ~pcr(x=X),\n      data=da, family=BCTo, bf.cyc=1, c.crit=0.1, n.cyc=100,\n                  trace=TRUE)"
+  },
+  {
+    "objectID": "selection.html#model-2",
+    "href": "selection.html#model-2",
+    "title": "Selection",
+    "section": "model",
+    "text": "model\n\\[\n\\begin{split}\n\\texttt{mfPCR:} \\qquad &\\texttt{rent} \\sim \\text{BCTo}(\\mu, \\sigma, \\nu, \\tau ) \\\\\n  & \\boldsymbol{\\mu}  = \\textbf{T}_{\\mu, 17} \\boldsymbol{\\gamma}_{\\mu}  \\\\\n\\log\\,&\\boldsymbol{\\sigma}  \\sim  \\textbf{T}_{\\sigma, 6} \\boldsymbol{\\gamma}_{\\sigma}  \\\\\n  & \\nu \\sim \\textbf{T}_{\\nu, 6} \\boldsymbol{\\gamma}_{\\nu}  \\\\\n\\log\\,&\\tau  \\sim \\textbf{T}_{\\tau, 1} \\boldsymbol{\\gamma}_{\\tau}  \\\\\n          \\end{split}\n          \\]"
+  },
+  {
+    "objectID": "selection.html#neural-network",
+    "href": "selection.html#neural-network",
+    "title": "Selection",
+    "section": "Neural Network",
+    "text": "Neural Network\n\nsource(\"~/Dropbox/github/gamlss-ggplots/R/data_stand.R\")\nda01 &lt;- data_scale(da, response=rent, scale = \"0to1\" )\nlibrary(gamlss.add)\nset.seed(213)\nmfNN &lt;- gamlss(rent~nn(~area+yearc+location+bath+kitchen+\n                         cheating, size=5),\n      ~nn(~area+yearc+location+bath+kitchen+cheating), \n      ~nn(~area+yearc+location+bath+kitchen+cheating), \n      ~nn(~area+yearc+location+bath+kitchen+cheating), \n              family=BCTo, data=da01)"
+  },
+  {
+    "objectID": "selection.html#model-3",
+    "href": "selection.html#model-3",
+    "title": "Selection",
+    "section": "Model",
+    "text": "Model\n\\[\n\\begin{split}\n\\texttt{mfNN:} \\qquad &\\texttt{rent} \\sim \\text{BCTo}(\\mu, \\sigma, \\nu, \\tau ) \\\\\n  & \\boldsymbol{\\mu}  = NN_{\\mu}(\\textbf{X}) \\\\\n\\log\\,&\\boldsymbol{\\sigma}  \\sim  NN_{\\sigma}(\\textbf{X}) \\\\\n  & \\nu \\sim NN_{\\nu}(\\textbf{X})  \\\\\n\\log\\,&\\tau  \\sim NN_{\\tau}(\\textbf{X}) \\\\\n\\end{split}\n\\]"
+  },
+  {
+    "objectID": "selection.html#end",
+    "href": "selection.html#end",
+    "title": "Selection",
+    "section": "end",
+    "text": "end\nbact to the index\n\n\n\n   The Books\n\n\n\n\n\n\nwww.gamlss.com"
   }
 ]
