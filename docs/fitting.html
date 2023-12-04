@@ -13,7 +13,7 @@
   <meta name="author" content="Mikis Stasinopoulos">
   <meta name="author" content="Bob Rigby">
   <meta name="author" content="Fernanda De Bastiani">
-  <title>GAMLSS Short Course - Data</title>
+  <title>GAMLSS Short Course - Fitting</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -98,7 +98,6 @@
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
   <link rel="stylesheet" href="site_libs/revealjs/dist/theme/quarto.css">
-  <link rel="stylesheet" href="styles.css">
   <link href="site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -398,7 +397,7 @@
     <div class="slides">
 
 <section id="title-slide" data-background-image="Uni_greenwich.png" data-background-opacity="0.05" data-background-size="contain" class="quarto-title-block center">
-  <h1 class="title">Data</h1>
+  <h1 class="title">Fitting</h1>
 
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
@@ -421,639 +420,498 @@ Fernanda De Bastiani
 </section>
 <section id="introduction" class="slide level2">
 <h2>Introduction</h2>
-<div>
 <ul>
-<li><p><code>checking the structure of the data</code></p></li>
-<li><p><code>displaying the data to identify</code>;</p>
-<ul>
-<li>outliers,</li>
-<li>possible x-variables transformations,</li>
-<li>correlation in the feature and</li>
-<li>possible pair-wise interactions</li>
-</ul></li>
-<li><p><code>partitioning the data</code></p></li>
+<li><code>the basic GAMLSS algorithm</code></li>
+<li><code>different statistical approaches for fitting a GAMLSS model</code></li>
+<li><code>different machine learning techniques for fitting a GAMLSS model</code>.</li>
 </ul>
-</div>
 </section>
 <section>
-<section id="checking-the-data" class="title-slide slide level1 center">
-<h1>checking the data</h1>
+<section id="machine-learning-models" class="title-slide slide level1 center">
+<h1>Machine Learning Models</h1>
 
 </section>
-<section id="data" class="slide level2 smaller">
-<h2>Data</h2>
-<div id="tbl-TheTableofData">
+<section id="properties" class="slide level2">
+<h2>properties</h2>
+<ul>
+<li><p>are the <strong>standard errors</strong> available?</p></li>
+<li><p>do the x’s need <strong>standardization</strong>.</p></li>
+<li><p>about the <strong>algorithm</strong></p>
+<pre><code> - stability
+ - speed 
+ - convergence    </code></pre></li>
+<li><p><strong>nonlinear</strong> terms</p></li>
+<li><p><strong>interactions</strong></p></li>
+<li><p><strong>dataset</strong> type</p></li>
+<li><p>is the <strong>selection</strong> of x’s automatic?</p></li>
+<li><p><strong>interpretation</strong></p></li>
+</ul>
+</section>
+<section id="linear-models" class="slide level2 smaller">
+<h2>Linear Models</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>mLM <span class="ot">&lt;-</span> <span class="fu">gamlss</span>(rent<span class="sc">~</span>area<span class="sc">+</span><span class="fu">poly</span>(yearc,<span class="dv">2</span>)<span class="sc">+</span>location<span class="sc">+</span>bath<span class="sc">+</span>kitchen<span class="sc">+</span></span>
+<span id="cb2-2"><a href="#cb2-2"></a>              cheating,</span>
+<span id="cb2-3"><a href="#cb2-3"></a>              <span class="sc">~</span>area<span class="sc">+</span>yearc<span class="sc">+</span>location<span class="sc">+</span>bath<span class="sc">+</span>kitchen<span class="sc">+</span>cheating, </span>
+<span id="cb2-4"><a href="#cb2-4"></a>              <span class="at">family=</span>BCTo, <span class="at">trace=</span><span class="cn">FALSE</span>, <span class="at">data=</span>da)</span>
+<span id="cb2-5"><a href="#cb2-5"></a><span class="fu">summary</span>(mLM)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+
+</section>
+<section id="linear-models-output" class="slide level2 smaller output-location-slide"><h2>Linear Models</h2><div class="cell output-location-slide">
+<div class="cell-output cell-output-stdout">
+<pre><code>******************************************************************
+Family:  c("BCTo", "Box-Cox-t-orig.") 
+
+Call:  gamlss(formula = rent ~ area + poly(yearc, 2) + location +  
+    bath + kitchen + cheating, sigma.formula = ~area +  
+    yearc + location + bath + kitchen + cheating, family = BCTo,  
+    data = da, trace = FALSE) 
+
+Fitting method: RS() 
+
+------------------------------------------------------------------
+Mu link function:  log
+Mu Coefficients:
+                 Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)     5.0138582  0.0277852 180.451  &lt; 2e-16 ***
+area            0.0106311  0.0002331  45.613  &lt; 2e-16 ***
+poly(yearc, 2)1 5.0382576  0.3360044  14.995  &lt; 2e-16 ***
+poly(yearc, 2)2 3.3475762  0.2737237  12.230  &lt; 2e-16 ***
+location2       0.0875504  0.0102485   8.543  &lt; 2e-16 ***
+location3       0.1967006  0.0385032   5.109 3.44e-07 ***
+bath1           0.0415393  0.0219353   1.894   0.0584 .  
+kitchen1        0.1120385  0.0243199   4.607 4.25e-06 ***
+cheating1       0.3297044  0.0243422  13.545  &lt; 2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+------------------------------------------------------------------
+Sigma link function:  log
+Sigma Coefficients:
+              Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) 10.4022601  0.7528378  13.817  &lt; 2e-16 ***
+area         0.0012116  0.0006135   1.975   0.0484 *  
+yearc       -0.0059332  0.0003864 -15.356  &lt; 2e-16 ***
+location2    0.0595118  0.0254048   2.343   0.0192 *  
+location3    0.2191754  0.0930995   2.354   0.0186 *  
+bath1        0.0058254  0.0087229   0.668   0.5043    
+kitchen1     0.0400246  0.0882200   0.454   0.6501    
+cheating1   -0.2453139  0.0487224  -5.035 5.06e-07 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+------------------------------------------------------------------
+Nu link function:  identity 
+Nu Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  0.65631    0.05598   11.72   &lt;2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+------------------------------------------------------------------
+Tau link function:  log 
+Tau Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)   3.2918     0.4411   7.463 1.09e-13 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+------------------------------------------------------------------
+No. of observations in the fit:  3082 
+Degrees of Freedom for the fit:  19
+      Residual Deg. of Freedom:  3063 
+                      at cycle:  10 
+ 
+Global Deviance:     38254.51 
+            AIC:     38292.51 
+            SBC:     38407.14 
+******************************************************************</code></pre>
+</div>
+</div></section><section id="additive-models" class="slide level2">
+<h2>Additive Models</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>mAM <span class="ot">&lt;-</span> <span class="fu">gamlss</span>(rent<span class="sc">~</span><span class="fu">pb</span>(area)<span class="sc">+</span><span class="fu">pb</span>(yearc)<span class="sc">+</span>location<span class="sc">+</span>bath<span class="sc">+</span>kitchen<span class="sc">+</span></span>
+<span id="cb4-2"><a href="#cb4-2"></a>                cheating,</span>
+<span id="cb4-3"><a href="#cb4-3"></a>      <span class="sc">~</span><span class="fu">pb</span>(area)<span class="sc">+</span><span class="fu">pb</span>(yearc)<span class="sc">+</span>location<span class="sc">+</span>bath<span class="sc">+</span>kitchen<span class="sc">+</span>cheating, </span>
+<span id="cb4-4"><a href="#cb4-4"></a>              <span class="at">family=</span>BCTo, <span class="at">data=</span>da, <span class="at">trace=</span>F)</span>
+<span id="cb4-5"><a href="#cb4-5"></a><span class="fu">AIC</span>(mLM, mAM)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+
+</section>
+<section id="additive-models-output" class="slide level2 output-location-slide"><h2>Additive Models</h2><div class="cell output-location-slide">
+<div class="cell-output cell-output-stdout">
+<pre><code>          df      AIC
+mAM 29.78058 38198.79
+mLM 19.00000 38292.51</code></pre>
+</div>
+</div></section><section id="additive-models-continue" class="slide level2">
+<h2>Additive Models (continue)</h2>
+
+<img data-src="fitting_files/figure-revealjs/fig-am_mu-1.png" width="960" class="r-stretch quarto-figure-center"><p class="caption">Figure&nbsp;1: pdf-plot of the fitted <code>am1</code> mu model</p></section>
+<section id="additive-models-continue-1" class="slide level2">
+<h2>Additive Models (continue)</h2>
+
+<img data-src="fitting_files/figure-revealjs/fig-am_sigma-1.png" width="960" class="r-stretch quarto-figure-center"><p class="caption">Figure&nbsp;2: pdf-plot of the fitted <code>am1</code> sigma model</p></section>
+<section id="sec-RegressionTrees" class="slide level2">
+<h2>Regression Trees</h2>
+<div class="cell" data-hash="fitting_cache/revealjs/unnamed-chunk-6_3b627d9c8df6ff33fb7ec464ed00c20d">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="fu">library</span>(gamlss.add)</span>
+<span id="cb6-2"><a href="#cb6-2"></a>mRT <span class="ot">&lt;-</span> <span class="fu">gamlss</span>(rent<span class="sc">~</span><span class="fu">tr</span>(<span class="sc">~</span>area<span class="sc">+</span>yearc<span class="sc">+</span>location<span class="sc">+</span>bath<span class="sc">+</span>kitchen<span class="sc">+</span>cheating),<span class="sc">~</span><span class="fu">tr</span>(<span class="sc">~</span>area<span class="sc">+</span>yearc<span class="sc">+</span>location<span class="sc">+</span>bath<span class="sc">+</span>kitchen<span class="sc">+</span>cheating), </span>
+<span id="cb6-3"><a href="#cb6-3"></a>              <span class="at">family=</span>BCTo, <span class="at">data=</span>da, <span class="at">trace=</span><span class="cn">FALSE</span>)</span>
+<span id="cb6-4"><a href="#cb6-4"></a><span class="fu">AIC</span>(mLM, mAM, mRT)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+
+</section>
+<section id="sec-RegressionTrees-output" class="slide level2 output-location-slide"><h2>Regression Trees</h2><div class="cell output-location-slide" data-hash="fitting_cache/revealjs/unnamed-chunk-6_3b627d9c8df6ff33fb7ec464ed00c20d">
+<div class="cell-output cell-output-stdout">
+<pre><code>          df      AIC
+mAM 29.78058 38198.79
+mLM 19.00000 38292.51
+mRT 22.00000 38711.66</code></pre>
+</div>
+</div></section><section id="regression-trees-continue" class="slide level2">
+<h2>Regression Trees (continue)</h2>
+
+<img data-src="fitting_files/figure-revealjs/fig-rtmu-1.png" width="960" class="r-stretch quarto-figure-center"><p class="caption">Figure&nbsp;3: The fitted tree for <code>mu</code> model</p></section>
+<section id="regression-trees-continue-1" class="slide level2">
+<h2>Regression Trees (continue)</h2>
+
+<img data-src="fitting_files/figure-revealjs/fig-rtsigma-1.png" width="960" class="r-stretch quarto-figure-center"><p class="caption">Figure&nbsp;4: The fitted tree for <code>mu</code> model</p></section>
+<section id="neural-networks" class="slide level2">
+<h2>Neural Networks</h2>
+<div class="cell" data-hash="fitting_cache/revealjs/unnamed-chunk-9_6bea216268ae321d4405cd2c88d7a909">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a> <span class="fu">source</span>(<span class="st">"~/Dropbox/github/gamlss-ggplots/R/data_stand.R"</span>)</span>
+<span id="cb8-2"><a href="#cb8-2"></a>da01 <span class="ot">&lt;-</span> <span class="fu">data_scale</span>(da, <span class="at">response=</span>rent, <span class="at">scale =</span> <span class="st">"0to1"</span> )</span>
+<span id="cb8-3"><a href="#cb8-3"></a><span class="fu">library</span>(gamlss.add)</span>
+<span id="cb8-4"><a href="#cb8-4"></a><span class="fu">set.seed</span>(<span class="dv">213</span>)</span>
+<span id="cb8-5"><a href="#cb8-5"></a>mNN <span class="ot">&lt;-</span> <span class="fu">gamlss</span>(rent<span class="sc">~</span><span class="fu">nn</span>(<span class="sc">~</span>area<span class="sc">+</span>yearc<span class="sc">+</span>location<span class="sc">+</span>bath<span class="sc">+</span>kitchen<span class="sc">+</span></span>
+<span id="cb8-6"><a href="#cb8-6"></a>                         cheating, <span class="at">size=</span><span class="dv">5</span>),</span>
+<span id="cb8-7"><a href="#cb8-7"></a>                  <span class="sc">~</span><span class="fu">nn</span>(<span class="sc">~</span>area<span class="sc">+</span>yearc<span class="sc">+</span>location<span class="sc">+</span>bath<span class="sc">+</span>kitchen<span class="sc">+</span>cheating), </span>
+<span id="cb8-8"><a href="#cb8-8"></a>              <span class="at">family=</span>BCTo, <span class="at">data=</span>da01)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+
+</section>
+<section id="neural-networks-output" class="slide level2 output-location-slide"><h2>Neural Networks</h2><div class="cell output-location-slide" data-hash="fitting_cache/revealjs/unnamed-chunk-9_6bea216268ae321d4405cd2c88d7a909">
+<div class="cell-output cell-output-stdout">
+<pre><code>GAMLSS-RS iteration 1: Global Deviance = 38089.89 
+GAMLSS-RS iteration 2: Global Deviance = 38054.95 
+GAMLSS-RS iteration 3: Global Deviance = 38054.1 
+GAMLSS-RS iteration 4: Global Deviance = 38053.9 
+GAMLSS-RS iteration 5: Global Deviance = 38053.84 
+GAMLSS-RS iteration 6: Global Deviance = 38053.79 
+GAMLSS-RS iteration 7: Global Deviance = 38053.78 
+GAMLSS-RS iteration 8: Global Deviance = 38053.78 
+GAMLSS-RS iteration 9: Global Deviance = 38053.78 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="fu">AIC</span>(mLM, mAM, mRT, mNN)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>          df      AIC
+mAM 29.78058 38198.79
+mNN 78.00000 38209.78
+mLM 19.00000 38292.51
+mRT 22.00000 38711.66</code></pre>
+</div>
+</div></section><section id="neural-networks-continue" class="slide level2">
+<h2>Neural Networks (continue)</h2>
+
+<img data-src="fitting_files/figure-revealjs/fig-nn_mu-1.png" width="960" class="r-stretch quarto-figure-center"><p class="caption">Figure&nbsp;5: The fitted neural network model fot <code>mu</code>.</p></section>
+<section id="neural-networks-1" class="slide level2">
+<h2>Neural Networks</h2>
+
+<img data-src="fitting_files/figure-revealjs/fig-nn_sigma-1.png" width="960" class="r-stretch quarto-figure-center"><p class="caption">Figure&nbsp;6: The fitted neural network model fot <code>sigma</code>.</p></section>
+<section id="lasso" class="slide level2">
+<h2>LASSO</h2>
+<div class="cell" data-hash="fitting_cache/revealjs/unnamed-chunk-12_8d40d326a902605e7173c016550977b6">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="fu">library</span>(gamlss.lasso)</span>
+<span id="cb12-2"><a href="#cb12-2"></a><span class="fu">source</span>(<span class="st">"~/Dropbox/github/gamlss-ggplots/R/data_stand.R"</span>)</span>
+<span id="cb12-3"><a href="#cb12-3"></a>da10 <span class="ot">&lt;-</span> <span class="fu">data_scale</span>(da, <span class="at">response=</span>rent)</span>
+<span id="cb12-4"><a href="#cb12-4"></a>da1 <span class="ot">&lt;-</span> <span class="fu">data_form2df</span>(da10,  <span class="at">response=</span>rent, <span class="at">type=</span><span class="st">"main.effect"</span>, </span>
+<span id="cb12-5"><a href="#cb12-5"></a>                   <span class="at">nonlinear=</span><span class="st">"TRUE"</span>, <span class="at">arg=</span><span class="dv">3</span>)</span>
+<span id="cb12-6"><a href="#cb12-6"></a>mLASSO <span class="ot">&lt;-</span> <span class="fu">gamlss</span>(rent<span class="sc">~</span><span class="fu">gnet</span>(<span class="at">x.vars=</span><span class="fu">names</span>(da1)[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span>)],</span>
+<span id="cb12-7"><a href="#cb12-7"></a>                    <span class="at">method =</span> <span class="st">"IC"</span>, <span class="at">ICpen=</span><span class="st">"BIC"</span>),</span>
+<span id="cb12-8"><a href="#cb12-8"></a>                     <span class="sc">~</span><span class="fu">gnet</span>(<span class="at">x.vars=</span><span class="fu">names</span>(da1)[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span>)],</span>
+<span id="cb12-9"><a href="#cb12-9"></a>                     <span class="at">method =</span> <span class="st">"IC"</span>, <span class="at">ICpen=</span><span class="st">"BIC"</span>),</span>
+<span id="cb12-10"><a href="#cb12-10"></a>                 <span class="at">data=</span>da1, <span class="at">family=</span>BCTo, <span class="at">bf.cyc=</span><span class="dv">1</span>, </span>
+<span id="cb12-11"><a href="#cb12-11"></a>                <span class="at">c.crit=</span><span class="fl">0.1</span>, <span class="at">trace=</span><span class="cn">FALSE</span>)</span>
+<span id="cb12-12"><a href="#cb12-12"></a><span class="fu">AIC</span>(mLM, mAM, mRT, mNN,  mLASSO)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+
+</section>
+<section id="lasso-output" class="slide level2 output-location-slide"><h2>LASSO</h2><div class="cell output-location-slide" data-hash="fitting_cache/revealjs/unnamed-chunk-12_8d40d326a902605e7173c016550977b6">
+<div class="cell-output cell-output-stdout">
+<pre><code>             df      AIC
+mAM    29.78058 38198.79
+mNN    78.00000 38209.78
+mLM    19.00000 38292.51
+mLASSO 22.00000 38309.11
+mRT    22.00000 38711.66</code></pre>
+</div>
+</div></section><section id="lasso-continue" class="slide level2">
+<h2>LASSO (continue)</h2>
+<div class="cell" data-hash="fitting_cache/revealjs/unnamed-chunk-13_8045c3c411a80dfd19a45ad1423eb8b2">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a><span class="fu">source</span>(<span class="st">"~/Dropbox/GAMLSS-development/glmnet/sumplementary_functions_for_gnet.R"</span>)</span>
+<span id="cb14-2"><a href="#cb14-2"></a><span class="fu">gnet_terms</span>(mLASSO)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+
+</section>
+<section id="lasso-continue-output" class="slide level2 output-location-slide"><h2>LASSO (continue)</h2><div class="cell output-location-slide" data-hash="fitting_cache/revealjs/unnamed-chunk-13_8045c3c411a80dfd19a45ad1423eb8b2">
+<div class="cell-output cell-output-stdout">
+<pre><code>      area1       area2       area3      yearc1      yearc2      yearc3 
+13.72498782 -1.85175963  0.09162263  4.97838839  3.71690657 -0.18975745 
+  location2   location3   cheating1 
+ 0.01331635  0.05631020  0.27463624 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a><span class="fu">gnet_terms</span>(mLASSO, <span class="st">"sigma"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     area1      area2      area3     yearc1     yearc3  location2  location3 
+ 2.2850872 -0.5173168  1.6240863 -7.7665983  3.2776033  0.0673355  0.3178812 
+  kitchen1  cheating1 
+ 0.1209266 -0.1497227 </code></pre>
+</div>
+</div></section><section id="principal-component-regression" class="slide level2">
+<h2>Principal Component Regression</h2>
+<div class="cell" data-hash="fitting_cache/revealjs/unnamed-chunk-14_a3cd242f205311e8ff4b57a3c22965b6">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a><span class="fu">library</span>(gamlss.foreach)</span>
+<span id="cb18-2"><a href="#cb18-2"></a><span class="fu">registerDoParallel</span>(<span class="at">cores =</span> <span class="dv">10</span>)</span>
+<span id="cb18-3"><a href="#cb18-3"></a><span class="fu">source</span>(<span class="st">"~/Dropbox/github/gamlss-ggplots/R/data_stand.R"</span>)</span>
+<span id="cb18-4"><a href="#cb18-4"></a><span class="fu">source</span>(<span class="st">"~/Dropbox/GAMLSS-development/PCR/GAMLSS-pc.R"</span>)</span>
+<span id="cb18-5"><a href="#cb18-5"></a>X <span class="ot">=</span> <span class="fu">formula2X</span>(rent<span class="sc">~</span>area<span class="sc">+</span>yearc<span class="sc">+</span>location<span class="sc">+</span>bath<span class="sc">+</span>kitchen<span class="sc">+</span></span>
+<span id="cb18-6"><a href="#cb18-6"></a>              cheating, <span class="at">data=</span>da)</span>
+<span id="cb18-7"><a href="#cb18-7"></a>mPCR <span class="ot">&lt;-</span> <span class="fu">gamlss</span>(rent<span class="sc">~</span><span class="fu">pc</span>(<span class="at">x=</span>X),<span class="sc">~</span><span class="fu">pc</span>(<span class="at">x=</span>X),</span>
+<span id="cb18-8"><a href="#cb18-8"></a>    <span class="at">data=</span>da1, <span class="at">family=</span>BCTo, <span class="at">bf.cyc=</span><span class="dv">1</span>, <span class="at">trace=</span><span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+
+</section>
+<section id="principal-component-regression-output" class="slide level2 output-location-slide"><h2>Principal Component Regression</h2><div class="cell output-location-slide" data-hash="fitting_cache/revealjs/unnamed-chunk-14_a3cd242f205311e8ff4b57a3c22965b6">
+<div class="cell-output cell-output-stdout">
+<pre><code>GAMLSS-RS iteration 1: Global Deviance = 38458.91 
+GAMLSS-RS iteration 2: Global Deviance = 38404.13 
+GAMLSS-RS iteration 3: Global Deviance = 38405.09 
+GAMLSS-RS iteration 4: Global Deviance = 38404.56 
+GAMLSS-RS iteration 5: Global Deviance = 38404.43 
+GAMLSS-RS iteration 6: Global Deviance = 38404.38 
+GAMLSS-RS iteration 7: Global Deviance = 38404.37 
+GAMLSS-RS iteration 8: Global Deviance = 38404.36 
+GAMLSS-RS iteration 9: Global Deviance = 38404.36 
+GAMLSS-RS iteration 10: Global Deviance = 38404.36 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a><span class="fu">GAIC</span>(mLM, mAM, mRT, mNN,  mLASSO, mPCR)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>             df      AIC
+mAM    29.78058 38198.79
+mNN    78.00000 38209.78
+mLM    19.00000 38292.51
+mLASSO 22.00000 38309.11
+mPCR   15.00000 38434.36
+mRT    22.00000 38711.66</code></pre>
+</div>
+</div></section><section id="summary" class="slide level2 smaller">
+<h2>summary</h2>
+<div id="tbl-Summary">
 <table class="table-striped table-hover">
-<caption>Table&nbsp;1: The Table of Data</caption>
+<caption>Table&nbsp;1: Summary of properties of the machine learning algorithms</caption>
 <colgroup>
-<col style="width: 16%">
-<col style="width: 11%">
+<col style="width: 13%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 8%">
+<col style="width: 20%">
 <col style="width: 12%">
-<col style="width: 12%">
-<col style="width: 12%">
+<col style="width: 8%">
+<col style="width: 8%">
 <col style="width: 6%">
-<col style="width: 15%">
-<col style="width: 12%">
 </colgroup>
 <thead>
 <tr class="header">
-<th>obs number</th>
-<th>y</th>
-<th>x<sub>1</sub></th>
-<th>x<sub>2</sub></th>
-<th>x<sub>3</sub></th>
-<th>…</th>
-<th>x<sub>r-1</sub></th>
-<th>x<sub>r</sub></th>
+<th>ML Models</th>
+<th style="text-align: right;">coef. s.e.</th>
+<th style="text-align: right;">stand. of x’s</th>
+<th>algo. stab., speed, conv.</th>
+<th>non-linear terms</th>
+<th>inter- actions</th>
+<th>data type</th>
+<th>auto sele-ction</th>
+<th>interpre- tation</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>1</td>
-<td>y<sub>1</sub></td>
-<td>x<sub>11</sub></td>
-<td>x<sub>12</sub></td>
-<td>x<sub>13</sub></td>
-<td>…</td>
-<td>x<sub>1r-1</sub></td>
-<td>x<sub>1r</sub></td>
+<td>linear</td>
+<td style="text-align: right;">yes</td>
+<td style="text-align: right;">no</td>
+<td>yes, fast, v.good</td>
+<td>poly</td>
+<td>declare</td>
+<td><span class="math inline">\(n&gt;r\)</span></td>
+<td>no</td>
+<td>v. easy</td>
 </tr>
 <tr class="even">
-<td>2</td>
-<td>y<sub>2</sub></td>
-<td>x<sub>21</sub></td>
-<td>x<sub>22</sub></td>
-<td>x<sub>23</sub></td>
-<td>…</td>
-<td>x<sub>2r-1</sub></td>
-<td>x<sub>2r</sub></td>
+<td>additive</td>
+<td style="text-align: right;">no</td>
+<td style="text-align: right;">no</td>
+<td>yes, slow, good</td>
+<td>smooth</td>
+<td>declare</td>
+<td><span class="math inline">\(n&gt;r\)</span></td>
+<td>no</td>
+<td>easy</td>
 </tr>
 <tr class="odd">
-<td>3</td>
-<td>y<sub>3</sub></td>
-<td>x<sub>31</sub></td>
-<td>x<sub>32</sub></td>
-<td>x<sub>33</sub></td>
-<td>…</td>
-<td>x<sub>3r-1</sub></td>
-<td>x<sub>3r</sub></td>
-</tr>
-<tr class="even">
-<td>…</td>
-<td>…</td>
-<td>…</td>
-<td>…</td>
-<td>…</td>
-<td>…</td>
-<td>…</td>
-<td>…</td>
-</tr>
-<tr class="odd">
-<td>n-1</td>
-<td>y<sub>n-1</sub></td>
-<td>x<sub>n-11</sub></td>
-<td>x<sub>n-12</sub></td>
-<td>x<sub>n-12</sub></td>
-<td>…</td>
-<td>x<sub>n-1r-1</sub></td>
-<td>x<sub>n-1r</sub></td>
-</tr>
-<tr class="even">
-<td>n</td>
-<td>y<sub>n</sub></td>
-<td>x<sub>n1</sub></td>
-<td>x<sub>n2</sub></td>
-<td>x<sub>n3</sub></td>
-<td>…</td>
-<td>x<sub>nr-1</sub></td>
-<td>x<sub>nr</sub></td>
+<td>RT</td>
+<td style="text-align: right;">no</td>
+<td style="text-align: right;">no</td>
+<td>no, slow, bad</td>
+<td>trees</td>
+<td>auto</td>
+<td><span class="math inline">\(n&gt;r\)</span>??</td>
+<td>yes</td>
+<td>easy</td>
 </tr>
 </tbody>
 </table>
 </div>
 </section>
-<section id="the-rent-1999-munich-data" class="slide level2 smaller">
-<h2>The rent 1999 Munich data</h2>
-<div class="cell">
-<div class="cell-output-display">
-<div id="tbl-stats">
-<table>
-<caption>Table&nbsp;2: Variables in Munich rent data</caption>
+<section id="summary-continue" class="slide level2 smaller">
+<h2>summary (continue)</h2>
+<div id="tbl-Summary">
+<table class="table-striped table-hover">
+<caption>Table&nbsp;2: Summary of properties of the machine learning algorithms</caption>
+<colgroup>
+<col style="width: 13%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 8%">
+<col style="width: 20%">
+<col style="width: 12%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 6%">
+</colgroup>
 <thead>
 <tr class="header">
-<th style="text-align: right;">rent</th>
-<th style="text-align: right;">area</th>
-<th style="text-align: right;">yearc</th>
-<th style="text-align: left;">location</th>
-<th style="text-align: left;">bath</th>
-<th style="text-align: left;">kitchen</th>
-<th style="text-align: left;">cheating</th>
+<th>ML Models</th>
+<th style="text-align: right;">coef. s.e.</th>
+<th style="text-align: right;">stand. of x’s</th>
+<th>algo. stab., speed, conv.</th>
+<th>non-linear terms</th>
+<th>inter- actions</th>
+<th>data type</th>
+<th>auto sele-ction</th>
+<th>interpre- tation</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: right;">109.95</td>
-<td style="text-align: right;">26</td>
-<td style="text-align: right;">1918</td>
-<td style="text-align: left;">2</td>
-<td style="text-align: left;">0</td>
-<td style="text-align: left;">0</td>
-<td style="text-align: left;">0</td>
+<td>NN</td>
+<td style="text-align: right;">no</td>
+<td style="text-align: right;">0 to 1</td>
+<td>no, <span class="math inline">\(\,\,\)</span> ok, <span class="math inline">\(\,\,\)</span> ok</td>
+<td>auto</td>
+<td>auto</td>
+<td>both?</td>
+<td>yes</td>
+<td>v. hard</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">243.28</td>
-<td style="text-align: right;">28</td>
-<td style="text-align: right;">1918</td>
-<td style="text-align: left;">2</td>
-<td style="text-align: left;">0</td>
-<td style="text-align: left;">0</td>
-<td style="text-align: left;">1</td>
+<td>PCR</td>
+<td style="text-align: right;">yes</td>
+<td style="text-align: right;">yes</td>
+<td>yes, fast, good</td>
+<td>poly</td>
+<td>declare</td>
+<td>both</td>
+<td>auto</td>
+<td>hard</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">261.64</td>
-<td style="text-align: right;">30</td>
-<td style="text-align: right;">1918</td>
-<td style="text-align: left;">1</td>
-<td style="text-align: left;">0</td>
-<td style="text-align: left;">0</td>
-<td style="text-align: left;">1</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">106.41</td>
-<td style="text-align: right;">30</td>
-<td style="text-align: right;">1918</td>
-<td style="text-align: left;">2</td>
-<td style="text-align: left;">0</td>
-<td style="text-align: left;">0</td>
-<td style="text-align: left;">0</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">133.38</td>
-<td style="text-align: right;">30</td>
-<td style="text-align: right;">1918</td>
-<td style="text-align: left;">2</td>
-<td style="text-align: left;">0</td>
-<td style="text-align: left;">0</td>
-<td style="text-align: left;">1</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">339.03</td>
-<td style="text-align: right;">30</td>
-<td style="text-align: right;">1918</td>
-<td style="text-align: left;">2</td>
-<td style="text-align: left;">0</td>
-<td style="text-align: left;">0</td>
-<td style="text-align: left;">1</td>
+<td>LASSO</td>
+<td style="text-align: right;">no</td>
+<td style="text-align: right;">yes</td>
+<td>yes, fast, good</td>
+<td>poly</td>
+<td>declare</td>
+<td>both</td>
+<td>auto</td>
+<td>easy</td>
 </tr>
 </tbody>
 </table>
 </div>
-</div>
+</section>
+<section id="summary-continue-1" class="slide level2 smaller">
+<h2>summary (continue)</h2>
+<div id="tbl-Summary">
+<table class="table-striped table-hover">
+<caption>Table&nbsp;3: Summary of properties of the machine learning algorithms</caption>
+<colgroup>
+<col style="width: 13%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 8%">
+<col style="width: 20%">
+<col style="width: 12%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 6%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>ML Models</th>
+<th style="text-align: right;">coef. s.e.</th>
+<th style="text-align: right;">stand. of x’s</th>
+<th>algo. stab., speed, conv.</th>
+<th>non-linear terms</th>
+<th>inter- actions</th>
+<th>data type</th>
+<th>auto sele-ction</th>
+<th>interpre- tation</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Boost</td>
+<td style="text-align: right;">no</td>
+<td style="text-align: right;">no</td>
+<td>yes, fast, good</td>
+<td>smooth trees</td>
+<td>declare</td>
+<td><span class="math inline">\(n&lt;&lt;r\)</span></td>
+<td>yes</td>
+<td>easy</td>
+</tr>
+<tr class="even">
+<td>MCMC</td>
+<td style="text-align: right;">yes</td>
+<td style="text-align: right;">no</td>
+<td>good, ok, <span class="math inline">\(\,\,\)</span> ok</td>
+<td>smooth</td>
+<td>declare</td>
+<td><span class="math inline">\(n&gt;r\)</span></td>
+<td>no</td>
+<td>easy</td>
+</tr>
+</tbody>
+</table>
 </div>
 </section>
-<section id="important-features" class="slide level2">
-<h2>Important features</h2>
-<ul>
-<li><p>the <strong>range</strong> of the <strong>response</strong> variable,</p></li>
-<li><p>how <strong>explanatory</strong> variables should be enter the regression</p></li>
-<li><p>the <strong>shape</strong> of the data</p></li>
-<li><p><strong>missing</strong> values <code>NA</code>’s</p></li>
-<li><p><strong>names</strong> of columns</p></li>
-<li><p><strong>factors</strong></p></li>
-</ul>
-</section>
-<section id="the-range-of-the-response" class="slide level2">
-<h2>the range of the response</h2>
-<div class="cell" data-reveal="true" data-caption="PAPARIA 1" data-fig-width="10" data-fig-height="6" data-fig-size="10">
+<section id="diagram" class="slide level2">
+<h2>diagram</h2>
+<div class="cell" data-reveal="true" data-fig-width="10" data-fig-height="10" data-fig-size="12">
 <div class="cell-output-display">
-<div>
-<div>
-<pre class="mermaid mermaid-js">flowchart TB
-  A[responce] --&gt; B(continuous) 
-  A --&gt; C[discrete]
-  A --&gt; D[factor]
-  B --&gt; F[real line]
-  B --&gt; G[pos. real line]
-  B --&gt; H[0 to 1]
-  C --&gt; J[infinite count]
-  C --&gt; I[finite count]
-  D --&gt; K[unordered]
-  D --&gt; L[ordered]
-  I --&gt; N[binary]
-  K --&gt; N[binary]
-</pre>
-</div>
-</div>
-</div>
-</div>
-
-<aside><div>
-<p>Important for determine the distribution</p>
-</div></aside></section>
-<section id="explanatory-variables" class="slide level2">
-<h2>explanatory variables</h2>
-<ul>
-<li><code>continuous</code>
-<ul>
-<li>linear effect</li>
-<li>non-linear effect</li>
-</ul></li>
-<li><code>factors</code>
-<ul>
-<li>non ordered</li>
-<li>ordered</li>
-</ul></li>
-<li><code>interactions</code></li>
-</ul>
-</section>
-<section id="data-dimension" class="slide level2">
-<h2>data dimension</h2>
-<ul>
-<li><code>data_dim()</code>: information about dimensions</li>
-</ul>
-<div class="cell" data-tbl-cap="Variables in  Munich rent data">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>da <span class="sc">|&gt;</span> <span class="fu">data_dim</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>************************************************************** 
-************************************************************** 
-the dimensions of the data set are: 3082 by 7 
-number of observations with missing values; 0 
-% data omited; 0 % 
-************************************************************** 
-************************************************************** </code></pre>
-</div>
-</div>
-<ul>
-<li><code>data_which_na()</code>: which variables have missing observations</li>
-</ul>
-<div class="cell" data-tbl-cap="Variables in  Munich rent data">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>da <span class="sc">|&gt;</span> <span class="fu">data_which_na</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>    rent     area    yearc location     bath  kitchen cheating 
-       0        0        0        0        0        0        0 </code></pre>
-</div>
-</div>
-</section>
-<section id="variable-names" class="slide level2 smaller">
-<h2>variable names</h2>
-<ul>
-<li><code>data_names()</code></li>
-</ul>
-<div class="cell" data-tbl-cap="Variables in  Munich rent data">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>da <span class="sc">|&gt;</span> <span class="fu">data_names</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>************************************************************** 
-************************************************************** 
-the names of variables 
-[1] "rent"     "area"     "yearc"    "location" "bath"     "kitchen"  "cheating"
-************************************************************** 
-************************************************************** </code></pre>
-</div>
-</div>
-<ul>
-<li>`data_sorter_names()’: shortening the names</li>
-</ul>
-<div class="cell" data-tbl-cap="Variables in  Munich rent data">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>da <span class="sc">|&gt;</span> <span class="fu">data_sorter_names</span>( <span class="at">max=</span><span class="dv">10</span>) <span class="ot">-&gt;</span> da</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>************************************************************** 
-************************************************************** 
-the names of variables 
-[1] "rent"     "area"     "yearc"    "location" "bath"     "kitchen"  "cheating"
-************************************************************** 
-************************************************************** </code></pre>
-</div>
-</div>
-</section>
-<section id="missing-values" class="slide level2">
-<h2>missing values</h2>
-<ul>
-<li><p>The <code>gamlss()</code> function can not cope with missing values.</p></li>
-<li><p>to deal with NA’s see <a href="https://stefvanbuuren.name/fimd/" class="uri">https://stefvanbuuren.name/fimd/</a></p></li>
-</ul>
-</section>
-<section id="data-shape" class="slide level2">
-<h2>data shape</h2>
-
-<img data-src="Shape_of_data.png" class="r-stretch quarto-figure-center"><p class="caption"><code>(a)</code> <span class="math inline">\(n&lt;p\)</span> more obstervations than variable <code>(b)</code> <span class="math inline">\(n&gt;p\)</span> more variables than obsrvations</p></section>
-<section id="factors" class="slide level2">
-<h2>Factors</h2>
-<ul>
-<li>any character vector</li>
-<li>any vector variable with a small range of distinct values,</li>
-</ul>
-<div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code>  (Intercept) x qrt2 qrt3 qrt4
-1           1 1    0    0    0
-2           1 2    1    0    0
-3           1 3    0    1    0
-4           1 4    0    0    1
-5           1 5    0    0    0
-6           1 6    1    0    0
-7           1 7    0    1    0
-8           1 8    0    0    1</code></pre>
-</div>
-</div>
-</section>
-<section id="the-structure-of-the-data" class="slide level2">
-<h2>the structure of the data</h2>
-<div class="cell" data-tbl-cap="Variables in  Munich rent data">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a>da <span class="sc">|&gt;</span> <span class="fu">data_str</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>************************************************************** 
-************************************************************** 
-the structure of the data 
-'data.frame':   3082 obs. of  7 variables:
- $ rent    : num  110 243 262 106 133 ...
- $ area    : int  26 28 30 30 30 30 31 31 32 33 ...
- $ yearc   : num  1918 1918 1918 1918 1918 ...
- $ location: Factor w/ 3 levels "1","2","3": 2 2 1 2 2 2 1 1 1 2 ...
- $ bath    : Factor w/ 2 levels "0","1": 1 1 1 1 1 1 1 1 1 1 ...
- $ kitchen : Factor w/ 2 levels "0","1": 1 1 1 1 1 1 1 2 1 1 ...
- $ cheating: Factor w/ 2 levels "0","1": 1 2 2 1 2 2 1 2 1 1 ...
-************************************************************** 
-************************************************************** 
-table of the class of variabes 
-class_Vars
- factor integer numeric 
-      4       1       2 
-************************************************************** 
-************************************************************** 
-and those integer vectors into mumeric: 
-area 
-************************************************************** 
-************************************************************** 
-distinct values in variables 
-    rent     area    yearc location     bath  kitchen cheating 
-    2723      132       68        3        2        2        2 
-************************************************************** 
-************************************************************** </code></pre>
-</div>
-</div>
-</section></section>
-<section>
-<section id="displaying-the-data" class="title-slide slide level1 center">
-<h1>displaying the data</h1>
-
-</section>
-<section id="plotting-individual-vectors" class="slide level2">
-<h2>Plotting individual vectors</h2>
-<ul>
-<li><code>data_plot()</code></li>
-</ul>
-
-<img data-src="data_files/figure-revealjs/fig-data_plot-1.png" width="960" class="r-stretch quarto-figure-center"><p class="caption">Figure&nbsp;1: Plotting the invidual variables of the data</p></section>
-<section id="plotting-individual-vectors-1" class="slide level2">
-<h2>Plotting individual vectors (1)</h2>
-<ul>
-<li><code>data_bucket()</code></li>
-</ul>
-
-<img data-src="data_files/figure-revealjs/fig-data_bucket-1.png" width="960" class="r-stretch quarto-figure-center"><p class="caption">Figure&nbsp;2: Plotting the bucket plot for the continuous variables in the data</p></section>
-<section id="plotting-individual-vectors-2" class="slide level2">
-<h2>Plotting individual vectors (2)</h2>
-<p><code>data_zscores()</code></p>
-
-<img data-src="data_files/figure-revealjs/fig-data_zcores-1.png" width="960" class="r-stretch quarto-figure-center"><p class="caption">Figure&nbsp;3: Plotting the histogtams of the continuous variables in the data</p></section>
-<section id="z-scores-standardization" class="slide level2">
-<h2>z-scores (standardization)</h2>
-<ul>
-<li><p><strong>standardization</strong> subtract from the mean and divide by standard deviation (no good for skew and kurtotic data)</p></li>
-<li><p><code>y_zscores()</code>: fits a <code>SHASHo</code> distribution and take the residuals</p></li>
-</ul>
-<div class="cell" data-tbl-cap="Variables in  Munich rent data">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a> z <span class="ot">&lt;-</span> <span class="fu">y_zscores</span>(da<span class="sc">$</span>rent, <span class="at">plot=</span><span class="cn">FALSE</span>) <span class="co"># is equivalent to the steps</span></span>
-<span id="cb12-2"><a href="#cb12-2"></a>m1 <span class="ot">&lt;-</span> <span class="fu">gamlssML</span>(da<span class="sc">$</span>rent, <span class="at">family=</span>SHASHo) <span class="co"># fitting a 4 parameter distribution </span></span>
-<span id="cb12-3"><a href="#cb12-3"></a><span class="fu">cbind</span>(z,<span class="fu">resid</span>(m1))[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>,]<span class="co">#  and taking the residuals</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>          z          
-1 -2.496097 -2.496097
-2 -1.340464 -1.340464
-3 -1.182014 -1.182014
-4 -2.526326 -2.526326
-5 -2.295069 -2.295069</code></pre>
-</div>
-</div>
-</section>
-<section id="the-response-variable" class="slide level2">
-<h2>The response variable</h2>
-<div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code>the class of the response is numeric is this correct? 
-a continuous distribution on (0,inf) could be used </code></pre>
-</div>
-
-</div>
-<img data-src="data_files/figure-revealjs/fig-data_response-1.png" width="960" class="r-stretch quarto-figure-center"><p class="caption">Figure&nbsp;4: The response variable, (a) histogram of the response variable (b) a dot plot of the response variable (c) histogram of the z-scores of the response variable after standardised using the SHASH distribution (d) a dot plot of the z-scores of response variable.</p></section>
-<section id="pair-wise-data-plots" class="slide level2">
-<h2>Pair-wise data plots</h2>
-
-<img data-src="data_files/figure-revealjs/fig-data_xyplot-1.png" width="960" class="r-stretch quarto-figure-center"><p class="caption">Figure&nbsp;5: The response variable aganst all explanatory variables.</p></section>
-<section id="sec-Outliers" class="slide level2">
-<h2>Outliers</h2>
-<ul>
-<li><p>within columns (variables)</p></li>
-<li><p>between rows (observations)</p></li>
-</ul>
-</section>
-<section id="outliers-within-columns" class="slide level2 smaller scrollable">
-<h2>Outliers within columns</h2>
-<p><code>Algorithm to identify outliers in continuous variables</code></p>
-<ul>
-<li><p><strong>Initialize</strong>: select all continuous variables <span class="math inline">\(x_1, x_2,\ldots, x_R\)</span></p></li>
-<li><p><strong>For</strong> r in 1 to R</p></li>
-<li><p><strong>If</strong> <span class="math inline">\(x_r\)</span> in <span class="math inline">\(\mathbb{R}^{+}\)</span> find <span class="math inline">\(p\)</span> to transform <span class="math inline">\(x_r\)</span> using the <em>power transformormation</em>, <span class="math inline">\(y_r = x_r^p\)</span> for <span class="math inline">\((0 \le p &lt; 1.5)\)</span> <strong>else</strong> set <span class="math inline">\(y_r=x_r\)</span>. <strong>EndIf</strong> </p></li>
-<li><p><strong>standardised</strong> <span class="math inline">\(y_r\)</span> to <span class="math inline">\(z_r\)</span> using a sinh-archsinh transformation and get the z-scores</p></li>
-<li><p><strong>identify</strong> z-scores with absolute value greater that a predetermine value <span class="math inline">\(|z_r| &gt; \text{val}\)</span> i.e.&nbsp;4</p></li>
-<li><p><strong>EndFor</strong></p></li>
-<li><p><strong>print</strong> the identified observations</p></li>
-</ul>
-</section>
-<section id="outliers-within-columns-2" class="slide level2">
-<h2>Outliers within columns (2)</h2>
-<ul>
-<li><code>data_outliers()</code></li>
-</ul>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a> gamlss.ggplots<span class="sc">:::</span><span class="fu">data_outliers</span>(da)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>$rent
-named numeric(0)
-
-$area
-named integer(0)
-
-$yearc
-named numeric(0)</code></pre>
-</div>
-</div>
-</section>
-<section id="outliers-between-rows" class="slide level2">
-<h2>Outliers between rows</h2>
-<ul>
-<li><code>data_leverage()</code></li>
-</ul>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a>gamlss.ggplots<span class="sc">:::</span><span class="fu">data_leverage</span>(da, <span class="at">response=</span>rent)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-
-</div>
-<img data-src="data_files/figure-revealjs/fig-data_leverage-1.png" width="960" class="r-stretch quarto-figure-center"><p class="caption">Figure&nbsp;6: The observations against the linear leverage.</p></section>
-<section id="sec-Transformationofvariables" class="slide level2">
-<h2>Transformation of variables</h2>
-<ul>
-<li><p><strong>transformation</strong> for skew x-variables to be transformed into a more evenly spaced. A <em>power transformation</em> of the type <span class="math inline">\(x^p\)</span> for <span class="math inline">\(0&lt;p&lt;1\)</span>, where p=0 usualy is defines as <span class="math inline">\(\log(x)\)</span>.</p></li>
-<li><p><strong>standardisation</strong> is needed to make sure that at least all continuous explanatory variables would be in a similar scale</p>
-<ul>
-<li>z-scores</li>
-<li>0 to 1</li>
-</ul></li>
-</ul>
-</section>
-<section id="transformation" class="slide level2">
-<h2>Transformation</h2>
-<ul>
-<li><code>data_trans()</code></li>
-</ul>
-
-<img data-src="data_files/figure-revealjs/fig-data_trans_plot-1.png" width="960" class="r-stretch quarto-figure-center"><p class="caption">Figure&nbsp;7: The response against linear the continuous variables: on the left have no transformation, in the middle the square root ; on the right log</p></section>
-<section id="standardisation" class="slide level2">
-<h2>standardisation</h2>
-<ul>
-<li><code>data_stad()</code></li>
-</ul>
-<div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code>      rent       area yearc location bath kitchen cheating
-1 109.9487 0.04285714     0        2    0       0        0
-2 243.2820 0.05714286     0        2    0       0        1
-3 261.6410 0.07142857     0        1    0       0        1
-4 106.4103 0.07142857     0        2    0       0        0
-5 133.3846 0.07142857     0        2    0       0        1
-6 339.0256 0.07142857     0        2    0       0        1</code></pre>
-</div>
-</div>
-<!-- ::: aside -->
-<!-- option 'type` allows the creation of main effect and interactions design matrices  -->
-<!-- ::: -->
-</section>
-<section id="pair-wise-linear-correlations" class="slide level2">
-<h2>pair-wise linear correlations</h2>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a>gamlss.ggplots<span class="sc">:::</span><span class="fu">data_cor</span>(da, <span class="at">method=</span><span class="st">"square"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>4 factors have been omited from the data </code></pre>
-</div>
-
-</div>
-<img data-src="data_files/figure-revealjs/fig-data_cor-1.png" width="960" class="r-stretch quarto-figure-center"><p class="caption">Figure&nbsp;8: The linear correlation coefficients of the continuous variables in the data</p></section>
-<section id="pair-wise-interactions" class="slide level2">
-<h2>pair-wise interactions</h2>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a>da <span class="sc">|&gt;</span> gamlss.ggplots<span class="sc">:::</span><span class="fu">data_inter</span>(<span class="at">response=</span> rent)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-
-</div>
-<img data-src="data_files/figure-revealjs/fig-data_inter-1.png" width="960" class="r-stretch quarto-figure-center"><p class="caption">Figure&nbsp;9: The pair wise interaction plots.</p></section></section>
-<section>
-<section id="partitioning-the-data" class="title-slide slide level1 center">
-<h1>partitioning the data</h1>
-
-</section>
-<section id="partitioning-tha-data" class="slide level2">
-<h2>partitioning tha data</h2>
-<ul>
-<li><p>2-sections: <strong>training</strong> and <strong>test</strong>;</p></li>
-<li><p>3-sections: <strong>training</strong>, <strong>validation</strong> and <strong>test</strong> ;</p></li>
-<li><p>K-sections: for <strong>K-fold</strong> cross validation;</p></li>
-<li><p>bootstrapping.</p></li>
-<li><p><code>why</code>: to get extra information by <strong>reusing</strong> or <strong>splitting</strong> the data.</p></li>
-</ul>
-</section>
-<section id="partitioning-tha-data-con." class="slide level2">
-<h2>partitioning tha data (con.)</h2>
-<div class="cell" data-reveal="true">
-<div class="cell-output-display">
-<div id="fig-data_split" class="quarto-figure quarto-figure-center">
+<div id="fig-fitting" class="quarto-figure quarto-figure-center">
 <figure>
 <div>
-<pre class="mermaid mermaid-js" data-label="fig-data_split">flowchart TB
-  A[Data] --&gt; B{Reuse} 
-  A --&gt; C{Split}
-  C --&gt; D[Training]
-  D --&gt; E[Validate]
-  E --&gt; O[Test]
-  B --&gt; F(Rearranged)
-  B --&gt; G(Reweighed)
-  G--&gt; H(Bayesian \n Bootstrap)
-  G--&gt; J(Boosting)
-  F --&gt; K(Non-param. \n Bootstrap)
-  F --&gt; L(Cross \n Validation)
-  L --&gt; M(k-Fold) 
-  L --&gt; N(LOO) 
+<pre class="mermaid mermaid-js" data-label="fig-fitting">flowchart TB
+  A[Data] --&gt; B(n greater than r) 
+  A --&gt; C( n less than r)
+  B --&gt; D[LM,GLM, \n GAM, NN ]
+  C --&gt; E[RidgeR, LASSO, Elastic Net, \n PCR, RF, \n Boosting, NN]
 </pre>
 </div>
-<figcaption>Figure&nbsp;10: Different ways of splitting data to get more information”</figcaption>
+<figcaption>Figure&nbsp;7: Different ways to estimate the coefficients of a GAMLSS model.</figcaption>
 </figure>
-</div>
-</div>
-</div>
-</section>
-<section id="partitioning-tha-data-con.-1" class="slide level2 smaller">
-<h2>partitioning tha data (con.)</h2>
-<ul>
-<li>the function <code>data_part()</code></li>
-</ul>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a>dap <span class="ot">&lt;-</span> gamlss.ggplots<span class="sc">:::</span><span class="fu">data_part</span>(da)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>data partition into two sets </code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1"></a><span class="fu">head</span>(dap)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>      rent area yearc location bath kitchen cheating partition
-1 109.9487   26  1918        2    0       0        0     train
-2 243.2820   28  1918        2    0       0        1      test
-3 261.6410   30  1918        1    0       0        1     train
-4 106.4103   30  1918        2    0       0        0      test
-5 133.3846   30  1918        2    0       0        1      test
-6 339.0256   30  1918        2    0       0        1     train</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1"></a>daTrain <span class="ot">&lt;-</span> <span class="fu">subset</span>(dap, partition<span class="sc">==</span><span class="st">"train"</span>)</span>
-<span id="cb26-2"><a href="#cb26-2"></a>daTest <span class="ot">&lt;-</span> <span class="fu">subset</span>(dap, partition<span class="sc">==</span><span class="st">"test"</span>)</span>
-<span id="cb26-3"><a href="#cb26-3"></a><span class="fu">dim</span>(daTrain)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 1846    8</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1"></a><span class="fu">dim</span>(daTest)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 1236    8</code></pre>
-</div>
-</div>
-</section>
-<section id="summary" class="slide level2 scrollable">
-<h2>Summary</h2>
-<div class="cell" data-reveal="true" data-caption="PAPARIA 1" data-fig-width="10" data-fig-height="6" data-fig-size="10">
-<div class="cell-output-display">
-<div>
-<div>
-<pre class="mermaid mermaid-js">flowchart LR
-  A[data] --&gt; B(size, names, missing) 
-  B --&gt; C[factors]
-  C --&gt; D{display}
-  D --&gt; E[variable plots]
-  D --&gt; F[response]
-  D --&gt; G[xy-plots]
-  F --&gt; J{outliers}
-  E --&gt; J
-  G --&gt; J
-  J &lt;--&gt; K[transformation of x]
-  J &lt;--&gt; L[standardization of x]
-  K --&gt; M[correlation]
-  L --&gt; M  
-  M &lt;--&gt; N[interactions]
-  N x--x O[partition] 
-</pre>
-</div>
 </div>
 </div>
 </div>
@@ -1067,7 +925,6 @@ named numeric(0)</code></pre>
 </div>
 </div>
 </div>
-<p>[back](data.qmd)</p>
 
 <p><img src="gamlss-trans.png" class="slide-logo"></p>
 <div class="footer footer-default">
@@ -1110,7 +967,7 @@ named numeric(0)</code></pre>
 'autoAnimateUnmatched': true,
 'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleChalkboard(event)\"><kbd>b</kbd> Toggle Chalkboard</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleNotesCanvas(event)\"><kbd>c</kbd> Toggle Notes Canvas</a></li>\n<li class=\"slide-tool-item\" data-item=\"6\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.downloadDrawings(event)\"><kbd>d</kbd> Download Drawings</a></li>\n<li class=\"slide-tool-item\" data-item=\"7\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true,"width":"wide"},
 'chalkboard': {"buttons":true},
-'multiplex': {"secret":null,"id":"ee8f0b2df6eef316","url":"https://reveal-multiplex.glitch.me/"},
+'multiplex': {"secret":null,"id":"42d5303aec9d1591","url":"https://reveal-multiplex.glitch.me/"},
 'smaller': false,
  
         // Display controls in the bottom right corner

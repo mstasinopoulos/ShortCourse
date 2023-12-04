@@ -1,0 +1,332 @@
+---
+title: "Fitting"
+title-slide-attributes:
+    data-background-image: Uni_greenwich.png
+    data-background-size: contain
+    data-background-opacity: "0.05"
+author:
+  - Mikis Stasinopoulos
+  - Bob Rigby
+  - Fernanda De Bastiani 
+format:
+  revealjs:
+    multiplex: true
+    slide-number: true
+    show-slide-number: print
+    chalkboard: 
+      buttons: true
+    incremental: false 
+    menu:
+      side: left
+      width: wide
+    logo: gamlss-trans.png
+    footer: "www.gamlss.com"
+    theme: sky
+    
+---
+
+## Introduction
+
+-   `the basic GAMLSS algorithm`
+-   `different statistical approaches for fitting a GAMLSS model`
+-   `different machine learning techniques for fitting a GAMLSS model`.
+
+
+
+# Machine Learning Models
+
+## properties
+
+-   are the **standard errors** available?
+
+-   do the x's need **standardization**.
+
+-   about the **algorithm**
+
+    ```         
+     - stability
+     - speed 
+     - convergence    
+    ```
+
+-   **nonlinear** terms
+
+-   **interactions**
+
+-   **dataset** type
+
+-   is the **selection** of x's automatic?
+
+-   **interpretation**
+
+## Linear Models {.smaller}
+
+
+```{R}
+#| echo: false
+#| warning: false
+#| message: false
+#| output: false
+library(gamlss)
+library(gamlss.ggplots)
+rent99 |> gamlss.ggplots:::data_rm( c(2,9)) |>
+ data_few2fac() -> da
+```
+
+```{R}
+#| echo: true
+#| warning: false
+#| message: false
+#| output: true
+#| output-location: slide
+mLM <- gamlss(rent~area+poly(yearc,2)+location+bath+kitchen+
+              cheating,
+              ~area+yearc+location+bath+kitchen+cheating, 
+              family=BCTo, trace=FALSE, data=da)
+summary(mLM)
+```
+
+## Additive Models
+
+```{R}
+#| echo: true
+#| warning: false
+#| message: false
+#| output: true
+#| output-location: slide
+mAM <- gamlss(rent~pb(area)+pb(yearc)+location+bath+kitchen+
+                cheating,
+      ~pb(area)+pb(yearc)+location+bath+kitchen+cheating, 
+              family=BCTo, data=da, trace=F)
+AIC(mLM, mAM)
+```
+
+
+## Additive Models (continue)
+
+```{R}
+#| label: fig-am_mu
+#| fig.cap: "pdf-plot of the fitted `am1` mu model "
+#| message: false
+#| warning: false
+#| output-location: slide
+fitted_terms(mAM)
+```
+
+## Additive Models (continue)
+
+```{R}
+#| label: fig-am_sigma
+#| fig.cap: "pdf-plot of the fitted `am1` sigma model"
+#| message: false
+#| warning: false
+#| output-location: slide
+fitted_terms(mAM, "sigma")
+```
+
+
+## Regression Trees {#sec-RegressionTrees}
+
+```{R}
+#| message: false 
+#| cache: true 
+#| warning: false
+#| echo: true
+#| output-location: slide
+library(gamlss.add)
+mRT <- gamlss(rent~tr(~area+yearc+location+bath+kitchen+cheating),~tr(~area+yearc+location+bath+kitchen+cheating), 
+              family=BCTo, data=da, trace=FALSE)
+AIC(mLM, mAM, mRT)
+```
+
+## Regression Trees (continue)
+
+```{R}
+#| label: fig-rtmu
+#| fig.cap: "The  fitted  tree for `mu` model"
+#| fig.height: 6
+#| message: false
+#| warning: false
+library(gamlss.add)
+term.plot(mRT)
+```
+
+## Regression Trees (continue)
+
+```{R}
+#| label: fig-rtsigma
+#| fig.cap: "The  fitted  tree for `mu` model"
+#| fig.height: 6
+#| message: false
+#| warning: false
+term.plot(mRT, parameter="sigma")
+```
+
+
+## Neural Networks
+
+```{R}
+#| message: false 
+#| warning: false
+#| echo: true
+#| cache: true
+#| output-location: slide 
+ source("~/Dropbox/github/gamlss-ggplots/R/data_stand.R")
+da01 <- data_scale(da, response=rent, scale = "0to1" )
+library(gamlss.add)
+set.seed(213)
+mNN <- gamlss(rent~nn(~area+yearc+location+bath+kitchen+
+                         cheating, size=5),
+                  ~nn(~area+yearc+location+bath+kitchen+cheating), 
+              family=BCTo, data=da01)
+AIC(mLM, mAM, mRT, mNN)
+```
+
+
+## Neural Networks (continue)
+
+```{R}
+#| message: false 
+#| warning: false
+#| label: fig-nn_mu
+#| fig.height: 6
+#| fig.cap: "The  fitted  neural network model fot  `mu`."
+term.plot(mNN)
+```
+
+## Neural Networks
+
+```{R}
+#| message: false 
+#| warning: false
+#| label: fig-nn_sigma
+#| fig.cap: "The  fitted  neural network model fot  `sigma`."
+term.plot(mNN, parameter="sigma")
+```
+
+
+## LASSO
+
+
+```{R}
+#| echo: true
+#| message: false
+#| warning: false
+#| eval: true
+#| cache: true 
+#| output-location: slide 
+library(gamlss.lasso)
+source("~/Dropbox/github/gamlss-ggplots/R/data_stand.R")
+da10 <- data_scale(da, response=rent)
+da1 <- data_form2df(da10,  response=rent, type="main.effect", 
+                   nonlinear="TRUE", arg=3)
+mLASSO <- gamlss(rent~gnet(x.vars=names(da1)[-c(1)],
+                    method = "IC", ICpen="BIC"),
+                     ~gnet(x.vars=names(da1)[-c(1)],
+                     method = "IC", ICpen="BIC"),
+                 data=da1, family=BCTo, bf.cyc=1, 
+                c.crit=0.1, trace=FALSE)
+AIC(mLM, mAM, mRT, mNN,  mLASSO)
+```
+
+
+## LASSO (continue)
+
+```{R}
+#| echo: true
+#| message: false
+#| warning: false
+#| eval: true
+#| cache: true 
+#| output-location: slide 
+source("~/Dropbox/GAMLSS-development/glmnet/sumplementary_functions_for_gnet.R")
+gnet_terms(mLASSO)
+gnet_terms(mLASSO, "sigma")
+
+```
+
+
+
+## Principal Component Regression 
+
+```{R}
+#| echo: true
+#| warning: false
+#| output: true
+#| output-location: slide
+#| message: false 
+#| cache: true 
+library(gamlss.foreach)
+registerDoParallel(cores = 10)
+source("~/Dropbox/github/gamlss-ggplots/R/data_stand.R")
+source("~/Dropbox/GAMLSS-development/PCR/GAMLSS-pc.R")
+X = formula2X(rent~area+yearc+location+bath+kitchen+
+              cheating, data=da)
+mPCR <- gamlss(rent~pc(x=X),~pc(x=X),
+    data=da1, family=BCTo, bf.cyc=1, trace=TRUE)
+GAIC(mLM, mAM, mRT, mNN,  mLASSO, mPCR)
+```
+
+
+
+
+
+## summary {.smaller}
+
+| ML Models   |coef. s.e.|stand. of x's| algo. stab., speed, conv. | non-linear terms| inter- actions| data type|auto sele-ction | interpre- tation
+|--------|-----:|-----:|-----|------------|-------|-----|-----|----|
+linear  |  yes| no  | yes, fast, v.good | poly | declare| $n>r$| no |v. easy| 
+additive|  no | no  |yes, slow, good   | smooth    | declare| $n>r$| no |easy|
+RT      |  no | no  | no, slow, bad | trees   | auto   | $n>r$?? | yes|easy|
+: Summary of properties of the machine learning algorithms  {#tbl-Summary  .striped .hover}
+
+
+
+
+
+## summary (continue) {.smaller}
+
+| ML Models   |coef. s.e.|stand. of x's| algo. stab., speed, conv. | non-linear terms| inter- actions| data type|auto sele-ction | interpre- tation
+|--------|-----:|-----:|-----|------------|-------|-----|-----|----|
+NN      |  no | 0 to 1 | no, $\,\,$ ok,  $\,\,$  ok   | auto    | auto   | both?| yes |v. hard|
+PCR     |  yes | yes | yes, fast, good  | poly      | declare| both| auto |hard
+LASSO   | no | yes | yes, fast, good| poly | declare | both | auto | easy|
+: Summary of properties of the machine learning algorithms  {#tbl-Summary  .striped .hover}
+
+
+## summary (continue) {.smaller}
+
+| ML Models   |coef. s.e.|stand. of x's| algo. stab., speed, conv. | non-linear terms| inter- actions| data type|auto sele-ction | interpre- tation
+|--------|-----:|-----:|-----|------------|-------|-----|-----|----|
+Boost   | no | no |  yes, fast, good| smooth trees | declare| $n<<r$| yes | easy|
+MCMC    | yes | no |  good, ok, $\,\,$  ok   |   smooth     | declare |   $n>r$   |  no   |  easy  |
+
+: Summary of properties of the machine learning algorithms  {#tbl-Summary  .striped .hover}
+
+
+
+## diagram
+
+```{mermaid}
+%%| label: fig-fitting
+%%| fig-cap: "Different ways to estimate the coefficients of a GAMLSS      model."
+%%| fig-width: 10
+%%| fig-height: 10
+%%| fig-size: 12
+flowchart TB
+  A[Data] --> B(n greater than r) 
+  A --> C( n less than r)
+  B --> D[LM,GLM, \n GAM, NN ]
+  C --> E[RidgeR, LASSO, Elastic Net, \n PCR, RF, \n Boosting, NN]
+```
+
+## end 
+
+
+::: {layout-ncol=3, layout-nrow=1}
+![](book-1.png){width=300}
+![](book-2.png){width=323}
+![](book3.png){width=333}
+The Books
+:::
+

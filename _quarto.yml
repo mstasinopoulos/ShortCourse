@@ -2,8 +2,10 @@ project:
   type: website
   output-dir: docs
 website:
-  title: "shortCourse"
+  title: "GAMLSS Short Course"
   navbar:
+    background: primary
+    search: true
     left:
       - href: index.qmd
         text: Home
@@ -11,9 +13,13 @@ website:
       - data.qmd
       - distributions.qmd
       
+      - fitting.qmd
+sidebar:
+  contents: auto
+      
 format:
   html:
-    theme: mytheme.scss
+    theme: sky
     css: styles.css
     toc: true
 

@@ -8,4 +8,5 @@ author:
 
 This is a `Quarto` website.
 
-This website contains slides from the short course on GAMLSS given in November 2023 at the Universidade Federal de Pernambuco, Recife, Pernambuco - Brasil as part of the Workshop on Applied Statistics and Stochastic Possesses, `WASPP`.
+This website contains slides from the short course on GAMLSS given in November 2023 at the Universidade Federal de Pernambuco, Recife, Pernambuco - Brasil as part of the Workshop on Applied Statistics and Stochastic Possesses, `WASPP 2023` <https://www.pgest-ufpe.org/wassp>.
+
