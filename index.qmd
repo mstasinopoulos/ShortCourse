@@ -12,6 +12,7 @@ This website contains slides from the short course on GAMLSS given in November 2
 -   [data](data.qmd)
 -   [distributions](distributions.qmd)
 -   [fitting](fitting.qmd)
--   [comparison](comparison.qmd)
 -   [selection](selection.qmd)
+-   [comparison](comparison.qmd)
+
 

@@ -140,7 +140,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text">Distributions</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="./fitting.html" rel="" target="" aria-current="page">
+    <a class="nav-link" href="./fitting.html" rel="" target="">
  <span class="menu-text">Fitting</span></a>
   </li>  
   <li class="nav-item">
@@ -189,9 +189,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#summary-continue-1" id="toc-summary-continue-1" class="nav-link" data-scroll-target="#summary-continue-1">summary (continue)</a></li>
   <li><a href="#diagram" id="toc-diagram" class="nav-link" data-scroll-target="#diagram">diagram</a></li>
   <li><a href="#end" id="toc-end" class="nav-link" data-scroll-target="#end">end</a></li>
+  <li><a href="#end-1" id="toc-end-1" class="nav-link" data-scroll-target="#end-1">end</a></li>
   </ul></li>
   </ul>
-<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="fitting.html"><i class="bi bi-file-slides"></i>RevealJS</a></li></ul></div></nav>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="select.html"><i class="bi bi-file-slides"></i>RevealJS</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -347,7 +348,7 @@ mLM 19.00000 38292.51</code></pre>
 <div class="cell-output-display">
 <div id="fig-am_mu" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="fitting_files/figure-revealjs/fig-am_mu-1.png" class="img-fluid figure-img" width="960"></p>
+<p><img src="select_files/figure-revealjs/fig-am_mu-1.png" class="img-fluid figure-img" width="960"></p>
 <figcaption class="figure-caption">Figure&nbsp;1: pdf-plot of the fitted <code>am1</code> mu model</figcaption>
 </figure>
 </div>
@@ -360,7 +361,7 @@ mLM 19.00000 38292.51</code></pre>
 <div class="cell-output-display">
 <div id="fig-am_sigma" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="fitting_files/figure-revealjs/fig-am_sigma-1.png" class="img-fluid figure-img" width="960"></p>
+<p><img src="select_files/figure-revealjs/fig-am_sigma-1.png" class="img-fluid figure-img" width="960"></p>
 <figcaption class="figure-caption">Figure&nbsp;2: pdf-plot of the fitted <code>am1</code> sigma model</figcaption>
 </figure>
 </div>
@@ -369,7 +370,7 @@ mLM 19.00000 38292.51</code></pre>
 </section>
 <section id="sec-RegressionTrees" class="level2">
 <h2 class="anchored" data-anchor-id="sec-RegressionTrees">Regression Trees</h2>
-<div class="cell" data-output-location="slide" data-hash="fitting_cache/revealjs/unnamed-chunk-6_3b627d9c8df6ff33fb7ec464ed00c20d">
+<div class="cell" data-output-location="slide" data-hash="select_cache/revealjs/unnamed-chunk-6_38d5c448505522a2d1e48641249c5f7e">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gamlss.add)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>mRT <span class="ot">&lt;-</span> <span class="fu">gamlss</span>(rent<span class="sc">~</span><span class="fu">tr</span>(<span class="sc">~</span>area<span class="sc">+</span>yearc<span class="sc">+</span>location<span class="sc">+</span>bath<span class="sc">+</span>kitchen<span class="sc">+</span>cheating),<span class="sc">~</span><span class="fu">tr</span>(<span class="sc">~</span>area<span class="sc">+</span>yearc<span class="sc">+</span>location<span class="sc">+</span>bath<span class="sc">+</span>kitchen<span class="sc">+</span>cheating), </span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">family=</span>BCTo, <span class="at">data=</span>da, <span class="at">trace=</span><span class="cn">FALSE</span>)</span>
@@ -388,7 +389,7 @@ mRT 22.00000 38711.66</code></pre>
 <div class="cell-output-display">
 <div id="fig-rtmu" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="fitting_files/figure-revealjs/fig-rtmu-1.png" class="img-fluid figure-img" width="960"></p>
+<p><img src="select_files/figure-revealjs/fig-rtmu-1.png" class="img-fluid figure-img" width="960"></p>
 <figcaption class="figure-caption">Figure&nbsp;3: The fitted tree for <code>mu</code> model</figcaption>
 </figure>
 </div>
@@ -401,7 +402,7 @@ mRT 22.00000 38711.66</code></pre>
 <div class="cell-output-display">
 <div id="fig-rtsigma" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="fitting_files/figure-revealjs/fig-rtsigma-1.png" class="img-fluid figure-img" width="960"></p>
+<p><img src="select_files/figure-revealjs/fig-rtsigma-1.png" class="img-fluid figure-img" width="960"></p>
 <figcaption class="figure-caption">Figure&nbsp;4: The fitted tree for <code>mu</code> model</figcaption>
 </figure>
 </div>
@@ -410,7 +411,7 @@ mRT 22.00000 38711.66</code></pre>
 </section>
 <section id="neural-networks" class="level2">
 <h2 class="anchored" data-anchor-id="neural-networks">Neural Networks</h2>
-<div class="cell" data-output-location="slide" data-hash="fitting_cache/revealjs/unnamed-chunk-9_6bea216268ae321d4405cd2c88d7a909">
+<div class="cell" data-output-location="slide" data-hash="select_cache/revealjs/unnamed-chunk-9_4eef0a3ea07b0bb792db5437f2fc356b">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a> <span class="fu">source</span>(<span class="st">"~/Dropbox/github/gamlss-ggplots/R/data_stand.R"</span>)</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>da01 <span class="ot">&lt;-</span> <span class="fu">data_scale</span>(da, <span class="at">response=</span>rent, <span class="at">scale =</span> <span class="st">"0to1"</span> )</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gamlss.add)</span>
@@ -446,7 +447,7 @@ mRT 22.00000 38711.66</code></pre>
 <div class="cell-output-display">
 <div id="fig-nn_mu" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="fitting_files/figure-revealjs/fig-nn_mu-1.png" class="img-fluid figure-img" width="960"></p>
+<p><img src="select_files/figure-revealjs/fig-nn_mu-1.png" class="img-fluid figure-img" width="960"></p>
 <figcaption class="figure-caption">Figure&nbsp;5: The fitted neural network model fot <code>mu</code>.</figcaption>
 </figure>
 </div>
@@ -459,7 +460,7 @@ mRT 22.00000 38711.66</code></pre>
 <div class="cell-output-display">
 <div id="fig-nn_sigma" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="fitting_files/figure-revealjs/fig-nn_sigma-1.png" class="img-fluid figure-img" width="960"></p>
+<p><img src="select_files/figure-revealjs/fig-nn_sigma-1.png" class="img-fluid figure-img" width="960"></p>
 <figcaption class="figure-caption">Figure&nbsp;6: The fitted neural network model fot <code>sigma</code>.</figcaption>
 </figure>
 </div>
@@ -468,7 +469,7 @@ mRT 22.00000 38711.66</code></pre>
 </section>
 <section id="lasso" class="level2">
 <h2 class="anchored" data-anchor-id="lasso">LASSO</h2>
-<div class="cell" data-output-location="slide" data-hash="fitting_cache/revealjs/unnamed-chunk-12_8d40d326a902605e7173c016550977b6">
+<div class="cell" data-output-location="slide" data-hash="select_cache/revealjs/unnamed-chunk-12_450b5613d4afd6ada003df4357e3e992">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gamlss.lasso)</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"~/Dropbox/github/gamlss-ggplots/R/data_stand.R"</span>)</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>da10 <span class="ot">&lt;-</span> <span class="fu">data_scale</span>(da, <span class="at">response=</span>rent)</span>
@@ -493,7 +494,7 @@ mRT    22.00000 38711.66</code></pre>
 </section>
 <section id="lasso-continue" class="level2">
 <h2 class="anchored" data-anchor-id="lasso-continue">LASSO (continue)</h2>
-<div class="cell" data-output-location="slide" data-hash="fitting_cache/revealjs/unnamed-chunk-13_8045c3c411a80dfd19a45ad1423eb8b2">
+<div class="cell" data-output-location="slide" data-hash="select_cache/revealjs/unnamed-chunk-13_517b16769e7411ea9638a9ad83c54bef">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"~/Dropbox/GAMLSS-development/glmnet/sumplementary_functions_for_gnet.R"</span>)</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">gnet_terms</span>(mLASSO)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -513,7 +514,7 @@ mRT    22.00000 38711.66</code></pre>
 </section>
 <section id="principal-component-regression" class="level2">
 <h2 class="anchored" data-anchor-id="principal-component-regression">Principal Component Regression</h2>
-<div class="cell" data-output-location="slide" data-hash="fitting_cache/revealjs/unnamed-chunk-14_a3cd242f205311e8ff4b57a3c22965b6">
+<div class="cell" data-output-location="slide" data-hash="select_cache/revealjs/unnamed-chunk-14_bea8a4bd4a71aa795afd1223ba2eda37">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gamlss.foreach)</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">registerDoParallel</span>(<span class="at">cores =</span> <span class="dv">10</span>)</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"~/Dropbox/github/gamlss-ggplots/R/data_stand.R"</span>)</span>
@@ -758,11 +759,13 @@ mRT    22.00000 38711.66</code></pre>
 </section>
 <section id="end" class="level2">
 <h2 class="anchored" data-anchor-id="end">end</h2>
-<p><a href="https://mstasinopoulos.github.io/ShortCourse/">bact to the index</a></p>
+</section>
+<section id="end-1" class="level2">
+<h2 class="anchored" data-anchor-id="end-1">end</h2>
 <div class="quarto-layout-panel">
 <div class="quarto-layout-row quarto-layout-valign-top">
 <div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
-<p><img src="book-1.png" class="img-fluid" width="300"> <img src="BOOK-2.png" class="img-fluid" width="323"> <img src="book3.png" class="img-fluid" width="333"> The Books</p>
+<p><img src="book-1.png" class="img-fluid" width="300"> <img src="book-2.png" class="img-fluid" width="323"> <img src="book3.png" class="img-fluid" width="333"> The Books</p>
 </div>
 </div>
 </div>
