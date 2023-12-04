@@ -4,7 +4,7 @@
     "href": "index.html",
     "title": "GAMLSS short course slides",
     "section": "",
-    "text": "This is a Quarto website.\nThis website contains slides from the short course on GAMLSS given in November 2023 at the Universidade Federal de Pernambuco, Recife, Pernambuco - Brasil as part of the Workshop on Applied Statistics and Stochastic Possesses, WASPP."
+    "text": "This website contains slides from the short course on GAMLSS given in November 2023 at the Universidade Federal de Pernambuco, Recife, Pernambuco - Brasil as part of the Workshop on Applied Statistics and Stochastic Possesses, WASPP 2023. https://www.pgest-ufpe.org/wassp.\n\nregression\ndata\nditsributions\nfitting"
   },
   {
     "objectID": "regression.html",
@@ -214,7 +214,7 @@
     "href": "regression.html#end",
     "title": "Regression",
     "section": "end",
-    "text": "end\n\n\n\n   The Books\n\n\n\n\n\n\nwww.gamlss.com"
+    "text": "end\nback to index\n\n\n\n   The Books\n\n\n\n\n\n\nwww.gamlss.com"
   },
   {
     "objectID": "regression.html#fitting-models-output",
@@ -642,5 +642,208 @@
     "title": "Distributions",
     "section": "end",
     "text": "end\n\n\n\n   The Books\n\n\n\n\n\n\nwww.gamlss.com"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "About this site\n\n1 + 1\n\n[1] 2"
+  },
+  {
+    "objectID": "fitting.html",
+    "href": "fitting.html",
+    "title": "Fitting",
+    "section": "",
+    "text": "the basic GAMLSS algorithm\ndifferent statistical approaches for fitting a GAMLSS model\ndifferent machine learning techniques for fitting a GAMLSS model."
+  },
+  {
+    "objectID": "fitting.html#introduction",
+    "href": "fitting.html#introduction",
+    "title": "Fitting",
+    "section": "Introduction",
+    "text": "Introduction\n\nthe basic GAMLSS algorithm\ndifferent statistical approaches for fitting a GAMLSS model\ndifferent machine learning techniques for fitting a GAMLSS model."
+  },
+  {
+    "objectID": "fitting.html#properties",
+    "href": "fitting.html#properties",
+    "title": "Fitting",
+    "section": "properties",
+    "text": "properties\n\nare the standard errors available?\ndo the x’s need standardization.\nabout the algorithm\n - stability\n - speed \n - convergence    \nnonlinear terms\ninteractions\ndataset type\nis the selection of x’s automatic?\ninterpretation"
+  },
+  {
+    "objectID": "fitting.html#linear-models",
+    "href": "fitting.html#linear-models",
+    "title": "Fitting",
+    "section": "Linear Models",
+    "text": "Linear Models\n\nmLM &lt;- gamlss(rent~area+poly(yearc,2)+location+bath+kitchen+\n              cheating,\n              ~area+yearc+location+bath+kitchen+cheating, \n              family=BCTo, trace=FALSE, data=da)\nsummary(mLM)"
+  },
+  {
+    "objectID": "fitting.html#additive-models",
+    "href": "fitting.html#additive-models",
+    "title": "Fitting",
+    "section": "Additive Models",
+    "text": "Additive Models\n\nmAM &lt;- gamlss(rent~pb(area)+pb(yearc)+location+bath+kitchen+\n                cheating,\n      ~pb(area)+pb(yearc)+location+bath+kitchen+cheating, \n              family=BCTo, data=da, trace=F)\nAIC(mLM, mAM)"
+  },
+  {
+    "objectID": "fitting.html#additive-models-continue",
+    "href": "fitting.html#additive-models-continue",
+    "title": "Fitting",
+    "section": "Additive Models (continue)",
+    "text": "Additive Models (continue)\n\nFigure 1: pdf-plot of the fitted am1 mu model"
+  },
+  {
+    "objectID": "fitting.html#additive-models-continue-1",
+    "href": "fitting.html#additive-models-continue-1",
+    "title": "Fitting",
+    "section": "Additive Models (continue)",
+    "text": "Additive Models (continue)\n\nFigure 2: pdf-plot of the fitted am1 sigma model"
+  },
+  {
+    "objectID": "fitting.html#sec-RegressionTrees",
+    "href": "fitting.html#sec-RegressionTrees",
+    "title": "Fitting",
+    "section": "Regression Trees",
+    "text": "Regression Trees\n\nlibrary(gamlss.add)\nmRT &lt;- gamlss(rent~tr(~area+yearc+location+bath+kitchen+cheating),~tr(~area+yearc+location+bath+kitchen+cheating), \n              family=BCTo, data=da, trace=FALSE)\nAIC(mLM, mAM, mRT)"
+  },
+  {
+    "objectID": "fitting.html#regression-trees-continue",
+    "href": "fitting.html#regression-trees-continue",
+    "title": "Fitting",
+    "section": "Regression Trees (continue)",
+    "text": "Regression Trees (continue)\n\nFigure 3: The fitted tree for mu model"
+  },
+  {
+    "objectID": "fitting.html#regression-trees-continue-1",
+    "href": "fitting.html#regression-trees-continue-1",
+    "title": "Fitting",
+    "section": "Regression Trees (continue)",
+    "text": "Regression Trees (continue)\n\nFigure 4: The fitted tree for mu model"
+  },
+  {
+    "objectID": "fitting.html#neural-networks",
+    "href": "fitting.html#neural-networks",
+    "title": "Fitting",
+    "section": "Neural Networks",
+    "text": "Neural Networks\n\n source(\"~/Dropbox/github/gamlss-ggplots/R/data_stand.R\")\nda01 &lt;- data_scale(da, response=rent, scale = \"0to1\" )\nlibrary(gamlss.add)\nset.seed(213)\nmNN &lt;- gamlss(rent~nn(~area+yearc+location+bath+kitchen+\n                         cheating, size=5),\n                  ~nn(~area+yearc+location+bath+kitchen+cheating), \n              family=BCTo, data=da01)"
+  },
+  {
+    "objectID": "fitting.html#neural-networks-continue",
+    "href": "fitting.html#neural-networks-continue",
+    "title": "Fitting",
+    "section": "Neural Networks (continue)",
+    "text": "Neural Networks (continue)\n\nFigure 5: The fitted neural network model fot mu."
+  },
+  {
+    "objectID": "fitting.html#neural-networks-1",
+    "href": "fitting.html#neural-networks-1",
+    "title": "Fitting",
+    "section": "Neural Networks",
+    "text": "Neural Networks\n\nFigure 6: The fitted neural network model fot sigma."
+  },
+  {
+    "objectID": "fitting.html#lasso",
+    "href": "fitting.html#lasso",
+    "title": "Fitting",
+    "section": "LASSO",
+    "text": "LASSO\n\nlibrary(gamlss.lasso)\nsource(\"~/Dropbox/github/gamlss-ggplots/R/data_stand.R\")\nda10 &lt;- data_scale(da, response=rent)\nda1 &lt;- data_form2df(da10,  response=rent, type=\"main.effect\", \n                   nonlinear=\"TRUE\", arg=3)\nmLASSO &lt;- gamlss(rent~gnet(x.vars=names(da1)[-c(1)],\n                    method = \"IC\", ICpen=\"BIC\"),\n                     ~gnet(x.vars=names(da1)[-c(1)],\n                     method = \"IC\", ICpen=\"BIC\"),\n                 data=da1, family=BCTo, bf.cyc=1, \n                c.crit=0.1, trace=FALSE)\nAIC(mLM, mAM, mRT, mNN,  mLASSO)"
+  },
+  {
+    "objectID": "fitting.html#lasso-continue",
+    "href": "fitting.html#lasso-continue",
+    "title": "Fitting",
+    "section": "LASSO (continue)",
+    "text": "LASSO (continue)\n\nsource(\"~/Dropbox/GAMLSS-development/glmnet/sumplementary_functions_for_gnet.R\")\ngnet_terms(mLASSO)"
+  },
+  {
+    "objectID": "fitting.html#principal-component-regression",
+    "href": "fitting.html#principal-component-regression",
+    "title": "Fitting",
+    "section": "Principal Component Regression",
+    "text": "Principal Component Regression\n\nlibrary(gamlss.foreach)\nregisterDoParallel(cores = 10)\nsource(\"~/Dropbox/github/gamlss-ggplots/R/data_stand.R\")\nsource(\"~/Dropbox/GAMLSS-development/PCR/GAMLSS-pc.R\")\nX = formula2X(rent~area+yearc+location+bath+kitchen+\n              cheating, data=da)\nmPCR &lt;- gamlss(rent~pc(x=X),~pc(x=X),\n    data=da1, family=BCTo, bf.cyc=1, trace=TRUE)"
+  },
+  {
+    "objectID": "fitting.html#summary",
+    "href": "fitting.html#summary",
+    "title": "Fitting",
+    "section": "summary",
+    "text": "summary\n\n\nTable 1: Summary of properties of the machine learning algorithms\n\n\n\n\n\n\n\n\n\n\n\n\n\nML Models\ncoef. s.e.\nstand. of x’s\nalgo. stab., speed, conv.\nnon-linear terms\ninter- actions\ndata type\nauto sele-ction\ninterpre- tation\n\n\n\n\nlinear\nyes\nno\nyes, fast, v.good\npoly\ndeclare\n\\(n&gt;r\\)\nno\nv. easy\n\n\nadditive\nno\nno\nyes, slow, good\nsmooth\ndeclare\n\\(n&gt;r\\)\nno\neasy\n\n\nRT\nno\nno\nno, slow, bad\ntrees\nauto\n\\(n&gt;r\\)??\nyes\neasy"
+  },
+  {
+    "objectID": "fitting.html#summary-continue",
+    "href": "fitting.html#summary-continue",
+    "title": "Fitting",
+    "section": "summary (continue)",
+    "text": "summary (continue)\n\n\nTable 2: Summary of properties of the machine learning algorithms\n\n\n\n\n\n\n\n\n\n\n\n\n\nML Models\ncoef. s.e.\nstand. of x’s\nalgo. stab., speed, conv.\nnon-linear terms\ninter- actions\ndata type\nauto sele-ction\ninterpre- tation\n\n\n\n\nNN\nno\n0 to 1\nno, \\(\\,\\,\\) ok, \\(\\,\\,\\) ok\nauto\nauto\nboth?\nyes\nv. hard\n\n\nPCR\nyes\nyes\nyes, fast, good\npoly\ndeclare\nboth\nauto\nhard\n\n\nLASSO\nno\nyes\nyes, fast, good\npoly\ndeclare\nboth\nauto\neasy"
+  },
+  {
+    "objectID": "fitting.html#summary-continue-1",
+    "href": "fitting.html#summary-continue-1",
+    "title": "Fitting",
+    "section": "summary (continue)",
+    "text": "summary (continue)\n\n\nTable 3: Summary of properties of the machine learning algorithms\n\n\n\n\n\n\n\n\n\n\n\n\n\nML Models\ncoef. s.e.\nstand. of x’s\nalgo. stab., speed, conv.\nnon-linear terms\ninter- actions\ndata type\nauto sele-ction\ninterpre- tation\n\n\n\n\nBoost\nno\nno\nyes, fast, good\nsmooth trees\ndeclare\n\\(n&lt;&lt;r\\)\nyes\neasy\n\n\nMCMC\nyes\nno\ngood, ok, \\(\\,\\,\\) ok\nsmooth\ndeclare\n\\(n&gt;r\\)\nno\neasy"
+  },
+  {
+    "objectID": "fitting.html#diagram",
+    "href": "fitting.html#diagram",
+    "title": "Fitting",
+    "section": "diagram",
+    "text": "diagram\n\n\n\n\n\nflowchart TB\n  A[Data] --&gt; B(n greater than r) \n  A --&gt; C( n less than r)\n  B --&gt; D[LM,GLM, \\n GAM, NN ]\n  C --&gt; E[RidgeR, LASSO, Elastic Net, \\n PCR, RF, \\n Boosting, NN]\n\n\nFigure 7: Different ways to estimate the coefficients of a GAMLSS model."
+  },
+  {
+    "objectID": "fitting.html#end",
+    "href": "fitting.html#end",
+    "title": "Fitting",
+    "section": "end",
+    "text": "end\n\n\n\n   The Books\n\n\n\n\n\n\nwww.gamlss.com"
+  },
+  {
+    "objectID": "fitting.html#linear-models-output",
+    "href": "fitting.html#linear-models-output",
+    "title": "Fitting",
+    "section": "Linear Models",
+    "text": "Linear Models\n\n******************************************************************\nFamily:  c(\"BCTo\", \"Box-Cox-t-orig.\") \n\nCall:  gamlss(formula = rent ~ area + poly(yearc, 2) + location +  \n    bath + kitchen + cheating, sigma.formula = ~area +  \n    yearc + location + bath + kitchen + cheating, family = BCTo,  \n    data = da, trace = FALSE) \n\nFitting method: RS() \n\n------------------------------------------------------------------\nMu link function:  log\nMu Coefficients:\n                 Estimate Std. Error t value Pr(&gt;|t|)    \n(Intercept)     5.0138582  0.0277852 180.451  &lt; 2e-16 ***\narea            0.0106311  0.0002331  45.613  &lt; 2e-16 ***\npoly(yearc, 2)1 5.0382576  0.3360044  14.995  &lt; 2e-16 ***\npoly(yearc, 2)2 3.3475762  0.2737237  12.230  &lt; 2e-16 ***\nlocation2       0.0875504  0.0102485   8.543  &lt; 2e-16 ***\nlocation3       0.1967006  0.0385032   5.109 3.44e-07 ***\nbath1           0.0415393  0.0219353   1.894   0.0584 .  \nkitchen1        0.1120385  0.0243199   4.607 4.25e-06 ***\ncheating1       0.3297044  0.0243422  13.545  &lt; 2e-16 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\n------------------------------------------------------------------\nSigma link function:  log\nSigma Coefficients:\n              Estimate Std. Error t value Pr(&gt;|t|)    \n(Intercept) 10.4022601  0.7528378  13.817  &lt; 2e-16 ***\narea         0.0012116  0.0006135   1.975   0.0484 *  \nyearc       -0.0059332  0.0003864 -15.356  &lt; 2e-16 ***\nlocation2    0.0595118  0.0254048   2.343   0.0192 *  \nlocation3    0.2191754  0.0930995   2.354   0.0186 *  \nbath1        0.0058254  0.0087229   0.668   0.5043    \nkitchen1     0.0400246  0.0882200   0.454   0.6501    \ncheating1   -0.2453139  0.0487224  -5.035 5.06e-07 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\n------------------------------------------------------------------\nNu link function:  identity \nNu Coefficients:\n            Estimate Std. Error t value Pr(&gt;|t|)    \n(Intercept)  0.65631    0.05598   11.72   &lt;2e-16 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\n------------------------------------------------------------------\nTau link function:  log \nTau Coefficients:\n            Estimate Std. Error t value Pr(&gt;|t|)    \n(Intercept)   3.2918     0.4411   7.463 1.09e-13 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\n------------------------------------------------------------------\nNo. of observations in the fit:  3082 \nDegrees of Freedom for the fit:  19\n      Residual Deg. of Freedom:  3063 \n                      at cycle:  10 \n \nGlobal Deviance:     38254.51 \n            AIC:     38292.51 \n            SBC:     38407.14 \n******************************************************************"
+  },
+  {
+    "objectID": "fitting.html#additive-models-output",
+    "href": "fitting.html#additive-models-output",
+    "title": "Fitting",
+    "section": "Additive Models",
+    "text": "Additive Models\n\n          df      AIC\nmAM 29.78058 38198.79\nmLM 19.00000 38292.51"
+  },
+  {
+    "objectID": "fitting.html#sec-RegressionTrees-output",
+    "href": "fitting.html#sec-RegressionTrees-output",
+    "title": "Fitting",
+    "section": "Regression Trees",
+    "text": "Regression Trees\n\n          df      AIC\nmAM 29.78058 38198.79\nmLM 19.00000 38292.51\nmRT 22.00000 38711.66"
+  },
+  {
+    "objectID": "fitting.html#neural-networks-output",
+    "href": "fitting.html#neural-networks-output",
+    "title": "Fitting",
+    "section": "Neural Networks",
+    "text": "Neural Networks\n\nGAMLSS-RS iteration 1: Global Deviance = 38089.89 \nGAMLSS-RS iteration 2: Global Deviance = 38054.95 \nGAMLSS-RS iteration 3: Global Deviance = 38054.1 \nGAMLSS-RS iteration 4: Global Deviance = 38053.9 \nGAMLSS-RS iteration 5: Global Deviance = 38053.84 \nGAMLSS-RS iteration 6: Global Deviance = 38053.79 \nGAMLSS-RS iteration 7: Global Deviance = 38053.78 \nGAMLSS-RS iteration 8: Global Deviance = 38053.78 \nGAMLSS-RS iteration 9: Global Deviance = 38053.78 \n\nAIC(mLM, mAM, mRT, mNN)\n\n          df      AIC\nmAM 29.78058 38198.79\nmNN 78.00000 38209.78\nmLM 19.00000 38292.51\nmRT 22.00000 38711.66"
+  },
+  {
+    "objectID": "fitting.html#lasso-output",
+    "href": "fitting.html#lasso-output",
+    "title": "Fitting",
+    "section": "LASSO",
+    "text": "LASSO\n\n             df      AIC\nmAM    29.78058 38198.79\nmNN    78.00000 38209.78\nmLM    19.00000 38292.51\nmLASSO 22.00000 38309.11\nmRT    22.00000 38711.66"
+  },
+  {
+    "objectID": "fitting.html#lasso-continue-output",
+    "href": "fitting.html#lasso-continue-output",
+    "title": "Fitting",
+    "section": "LASSO (continue)",
+    "text": "LASSO (continue)\n\n      area1       area2       area3      yearc1      yearc2      yearc3 \n13.72498782 -1.85175963  0.09162263  4.97838839  3.71690657 -0.18975745 \n  location2   location3   cheating1 \n 0.01331635  0.05631020  0.27463624 \n\ngnet_terms(mLASSO, \"sigma\")\n\n     area1      area2      area3     yearc1     yearc3  location2  location3 \n 2.2850872 -0.5173168  1.6240863 -7.7665983  3.2776033  0.0673355  0.3178812 \n  kitchen1  cheating1 \n 0.1209266 -0.1497227"
+  },
+  {
+    "objectID": "fitting.html#principal-component-regression-output",
+    "href": "fitting.html#principal-component-regression-output",
+    "title": "Fitting",
+    "section": "Principal Component Regression",
+    "text": "Principal Component Regression\n\nGAMLSS-RS iteration 1: Global Deviance = 38458.91 \nGAMLSS-RS iteration 2: Global Deviance = 38404.13 \nGAMLSS-RS iteration 3: Global Deviance = 38405.09 \nGAMLSS-RS iteration 4: Global Deviance = 38404.56 \nGAMLSS-RS iteration 5: Global Deviance = 38404.43 \nGAMLSS-RS iteration 6: Global Deviance = 38404.38 \nGAMLSS-RS iteration 7: Global Deviance = 38404.37 \nGAMLSS-RS iteration 8: Global Deviance = 38404.36 \nGAMLSS-RS iteration 9: Global Deviance = 38404.36 \nGAMLSS-RS iteration 10: Global Deviance = 38404.36 \n\nGAIC(mLM, mAM, mRT, mNN,  mLASSO, mPCR)\n\n             df      AIC\nmAM    29.78058 38198.79\nmNN    78.00000 38209.78\nmLM    19.00000 38292.51\nmLASSO 22.00000 38309.11\nmPCR   15.00000 38434.36\nmRT    22.00000 38711.66"
   }
 ]
