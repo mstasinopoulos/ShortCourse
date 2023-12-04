@@ -12,8 +12,9 @@ website:
       - regression.qmd
       - data.qmd
       - distributions.qmd
-      
       - fitting.qmd
+      - comparison.qmd
+      
 sidebar:
   contents: auto
       

@@ -1,0 +1,313 @@
+---
+title: "Selection"
+title-slide-attributes:
+    data-background-image: Uni_greenwich.png
+    data-background-size: contain
+    data-background-opacity: "0.05"
+author:
+  - Mikis Stasinopoulos
+  - Bob Rigby
+  - Fernanda De Bastiani 
+format:
+  revealjs:
+    multiplex: true
+    slide-number: true
+    show-slide-number: print
+    chalkboard: 
+      buttons: true
+    incremental: false 
+    menu:
+      side: left
+      width: wide
+    logo: gamlss-trans.png
+    footer: "www.gamlss.com"
+    theme: mytheme.scss
+    
+---
+
+## Introduction
+
+-   `step-wise selection`;
+-   `boosting`; and
+-   `modelling interactions` in general
+
+
+
+## Selection
+
+```{mermaid}
+%%| label: fig-fitting
+%%| fig-cap: "Different methods of selecting features."
+flowchart TB
+  A[Models] --> B(automatic \n selection) 
+  A --> C(declared\n selection)
+  B --> G[automatic \n interaction]
+  B --> H[set up \n interaction]
+  G --> D(NN, RT)
+  H --> E(LASSO, \n Ridge, \n Elastic Net, \n PCR )
+  S --> M[step-wise]
+  S --> N[boost]
+  C --> S(LM, AM )
+```
+
+
+## Stepwise Selection 
+
+
+- `current` model
+- `lower` model 
+
+    - which could be the `Null` model
+
+- `upper` model 
+
+    - which could be the `saturated` model
+
+
+
+## Stepwise Selection (continue) {.smaller}
+
+| steps        |    Lower     |  Direction   |      Current       |   Direction   |    Upper     |      Creates       | Given                                             |     |
+|--------|:------:|:------:|:------:|:------:|:------:|:------:|:-------|:------:|
+| 1 ($\mu$)    |  $L_{\mu}$   | $\leftarrow$ |     $C_{\mu}$      | $\rightarrow$ |  $U_{\mu}$   |  $F_{\mu}^{(1)}$   | $C_{\sigma}, C_{\nu}, C_{\tau}$                   |     |
+| 2 ($\sigma$) | $L_{\sigma}$ | $\leftarrow$ |    $C_{\sigma}$    | $\rightarrow$ | $U_{\sigma}$ | $F_{\sigma}^{(2)}$ | $F_{\mu}^{(1)}, C_{\nu}, C_{\tau}$                |     |
+| 3 ($\nu$)    |  $L_{\nu}$   | $\leftarrow$ |     $C_{\nu}$      | $\rightarrow$ |  $U_{\nu}$   |  $F_{\nu}^{(3)}$   | $F_{\mu}^{(1)},F_{\sigma}^{(2)}, C_{\tau}$        |     |
+| 4 ($\tau$)   |  $L_{\tau}$  | $\leftarrow$ |     $C_{\tau}$     | $\rightarrow$ |  $U_{\tau}$  |  $F_{\tau}^{(4)}$  | $F_{\mu}^{(1)}, F_{\sigma}^{(2)}, F_{\nu}^{(3)}$  |     |
+| 5 ($\nu$)    |  $L_{\nu}$   | $\leftarrow$ |  $F_{\nu}^{(3)}$   | $\rightarrow$ |  $U_{\nu}$   |  $F_{\nu}^{(5)}$   | $F_{\mu}^{(1)}, F_{\sigma}^{(2)}, F_{\tau}^{(4)}$ |     |
+| 6 ($\sigma$) | $L_{\sigma}$ | $\leftarrow$ | $F_{\sigma}^{(2)}$ | $\rightarrow$ | $U_{\sigma}$ | $F_{\sigma}^{(6)}$ | $F_{\mu}^{(1)}, F_{\nu}^{(5)}, F_{\tau}^{(4)}$    |     |
+| 7 ($\mu$)    |  $L_{\mu}$   | $\leftarrow$ |  $F_{\mu}^{(1)}$   | $\rightarrow$ |  $U_{\mu}$   |  $F_{\mu}^{(7)}$   | $F_{\sigma}^{(6)}, F_{\nu}^{(5)}, F_{\tau}^{(4)}$ |     |
+ : A general algorithmic stepwise GAIC procedure for GAMLSS. {#tbl-stepwise .striped .hover}
+
+## Stepwise Selection (continue) 
+
+```{R}
+#| echo: false
+#| message: false
+#| warning: false
+#| code-fold: true
+#| output: false
+library(gamlss)
+library(gamlss.ggplots)
+rent99 |> gamlss.ggplots:::data_rm( c(2,9)) |>
+ data_int2num() -> da
+```
+
+```{R}
+#| echo: true
+#| eval: true
+#| warning: false
+#| code-fold: false
+#| cache: true
+#| collapse: false
+#| output: false
+ m1 <- gamlss(rent~area+yearc+location+bath+kitchen+cheating,~area+yearc+location+ bath + kitchen+cheating,
+~area+yearc+location + bath + kitchen+cheating,
+~area+yearc+location + bath + kitchen+cheating,
+              family=BCTo,  data=da, trace=TRUE, n.cyc=20,
+              c.crit=0.01)
+mfA <- stepGAICAll.A(m1, scope=list(lower=~1,
+  upper = ~poly(area,3)+poly(yearc,3)+
+    (area+yearc+location+bath+kitchen + cheating)^2),
+  trace=FALSE, parallel="snow", ncpus=10, k=log(3032),
+         direction=rep("both",7) )
+```
+
+
+
+## model, LM {.smaller}
+
+$$
+          \begin{split}
+        \texttt{mfA:} \qquad &\texttt{rent} \sim \text{BCTo}(\mu, \sigma, \nu, \tau ) \\
+        &\mu  \sim \texttt{poly(area,3)}+ \texttt{poly(yearc,3)} \\
+        & \qquad  +\texttt{location}+ \texttt{bath}+\texttt{cheating}+ \texttt{bath}\\
+        \log\,&\sigma  \sim \texttt{yearc}+\texttt{kitchen}+\texttt{yearc*kitchen}+\\
+         & \qquad  +\texttt{poly(yeatc,3)} \\
+        & \nu \sim  \texttt{yearc} + \texttt{kitchen} \\
+        \log\,&\tau  \sim \texttt{yearc} + \texttt{cheating}. \\
+        \end{split}
+$$ 
+
+## model, add. sm. {.smaller}
+
+$$
+        \begin{split}
+        \texttt{mfA1:} \qquad &\texttt{rent} \sim \text{BCTo}(\mu, \sigma, \nu, \tau ) \\
+        &\mu  \sim \texttt{pb(area)}+ \texttt{pb(yearc)} \\
+        & \qquad  +\texttt{location}+ \texttt{bath}+\texttt{cheating}+ \texttt{bath}\\
+        \log\,&\sigma  \sim \texttt{yearc}+\texttt{kitchen}+\texttt{yearc*kitchen}+\\
+         & \qquad  +\texttt{pb(yeatc)} \\
+        & \nu \sim  \texttt{yearc} + \texttt{kitchen} \\
+        \log\,&\tau  \sim \texttt{yearc} + \texttt{cheating}. \\
+        \end{split}
+$$ 
+
+
+## Boosting {#sec-Boosting}
+
+```{R}
+#| echo: true
+#| message: false 
+#| warning: false
+#| eval: true
+#| cache: true 
+library(gamboostLSS)
+mfboost  <- gamboostLSS(list(
+   mu = rent ~ bbs(area)+bbs(yearc)+
+  (area+yearc+location+kitchen+bath+cheating),
+sigma = rent ~ bbs(area)+bbs(yearc)+
+  (area+yearc+location+kitchen+bath+cheating),
+   nu = rent ~ bbs(area)+bbs(yearc)+
+  (area+yearc+location+kitchen+bath+cheating),
+  tau = rent ~ bbs(area)+bbs(yearc)+
+  (area+yearc+location+kitchen+bath+cheating)),
+        data = da, families = as.families("BCTo"),
+        control=boost_control(mstop=1000, center=TRUE),
+                                  method = "noncyclic")
+```
+
+
+
+## Boosting (continuous)
+
+```{R}
+#| echo: true
+#| message: false 
+#| warning: false
+#| eval: true
+#| cache: true 
+cvr <- cvrisk(mfboost)
+mstop(cvr)
+mstop(mfboost) <- mstop(cvr)
+```
+
+## model {.smaller}
+$$
+\begin{split}
+\texttt{mfboost:} \qquad &\texttt{rent} \sim \text{BCTo}(\mu, \sigma, \nu, \tau ) \\
+  &\mu  \sim s(\texttt{area})+ s(\texttt{yearc})  +\texttt{location}  \\
+  & \qquad  +\texttt{bath}+\texttt{kitchen}+\texttt{cheating}\\
+\log\,&\sigma  \sim s(\texttt{area})+s(\texttt{yearc})+\texttt{location}\\
+  & \qquad  +\texttt{bath}+ \texttt{cheating} \\        
+  & \nu \sim  s(\texttt{area})+ s(\texttt{yearc}) +\texttt{location}  \\
+   & \qquad  +\texttt{kitchen}+ \texttt{cheating} \\ 
+ \log\,&\tau  \sim  s(\texttt{yearc}). \\
+          \end{split}
+          $$ 
+
+## LASSO
+
+
+```{R}
+#| echo: true 
+#| eval: false
+#| warning: false
+#| message: false
+#| label: fig-lasso_paths
+#| fig-subcap: 
+#|     - "mu"
+#|     - "sigma"
+#|     - "nu"
+#|     - "tau"
+#| layout-ncol: 2
+library(gamlss.ggplots)
+library(gamlss.add)
+library(rlang)
+library(ggplot2)
+source("~/Dropbox/GAMLSS-development/glmnet/sumplementary_functions_for_gnet.R")
+gnet_path(mfLASSO)
+gnet_path(mfLASSO, "sigma")
+gnet_path(mfLASSO, "nu")
+gnet_path(mfLASSO, "tau")
+```
+
+
+## model {.smaller}
+$$
+\begin{split}
+\texttt{mfLASSO:} \qquad &\texttt{rent} \sim \text{BCTo}(\mu, \sigma, \nu, \tau ) \\
+  &\mu  \sim poly(\texttt{area},2)+ \texttt{yearc}+\texttt{cheating}  \\
+  & \qquad  +\texttt{area:location}+\texttt{area:kitchen}+\texttt{year}^2:\texttt{bath}\\
+   & \qquad  +\texttt{year}^2:\texttt{cheating}+\texttt{location:kitchen}\\
+\log\,&\sigma  \sim \texttt{area}^3+\texttt{yearc}^3+\texttt{location}\\
+  & \qquad  +\texttt{cheating}+ \texttt{area:location}+ \texttt{area:cheating} \\     
+  & \qquad  +\texttt{area}^2:\texttt{year}^2+ \texttt{year:cheating}+ \texttt{location:bath} \\
+  & \nu \sim  1 \\
+ \log\,&\tau  \sim 1. \\
+          \end{split}
+          $$ 
+
+## PCR
+
+```{R}
+#| eval: false
+#| echo: true
+#| cache: true  
+source("~/Dropbox/GAMLSS-development/PCR/GAMLSS-pcr.R")
+source("~/Dropbox/GAMLSS-development/PCR/fitPCR.R")
+X = formula2X(formula=rent~poly(area,2)+poly(yearc,2)+(area+yearc+location+bath+kitchen+cheating)^2,data=da)
+mfPCR <- gamlss(rent~pcr(x=X),
+                     ~pcr(x=X),
+                     ~pcr(x=X),
+                     ~pcr(x=X),
+      data=da, family=BCTo, bf.cyc=1, c.crit=0.1, n.cyc=100,
+                  trace=TRUE)
+```
+
+
+## model
+$$
+\begin{split}
+\texttt{mfPCR:} \qquad &\texttt{rent} \sim \text{BCTo}(\mu, \sigma, \nu, \tau ) \\
+  & \boldsymbol{\mu}  = \textbf{T}_{\mu, 17} \boldsymbol{\gamma}_{\mu}  \\
+\log\,&\boldsymbol{\sigma}  \sim  \textbf{T}_{\sigma, 6} \boldsymbol{\gamma}_{\sigma}  \\
+  & \nu \sim \textbf{T}_{\nu, 6} \boldsymbol{\gamma}_{\nu}  \\
+\log\,&\tau  \sim \textbf{T}_{\tau, 1} \boldsymbol{\gamma}_{\tau}  \\
+          \end{split}
+          $$ 
+
+
+## Neural Network
+
+```{R}
+#| echo: true
+#| message: false 
+#| warning: false
+#| eval: false
+source("~/Dropbox/github/gamlss-ggplots/R/data_stand.R")
+da01 <- data_scale(da, response=rent, scale = "0to1" )
+library(gamlss.add)
+set.seed(213)
+mfNN <- gamlss(rent~nn(~area+yearc+location+bath+kitchen+
+                         cheating, size=5),
+      ~nn(~area+yearc+location+bath+kitchen+cheating), 
+      ~nn(~area+yearc+location+bath+kitchen+cheating), 
+      ~nn(~area+yearc+location+bath+kitchen+cheating), 
+              family=BCTo, data=da01)
+```
+
+## Model
+
+$$
+\begin{split}
+\texttt{mfNN:} \qquad &\texttt{rent} \sim \text{BCTo}(\mu, \sigma, \nu, \tau ) \\
+  & \boldsymbol{\mu}  = NN_{\mu}(\textbf{X}) \\
+\log\,&\boldsymbol{\sigma}  \sim  NN_{\sigma}(\textbf{X}) \\
+  & \nu \sim NN_{\nu}(\textbf{X})  \\
+\log\,&\tau  \sim NN_{\tau}(\textbf{X}) \\
+\end{split}
+$$
+
+
+
+
+## end 
+
+
+::: {layout-ncol=3, layout-nrow=1}
+![](book-1.png){width=300}
+![](book-2.png){width=323}
+![](book3.png){width=333}
+The Books
+:::
+
