@@ -1,0 +1,394 @@
+---
+title: "Interpretation"
+title-slide-attributes:
+    data-background-image: Uni_greenwich.png
+    data-background-size: contain
+    data-background-opacity: "0.05"
+author:
+  - Mikis Stasinopoulos
+  - Bob Rigby
+  - Fernanda De Bastiani 
+format:
+  revealjs:
+    multiplex: true
+    slide-number: true
+    show-slide-number: print
+    number-sections: false
+    number-depth: 2
+    footnotes-hover: true
+    scrollable: true
+    df-print: kable
+    chalkboard: 
+      buttons: true
+    incremental: false 
+    menu:
+      side: left
+      width: wide
+    logo: gamlss-trans.png
+    footer: "www.gamlss.com"
+    theme: sky
+---
+
+## Introduction
+
+-   how to interpreted `the effect of a single term` into the distribution of the response;
+-   how to use the GAMLSS model for `prediction`.
+
+## Interpretation
+
+-   how the information we obtain from the fitted model can be used
+
+```{mermaid}
+%%| label: fig-fitting
+%%| fig-cap: "x-variables effecting the properties of the distribution."
+%%| fig-width: 10
+flowchart TB
+  A[Features] --> B(Parameters) 
+  B --> D[Properties, \n Characteristics]
+  D -->  C(Distribution)
+  B --> C
+```
+
+## graphical Partial effects
+
+-   `ceteris paribus`
+
+-   $\textbf{x}_j$ denote a **single** (or maximum two terms)
+
+-   $\textbf{x}_{-j}$ all the **rest** so $\{\textbf{x}_j, \textbf{x}_{-j} \}$ are all terms in the model
+
+-   $\omega(D)$ the **characteristic** of the distribution we are interested ${D}(y | \textbf{x}_j , \textbf{x}_{-j}; \boldsymbol{\theta})$
+
+-   under **scenario**, $\textbf{S}[g()]$.
+
+-   $${PE}_{\omega({D})}\left( \textbf{x}_{j} | \textbf{S} \left[ g(\textbf{x}_{-j})\right] \right)$$
+
+## Example: term plots
+
+```{R}
+#| label: fig-PEtermplots
+#| fig.cap: "pdf-plot of the fitted `am1` mu model "
+#| message: false
+#| warning: false
+#| output-location: slide
+library(gamlss.ggplots)
+load("/Users/dimitriosstasinopoulos/Dropbox/Book4/R-code/selecting.RData")
+source("~/Dropbox/github/gamlss-ggplots/R/data_stand.R")
+da10 <- data_scale(da, response=rent)
+da1 <- data_form2df(da10,  response=rent, type="first.order", nonlinear="TRUE", arg=3)
+da01 <- data_scale(da, response=rent, scale = "0to1" )
+fitted_terms(mfA1)
+```
+
+## Scenarios
+
+-   `fixing` values of $\textbf{x}_{-j}$ (mean or median for continuous, level with more number of observations for factors or other possible values of importance)
+
+-   `average` over values of $\textbf{x}_{-j}$
+
+    -   `Partial Dependence Plots` (PDF), $\textbf{S}\left[ \text{average}(\textbf{x}_{-j})\right]$\
+    -   `Accumulated Local Effects`, (ALE), average ovet the derivatives
+    -   `Marginal Effects` (ME) average over local neighbourhood
+
+## Characteristics
+
+-   predictors, $\eta_{\theta_i}$;
+
+-   parameters, $\theta_i$;
+
+-   moments, `mean`, `variance`;
+
+-   quantiles, `median`;
+
+-   distribution
+
+## PE; parameter $\mu$; add. smooth
+
+```{r}
+#| echo: false 
+#| eval: true
+#| warning: false
+#| message: false
+#| output: true
+#| label: fig-pe_mu_mfA1
+#| fig-cap: "PE for `mu` for the additive smooth model."
+#| output-location: slide
+library(gamlss.ggplots)
+load("/Users/dimitriosstasinopoulos/Dropbox/Book4/R-code/selecting.RData")
+pe_param_grid(mfA1, c("area", "yearc", "location", "cheating", 'bath'))
+```
+
+## PE; parameter $\mu$; N. N.
+
+```{r}
+#| echo: false 
+#| eval: true
+#| warning: false
+#| message: false
+#| output: true
+#| label: fig-pe_mu_mfNN
+#| fig-cap: "PE for `mu` for the neural network model."
+library(gamlss.ggplots)
+library(gamlss.add)
+load("/Users/dimitriosstasinopoulos/Dropbox/Book4/R-code/selecting.RData")
+pe_param_grid(mfNN, c("area", "yearc", "location", "cheating", 'bath'))
+```
+
+## PE; parameter $\sigma$; add. sm.
+
+```{r}
+#| echo: false 
+#| eval: true
+#| warning: false
+#| message: false
+#| output: true
+#| label: fig-pe_sigma_mfA1
+#| fig-cap: "PE for `sigma` for the additive smooth model"
+library(gamlss.ggplots)
+load("/Users/dimitriosstasinopoulos/Dropbox/Book4/R-code/selecting.RData")
+pe_param_grid(mfA1, list("yearc", "kitchen", c("yearc", "kitchen")), parameter="sigma")
+```
+
+## PE; parameter $\sigma$; N.N.
+
+```{r}
+#| echo: false 
+#| eval: true
+#| warning: false
+#| message: false
+#| output: true
+#| label: fig-pe_sigma_mfNN
+#| fig-cap: "PE for `sigma`  "
+library(gamlss.ggplots)
+library(gamlss.add)
+load("/Users/dimitriosstasinopoulos/Dropbox/Book4/R-code/selecting.RData")
+pe_param_grid(mfNN, list("yearc", "kitchen", c("yearc", "kitchen")), parameter="sigma", data=da01)
+```
+
+## ALE; parameters $\mu$; Add. sm.
+
+```{r}
+#| echo: false 
+#| eval: true
+#| warning: false
+#| message: false
+#| output: true
+#| label: fig-ale_mu_mfNN
+#| fig-cap: "PE for `mu` modl for  **mfA1** "
+library(gamlss.ggplots)
+library(gamlss.add)
+library(ggplot2)
+#source("~/Dropbox/github/gamlss-ggplots/R/ALE_param_4.R")
+load("/Users/dimitriosstasinopoulos/Dropbox/Book4/R-code/selecting.RData")
+gamlss.ggplots:::ale_param_grid(mfA1, c("area", "yearc", "location", "cheating", 'bath'), data=da)
+```
+
+## ALE; parameters $\mu$; N. N.
+
+```{r}
+#| echo: false 
+#| eval: true
+#| warning: false
+#| message: false
+#| output: true
+#| label: fig-ale_mu_mfA1
+#| fig-cap: "PE for `mu` modl for  **mfA1** "
+library(gamlss.ggplots)
+library(gamlss.add)
+library(ggplot2)
+#source("~/Dropbox/github/gamlss-ggplots/R/ALE_param_4.R")
+load("/Users/dimitriosstasinopoulos/Dropbox/Book4/R-code/selecting.RData")
+gamlss.ggplots:::ale_param_grid(mfA1, c("area", "yearc", "location", "cheating", 'bath'), data=da01)
+```
+
+## moments (mean)
+
+-   the BCTo do `not` always have moments
+
+-   for $\tau <=2$ the variance do not exist
+
+-   for $\tau <=1$ the mean do not exist
+
+## quantiles, $\mu$, add. sm.
+
+```{r}
+#| echo: false 
+#| eval: true
+#| warning: false
+#| message: false
+#| output: true
+#| label: fig-pe_quantiles_mfA1
+#| fig-cap: "PE-quantiles 95%, 50%, 5% for `mu` model for  **mfA1** "
+library(gamlss.ggplots)
+library(gamlss.add)
+library(ggplot2)
+#source("~/Dropbox/github/gamlss-ggplots/R/ALE_param_4.R")
+load("/Users/dimitriosstasinopoulos/Dropbox/Book4/R-code/selecting.RData")
+gamlss.ggplots:::pe_quantile_grid(mfA1, c("area", "yearc", "location", "cheating", 'bath'), data=da)
+```
+
+
+
+## quantiles, $\mu$,  N.N.
+
+```{r}
+#| echo: false 
+#| eval: true
+#| warning: false
+#| message: false
+#| output: true
+#| fig-format: png
+#| fig-show: asis
+#| label: fig-pe_quantiles_NN
+#| fig-cap: "PE-quantiles 95%, 50%, 5% for `mu` model for  **mfNN** "
+library(gamlss.ggplots)
+library(gamlss.add)
+library(ggplot2)
+#source("~/Dropbox/github/gamlss-ggplots/R/ALE_param_4.R")
+load("/Users/dimitriosstasinopoulos/Dropbox/Book4/R-code/selecting.RData")
+gamlss.ggplots:::pe_quantile_grid(mfNN, c("area", "yearc", "location", "cheating", 'bath'), data=da)
+```
+
+<!-- ![paparia](fig-pe_quantiles_NN-1.png) -->
+
+## distributions, $\mu$, add. sm.
+
+```{r}
+#| echo: false 
+#| eval: true
+#| warning: false
+#| message: false
+#| output: true
+#| output-location: fragment
+#| fig-show: asis
+#| label: fig-pe_pdf_mfA1
+#| fig-cap: "PE-distribution for `mu` model for  **mfA1** "
+library(gamlss.ggplots)
+library(gamlss.add)
+library(ggplot2)
+#source("~/Dropbox/github/gamlss-ggplots/R/ALE_param_4.R")
+load("/Users/dimitriosstasinopoulos/Dropbox/Book4/R-code/selecting.RData")
+gamlss.ggplots:::pe_pdf_grid(mfA1, c("area", "yearc", "location", "cheating", 'bath'), data=da)
+```
+
+<!-- ![paparia](fig-pe_pdf_mfA1-1.png) -->
+
+## distributions, $\mu$,  N.N.
+
+```{r}
+#| echo: false 
+#| eval: true
+#| warning: false
+#| message: false
+#| output: true
+#| output-location: fragment
+#| fig-show: asis
+#| label: fig-pe_pdf_mfNN
+#| fig-cap: "PE-distributions for `mu` model for  **mfNN** "
+library(gamlss.ggplots)
+library(gamlss.add)
+library(ggplot2)
+#source("~/Dropbox/github/gamlss-ggplots/R/ALE_param_4.R")
+load("/Users/dimitriosstasinopoulos/Dropbox/Book4/R-code/selecting.RData")
+gamlss.ggplots:::pe_pdf_grid(mfA1, c("area", "yearc", "location", "cheating", 'bath'), data=da)
+```
+
+<!-- ![paparia](fig-pe_pdf_mfNN-1.png) -->
+
+## the purpose of the study
+
+-   the `purpose` should be always in our mind when we try to analyse any data
+
+-   the Munich rent data are collected almost every 10 years
+
+-   guidance to judges on whether a **disputed rent** is a fair or not
+
+-   `purpose` is to identify very low or very hight rents by correcting for the explanatory variables
+
+-   similar in detecting "outliers"
+
+-   a possible solution: `prediction z-scores`
+
+## prediction z-scores
+Scenarios
+
+| rent | area | yearc | location |bath| kitchen| heating
+|-----:|-----:|-----:|-----:|-----:|-----:|-----:|
+1500 | 140 |1983| 3 | 1| 1|1
+1000 | 55 | 1915| 1 | 0| 0|0
+800  | 65 |1960 | 1 | 1| 1|1
+
+## prediction z-scores (con.)
+
+```{R}
+#| echo: true
+#| eval: true
+#| warning: false
+#| message: false
+#| output: true
+rent <- c(1500, 1000,800)
+area <- c(140, 55, 65)
+yearc <- c(1983, 1915, 1960)
+location <- c(3,1,1)
+bath <- c(1,0,1)
+kitchen <- c(1,0,1)
+cheating <- c(1,0,1)
+ndat <- data.frame(rent, area, yearc, location, bath, kitchen, cheating)
+cat("prediction z-scores", "\n")
+getTGD(mfA1, newdata=ndat)$resid
+```
+
+
+
+## summary
+
+`GAMLSS` can tackle problems where the interest of the investigation lies not in the `center` but `other parts of the distribution.`   
+
+
+Personal view for the future of `GAMLSS` development;
+
+-  theoretical contributions
+
+-   software and 
+ 
+-   knowledge exchange
+  
+
+## Summary (continue)
+
+-  `theoretical contributions`
+     -   interpretable tools
+     -   model average for prediction
+  
+-   `software`
+    -   a neater version of `gamlss()` to make it easier to incorporate LM algorithms
+    
+   
+-   `books and knowledge exchange`
+    -   there is need for applied and elementary books
+    -   more application public health and environment
+
+
+## the team {.smaller}
+
+This is a collaborative work:
+
+| working party        | current              | past                         |
+|:---------------------|:---------------------|:-----------------------------|
+| `Gillian Heller`       | `Konstantinos Pateras` | Popi Akantziliotou           |
+| `Fernanda De Bastiani` | Paul Eilers          | Vlasios Voudouris            |
+| `Thomas Kneib`         | Nikos Kametas        | Nicoleta Mortan              |
+| `Achim Zaileis`       | Tim Cole             | Daniil Kiose                 |
+| `Andreas Mayr`         | Nikos Georgikopoulos | Dea-Jin Lee                  |
+| `Nicolaus Umlauf`      | `Luiz Nakamura`        | María Xosé Rodríguez-Álvarez |
+| `Reto Stauffer`        | Nadja Klein          | Majid Djennad                |
+| `Robert Rigby`         | `Julian Merder`        | Fiona McElduff               |
+| `Mikis Stasinopoulos`  | Abu Hossain          | Raydonal Ospina              |
+
+## end
+
+[bact to the index](https://mstasinopoulos.github.io/ShortCourse/)
+
+::: {layout-ncol="3," layout-nrow="1"}
+![](book-1.png){width="300"} ![](BOOK-2.png){width="323"} ![](book3.png){width="333"} The Books
+:::
