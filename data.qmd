@@ -455,7 +455,7 @@ flowchart LR
 ```
 
 ## end
- [bact to the index](https://mstasinopoulos.github.io/ShortCourse/)
+ [back to the index](https://mstasinopoulos.github.io/ShortCourse/)
  
  
 ::: {layout-ncol="3," layout-nrow="1"}
